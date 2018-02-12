@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_home"
+        android:title="首页"
+        android:icon="@drawable/ic_main_home"/>
+
+    <item
+        android:id="@+id/tab_knowledge_system"
+        android:title="知识体系"
+        android:icon="@drawable/ic_main_knowlege_system"/>
+
+    <item
+        android:icon="@drawable/ic_main_collection"
+        android:id="@+id/tab_collection"
+        android:title="收藏"/>
+
+</menu>
