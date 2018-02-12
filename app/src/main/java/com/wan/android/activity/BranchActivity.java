@@ -4,15 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.wan.android.R;
+import com.wan.android.bean.PageModel;
 import com.wan.android.bean.TreeListResponse;
+import com.wan.android.fragment.CommonUseFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wzc
@@ -31,7 +38,7 @@ public class BranchActivity extends BaseActivity {
         starter.putExtra(EXTRA_CHILDREN_LIST, children);
         context.startActivity(starter);
     }
-
+    private List<PageModel> mPageModels = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,5 +63,26 @@ public class BranchActivity extends BaseActivity {
                 finish();
             }
         });
+        for (int i = 0; i < mChildren.size(); i++) {
+            TreeListResponse.Data.Children children = mChildren.get(i);
+
+            mPageModels.add(new PageModel(children.getName(), CommonUseFragment.newInstance(children.getCourseid())));
+        }
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return mPageModels.get(position).getCommonUseFragment();
+            }
+
+            @Override
+            public int getCount() {
+                return mPageModels.size();
+            }
+        };
+        viewPager.setAdapter(fragmentPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
