@@ -66,7 +66,7 @@ public class BranchActivity extends BaseActivity {
         for (int i = 0; i < mChildren.size(); i++) {
             TreeListResponse.Data.Children children = mChildren.get(i);
 
-            mPageModels.add(new PageModel(children.getName(), CommonUseFragment.newInstance(children.getCourseid())));
+            mPageModels.add(new PageModel(children.getName(), CommonUseFragment.newInstance(children.getId())));
         }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -80,6 +80,11 @@ public class BranchActivity extends BaseActivity {
             @Override
             public int getCount() {
                 return mPageModels.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mPageModels.get(position).getTabTitle();
             }
         };
         viewPager.setAdapter(fragmentPagerAdapter);

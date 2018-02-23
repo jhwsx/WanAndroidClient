@@ -3,10 +3,16 @@
           package="com.wan.android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!--CrashHandler必须-->
+    <!-- CrashHandler必须 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--AgentWeb必须-->
+    <!-- AgentWeb必须 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
     <application
         android:name=".WanAndroidApplication"
         android:allowBackup="true"
@@ -26,12 +32,22 @@
         <activity
             android:name=".activity.ContentActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-
         <activity
             android:name=".activity.BranchActivity"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

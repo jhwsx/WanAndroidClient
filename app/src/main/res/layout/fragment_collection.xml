@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-        android:textSize="40sp"
+    <LinearLayout
+        android:id="@+id/linearlayout_fragment_collect_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Collection"/>
-</LinearLayout>
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:textSize="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录后查看"/>
+        <TextView
+            android:id="@+id/tv_login"
+            android:textSize="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击登录"/>
+    </LinearLayout>
+
+
+    <com.wan.android.view.MultiSwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout_fragment_collect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

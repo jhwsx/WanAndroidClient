@@ -21,7 +21,7 @@
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:maxLines="1"
+            android:singleLine="true"
             android:ellipsize="marquee"
             android:textSize="16sp"/>
     </android.support.v7.widget.Toolbar>
@@ -29,9 +29,11 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:tabTextColor="@android:color/white"
-        android:theme="@style/MyCustomTabLayout"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        android:background="@color/colorPrimary"
+        app:tabTextColor="@android:color/darker_gray"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="4dp"
+        app:tabSelectedTextColor="@android:color/white"
         app:tabMode="scrollable" />
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
