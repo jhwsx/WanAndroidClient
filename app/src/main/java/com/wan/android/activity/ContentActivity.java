@@ -52,7 +52,7 @@ public class ContentActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         mTitle.setText(R.string.loading);
         if (getSupportActionBar() != null) {
-//            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -107,14 +107,6 @@ public class ContentActivity extends BaseActivity {
             if (mTitle != null) {
                 mTitle.setText(title != null ? title : "");
             }
-        }
-
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
-//            if (mTitle != null) {
-//                mTitle.setText("正在加载中...");
-//            }
         }
     };
 

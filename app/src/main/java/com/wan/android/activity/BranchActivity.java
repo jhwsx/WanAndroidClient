@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,7 +45,6 @@ public class BranchActivity extends BaseActivity {
         if (getIntent() != null) {
             mTitle = getIntent().getStringExtra(EXTRA_BRANCH_TITLE);
             mChildren = (ArrayList<TreeListResponse.Data.Children>) getIntent().getSerializableExtra(EXTRA_CHILDREN_LIST);
-            Log.d(TAG, "onCreate: ");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_branch);
         toolbar.setTitle("");

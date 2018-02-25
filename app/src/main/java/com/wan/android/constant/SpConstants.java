@@ -6,4 +6,5 @@ package com.wan.android.constant;
 
 public interface SpConstants {
     String KEY_USERNAME = "key_username";
+//    String KEY_IS_LOGIN = "key_is_login";
 }

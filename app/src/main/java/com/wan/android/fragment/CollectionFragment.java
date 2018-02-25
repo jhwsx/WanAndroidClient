@@ -3,6 +3,7 @@ package com.wan.android.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,25 +19,32 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.wan.android.BuildConfig;
 import com.wan.android.R;
+import com.wan.android.activity.ContentActivity;
 import com.wan.android.activity.LoginActivity;
 import com.wan.android.adapter.CollectAdapter;
 import com.wan.android.bean.CollectListResponse;
+import com.wan.android.bean.LoginMessageEvent;
+import com.wan.android.bean.LogoutMessageEvent;
+import com.wan.android.callback.EmptyCallback;
 import com.wan.android.callback.LoadingCallback;
 import com.wan.android.client.CollectListClient;
 import com.wan.android.constant.SpConstants;
+import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.PreferenceUtils;
 import com.wan.android.view.MultiSwipeRefreshLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -50,7 +58,13 @@ public class CollectionFragment extends BaseFragment {
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private LoadService mLoadService;
     private RecyclerView mRecyclerView;
-    private CollectAdapter mTreeAdapter;
+    private CollectAdapter mCollectAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Nullable
     @Override
@@ -73,7 +87,7 @@ public class CollectionFragment extends BaseFragment {
             @Override
             public void onReload(View v) {
                 mLoadService.showCallback(LoadingCallback.class);
-//                refresh();
+                refresh();
             }
         });
         // 把状态管理页面添加到根布局中
@@ -87,6 +101,7 @@ public class CollectionFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         initAdapter();
+        initRefreshLayout();
         if (!TextUtils.isEmpty(username)) {
             refresh();
         }
@@ -101,25 +116,57 @@ public class CollectionFragment extends BaseFragment {
         return view;
     }
 
-    private void refresh() {
-        String API_BASE_URL = "http://wanandroid.com/";
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
+    private void initRefreshLayout() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+    }
 
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        CollectListClient client = retrofit.create(CollectListClient.class);
+    private void refresh() {
+        // 防止下拉刷新时,还可以上拉加载
+        mCollectAdapter.setEnableLoadMore(false);
+        CollectListClient client = RetrofitClient.create(CollectListClient.class);
         Call<CollectListResponse> call = client.getCollect(0);
         call.enqueue(new Callback<CollectListResponse>() {
             @Override
             public void onResponse(Call<CollectListResponse> call, Response<CollectListResponse> response) {
-                Log.d("CollectionFragment", "response:" + response);
+
+                mCollectAdapter.setEnableLoadMore(true);
+                mSwipeRefreshLayout.setRefreshing(false);
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "response:" + response);
+                }
+                CollectListResponse body = response.body();
+                if (body == null) {
+                    return;
+                }
+                CollectListResponse.Data data = body.getData();
+                if (data == null) {
+                    return;
+                }
+                List<CollectListResponse.Data.Datas> datas = data.getDatas();
+                if (datas.size() == 0) {
+                    mLoadService.showCallback(EmptyCallback.class);
+                    return;
+                }
+                mDatasList.clear();
+                mDatasList.addAll(datas);
+                mCollectAdapter.notifyDataSetChanged();
+                mLoadService.showSuccess();
             }
 
             @Override
             public void onFailure(Call<CollectListResponse> call, Throwable t) {
-                Log.d("CollectionFragment", "t:" + t);
+                mCollectAdapter.setEnableLoadMore(true);
+                mSwipeRefreshLayout.setRefreshing(false);
+                mLoadService.showCallback(EmptyCallback.class);
+                mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_fragment_home, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "t:" + t);
+                }
             }
         });
     }
@@ -127,19 +174,70 @@ public class CollectionFragment extends BaseFragment {
     private List<CollectListResponse.Data.Datas> mDatasList = new ArrayList<>();
 
     private void initAdapter() {
-        mTreeAdapter = new CollectAdapter(R.layout.knowledge_item_view, mDatasList);
-        mTreeAdapter.bindToRecyclerView(mRecyclerView);
-        mRecyclerView.setAdapter(mTreeAdapter);
-        mTreeAdapter.setEnableLoadMore(false);
+        mCollectAdapter = new CollectAdapter(R.layout.home_item_view, mDatasList);
+        mCollectAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                loadMore();
+            }
+        }, mRecyclerView);
+        mRecyclerView.setAdapter(mCollectAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
                 CollectListResponse.Data.Datas data = mDatasList.get(position);
-
+                String link = data.getLink();
+                ContentActivity.start(mActivity, link);
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private int mNextPage = 1;
+
+    private void loadMore() {
+        CollectListClient client = RetrofitClient.create(CollectListClient.class);
+        Call<CollectListResponse> call = client.getCollect(mNextPage);
+        call.enqueue(new Callback<CollectListResponse>() {
+            @Override
+            public void onResponse(Call<CollectListResponse> call, Response<CollectListResponse> response) {
+                CollectListResponse body = response.body();
+                if (body == null) {
+                    return;
+                }
+                CollectListResponse.Data data = body.getData();
+                if (data == null) {
+                    return;
+                }
+                mNextPage++;
+                if (mNextPage < response.body().getData().getPagecount()) {
+                    mCollectAdapter.loadMoreComplete();
+                } else {
+                    mCollectAdapter.loadMoreEnd();
+                }
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "response:" + response);
+                }
+
+                List<CollectListResponse.Data.Datas> datas = data.getDatas();
+                mDatasList.addAll(datas);
+                mCollectAdapter.notifyDataSetChanged();
+                mLoadService.showSuccess();
+            }
+
+            @Override
+            public void onFailure(Call<CollectListResponse> call, Throwable t) {
+                mCollectAdapter.loadMoreFail();
+            }
+        });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -156,9 +254,21 @@ public class CollectionFragment extends BaseFragment {
         } else {
             mLinearLayoutLogin.setVisibility(View.INVISIBLE);
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-        }
-        if (!TextUtils.isEmpty(username)) {
             refresh();
         }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(LogoutMessageEvent messageEvent) {
+        mLinearLayoutLogin.setVisibility(View.VISIBLE);
+        mSwipeRefreshLayout.setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(LoginMessageEvent messageEvent) {
+        mLinearLayoutLogin.setVisibility(View.INVISIBLE);
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        refresh();
     }
 }

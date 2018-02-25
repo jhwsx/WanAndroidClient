@@ -109,7 +109,7 @@ public class CollectListResponse {
             private String niceDate;
             private String origin;
             private int originId;
-            private int publishTime;
+            private long publishTime;
             private String title;
             private int userId;
             private int visible;
@@ -204,10 +204,10 @@ public class CollectListResponse {
             }
 
 
-            public void setPublishtime(int publishtime) {
+            public void setPublishtime(long publishtime) {
                 this.publishTime = publishtime;
             }
-            public int getPublishtime() {
+            public long getPublishtime() {
                 return publishTime;
             }
 

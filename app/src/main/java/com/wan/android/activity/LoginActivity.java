@@ -17,19 +17,22 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.wan.android.BuildConfig;
 import com.wan.android.R;
+import com.wan.android.bean.LoginMessageEvent;
 import com.wan.android.bean.LoginResponse;
 import com.wan.android.client.LoginClient;
 import com.wan.android.constant.SpConstants;
+import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.PreferenceUtils;
 
-import okhttp3.OkHttpClient;
+import org.greenrobot.eventbus.EventBus;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -49,6 +52,7 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
         Intent starter = new Intent(context, LoginActivity.class);
         context.startActivity(starter);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +98,7 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
         });
     }
 
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -126,34 +131,31 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            String API_BASE_URL = "http://wanandroid.com/";
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(
-                            GsonConverterFactory.create()
-                    );
-            Retrofit retrofit = builder.client(httpClient.build()).build();
-            LoginClient client = retrofit.create(LoginClient.class);
+            LoginClient client = RetrofitClient.create(LoginClient.class);
             Call<LoginResponse> call = client.login(email, password);
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     showProgress(false);
-                    Log.d(TAG, "response:" + response);
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "response:" + response);
+                    }
                     LoginResponse body = response.body();
                     if (body == null) {
                         return;
                     }
                     if (body.getErrorcode() != 0) {
-                        Log.d(TAG, body.getErrormsg());
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, body.getErrormsg());
+                        }
+                        Toast.makeText(LoginActivity.this, body.getErrormsg(), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     LoginResponse.Data data = body.getData();
                     String username = data.getUsername();
                     PreferenceUtils.putString(mContext, SpConstants.KEY_USERNAME, username);
+                    EventBus.getDefault().post(new LoginMessageEvent(username));
                     setResult(RESULT_OK);
                     finish();
                 }
@@ -170,25 +172,25 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
 
     private void showProgress(final boolean show) {
 
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
 }

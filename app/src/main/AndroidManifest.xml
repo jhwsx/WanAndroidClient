@@ -35,7 +35,7 @@
         <activity
             android:name=".activity.BranchActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/MainTheme">
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -48,6 +48,11 @@
             android:label="@string/title_activity_register"
             android:parentActivityName=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activity.FuActivity"
+                  android:label="常用"
+                  android:parentActivityName=".activity.MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

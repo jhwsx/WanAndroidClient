@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -21,18 +20,16 @@ import com.wan.android.adapter.TreeAdapter;
 import com.wan.android.bean.TreeListResponse;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.callback.LoadingCallback;
-import com.wan.android.client.KnowledgeListClient;
+import com.wan.android.client.TreeListClient;
+import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.view.MultiSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author wzc
@@ -78,22 +75,8 @@ public class TreeFragment extends BaseFragment {
     }
 
     private void refresh() {
-        String API_BASE_URL = "http://wanandroid.com/";
-        OkHttpClient.Builder httpClient1 = new OkHttpClient.Builder();
-
-        Retrofit.Builder builder1 = new Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
-                .addConverterFactory(
-                        GsonConverterFactory.create()
-                );
-        Retrofit retrofit1 = builder1
-                .client(
-                        httpClient1.build()
-                )
-                .build();
-
-        KnowledgeListClient client1 = retrofit1.create(KnowledgeListClient.class);
-        Call<TreeListResponse> call = client1.getTree();
+        TreeListClient client = RetrofitClient.create(TreeListClient.class);
+        Call<TreeListResponse> call = client.getTree();
         call.enqueue(new Callback<TreeListResponse>() {
             @Override
             public void onResponse(Call<TreeListResponse> call, Response<TreeListResponse> response) {
@@ -140,7 +123,6 @@ public class TreeFragment extends BaseFragment {
                 String title = data.getName();
                 ArrayList<TreeListResponse.Data.Children> children = data.getChildren();
                 BranchActivity.start(mActivity, title, children);
-                Toast.makeText(mActivity, "position:" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

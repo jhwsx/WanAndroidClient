@@ -20,4 +20,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="tree">知识体系</string>
+    <string name="collect">收藏</string>
 </resources>

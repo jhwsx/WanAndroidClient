@@ -9,7 +9,7 @@ import retrofit2.http.GET;
  * @author wzc
  * @date 2018/2/11
  */
-public interface KnowledgeListClient {
+public interface TreeListClient {
     // http://www.wanandroid.com/tree/json
     @GET("/tree/json")
     Call<TreeListResponse> getTree();

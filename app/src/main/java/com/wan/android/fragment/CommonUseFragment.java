@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -24,17 +23,15 @@ import com.wan.android.bean.BranchListResponse;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.callback.LoadingCallback;
 import com.wan.android.client.BranchListClient;
+import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.view.MultiSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author wzc
@@ -47,7 +44,7 @@ public class CommonUseFragment extends BaseFragment {
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private List<BranchListResponse.Data.Datas> mDatasList = new ArrayList<>();
-    private BranchAdapter mHomeAdapter;
+    private BranchAdapter mBranchAdapter;
     private static final String ARG_CID = "arg_cid";
     public static CommonUseFragment newInstance(int cid) {
         
@@ -78,7 +75,7 @@ public class CommonUseFragment extends BaseFragment {
             @Override
             public void onReload(View v) {
                 mLoadService.showCallback(LoadingCallback.class);
-//                refresh();
+                refresh();
             }
         });
 
@@ -101,26 +98,25 @@ public class CommonUseFragment extends BaseFragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                refresh();
+                refresh();
             }
         });
     }
     private void initAdapter() {
-        mHomeAdapter = new BranchAdapter(R.layout.home_item_view, mDatasList);
+        mBranchAdapter = new BranchAdapter(R.layout.home_item_view, mDatasList);
         // 加载更多
-        mHomeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        mBranchAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 Log.d(TAG, "onLoadMoreRequested() called");
-//                loadMore();
+                loadMore();
             }
         }, mRecyclerView);
-        mHomeAdapter.setEmptyView(R.layout.empty_view);
-        mRecyclerView.setAdapter(mHomeAdapter);
+        mBranchAdapter.setEmptyView(R.layout.empty_view);
+        mRecyclerView.setAdapter(mBranchAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(mActivity, "position:" + position, Toast.LENGTH_SHORT).show();
                 BranchListResponse.Data.Datas datas = mDatasList.get(position);
                 String link = datas.getLink();
                 ContentActivity.start(mActivity, link);
@@ -128,34 +124,48 @@ public class CommonUseFragment extends BaseFragment {
         });
     }
 
-    private boolean is = false;
-    private void refresh() {
-        if (is) {
-            return;
-        }
-        is = true;
-        // 防止下拉刷新时,还可以上拉加载
-        mHomeAdapter.setEnableLoadMore(false);
-        String API_BASE_URL = "http://wanandroid.com/";
-        OkHttpClient.Builder httpClient1 = new OkHttpClient.Builder();
-
-        Retrofit.Builder builder1 = new Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
-                .addConverterFactory(
-                        GsonConverterFactory.create()
-                );
-        Retrofit retrofit1 = builder1
-                .client(
-                        httpClient1.build()
-                )
-                .build();
-
-        BranchListClient client1 = retrofit1.create(BranchListClient.class);
-        Call<BranchListResponse> call1 = client1.getBranchList(0,mCid);
-        call1.enqueue(new Callback<BranchListResponse>() {
+    private int mNextPage = 1;
+    private void loadMore() {
+        BranchListClient client = RetrofitClient.create(BranchListClient.class);
+        Call<BranchListResponse> call = client.getBranchList(mNextPage, mCid);
+        call.enqueue(new Callback<BranchListResponse>() {
             @Override
             public void onResponse(Call<BranchListResponse> call, Response<BranchListResponse> response) {
-                mHomeAdapter.setEnableLoadMore(true);
+                mNextPage++;
+                if (mNextPage < response.body().getData().getPagecount()) {
+                    mBranchAdapter.loadMoreComplete();
+                } else {
+                    mBranchAdapter.loadMoreEnd();
+                }
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "response:" + response);
+                }
+
+                BranchListResponse body = response.body();
+                BranchListResponse.Data data = body.getData();
+                List<BranchListResponse.Data.Datas> datas = data.getDatas();
+                mDatasList.addAll(datas);
+                mBranchAdapter.notifyDataSetChanged();
+                mLoadService.showSuccess();
+            }
+
+            @Override
+            public void onFailure(Call<BranchListResponse> call, Throwable t) {
+                mBranchAdapter.loadMoreFail();
+            }
+        });
+    }
+
+    private void refresh() {
+
+        // 防止下拉刷新时,还可以上拉加载
+        mBranchAdapter.setEnableLoadMore(false);
+        BranchListClient client = RetrofitClient.create(BranchListClient.class);
+        Call<BranchListResponse> call = client.getBranchList(0, mCid);
+        call.enqueue(new Callback<BranchListResponse>() {
+            @Override
+            public void onResponse(Call<BranchListResponse> call, Response<BranchListResponse> response) {
+                mBranchAdapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "response: " + response);
@@ -166,16 +176,16 @@ public class CommonUseFragment extends BaseFragment {
                 List<BranchListResponse.Data.Datas> datas = data.getDatas();
                 mDatasList.clear();
                 mDatasList.addAll(datas);
-                mHomeAdapter.notifyDataSetChanged();
+                mBranchAdapter.notifyDataSetChanged();
                 mLoadService.showSuccess();
             }
 
             @Override
             public void onFailure(Call<BranchListResponse> call, Throwable t) {
-                mHomeAdapter.setEnableLoadMore(true);
+                mBranchAdapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (BuildConfig.DEBUG) {
-                    Log.d("HomeFragment", "t:" + t);
+                    Log.d(TAG, "t:" + t);
                 }
                 mLoadService.showCallback(EmptyCallback.class);
                 mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_fragment_home, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);

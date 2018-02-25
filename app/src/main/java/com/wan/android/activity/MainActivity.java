@@ -20,12 +20,19 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.wan.android.R;
+import com.wan.android.bean.LoginMessageEvent;
+import com.wan.android.bean.LogoutMessageEvent;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.fragment.CollectionFragment;
 import com.wan.android.fragment.HomeFragment;
 import com.wan.android.fragment.TreeFragment;
+import com.wan.android.retrofit.CookiesManager;
 import com.wan.android.util.PreferenceUtils;
 import com.youth.banner.Banner;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +53,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        EventBus.getDefault().register(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
         ViewCompat.setElevation(mToolbar, getResources().getDimensionPixelSize(R.dimen.elevation_value));
         setSupportActionBar(mToolbar);
@@ -73,7 +80,9 @@ public class MainActivity extends BaseActivity {
                     mTvSigninState.setText("未登录");
                     mTvSignin.setText("点击登录");
                     mTvSignin.setTag(1);
+                    CookiesManager.clearAllCookies();
                     PreferenceUtils.putString(mContext, SpConstants.KEY_USERNAME,"");
+                    EventBus.getDefault().post(new LogoutMessageEvent());
                 } else if (tag == 1) {
                     startActivityForResult(new Intent(mContext, LoginActivity.class), 1000);
                 }
@@ -84,10 +93,11 @@ public class MainActivity extends BaseActivity {
                 //this layout have to contain child layouts
                 .withRootView(R.id.framelayout_activity_main_container)
                 .withToolbar(mToolbar)
+                .withSelectedItem(-1)
                 .withDisplayBelowStatusBar(false)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("登录").withIdentifier(1),
-                        new PrimaryDrawerItem().withName("注册").withIdentifier(1)
+                        new PrimaryDrawerItem().withName("常用").withIdentifier(1),
+                        new PrimaryDrawerItem().withName("注册").withIdentifier(2)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -95,7 +105,7 @@ public class MainActivity extends BaseActivity {
                         if (drawerItem != null) {
                             Intent intent = null;
                             if (drawerItem.getIdentifier() == 1) {
-                                intent = new Intent(mContext, LoginActivity.class);
+                                intent = new Intent(mContext, FuActivity.class);
                             } else if (drawerItem.getIdentifier() == 2) {
 
                             }
@@ -121,12 +131,15 @@ public class MainActivity extends BaseActivity {
                 switch (item.getItemId()) {
                     case R.id.tab_home:
                         mViewPager.setCurrentItem(0);
+                        mToolbar.setTitle(R.string.app_name);
                         break;
                     case R.id.tab_knowledge_system:
                         mViewPager.setCurrentItem(1);
+                        mToolbar.setTitle(R.string.tree);
                         break;
                     case R.id.tab_collection:
                         mViewPager.setCurrentItem(2);
+                        mToolbar.setTitle(R.string.collect);
                         break;
                     default:
                         break;
@@ -169,25 +182,38 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(LoginMessageEvent messageEvent) {
+        String usename = messageEvent.getUsername();
+        mTvSigninState.setText(usename);
+        mTvSignin.setText("退出登录");
+        mTvSignin.setTag(0);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         //add the values which need to be saved from the drawer to the bundle
         outState = mDrawer.saveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (requestCode == 1000) {
-            String usename = PreferenceUtils.getString(mContext, SpConstants.KEY_USERNAME, "");
-            mTvSigninState.setText(usename);
-            mTvSignin.setText("退出登录");
-            mTvSignin.setTag(0);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode != RESULT_OK) {
+//            return;
+//        }
+//        if (requestCode == 1000) {
+//            String usename = PreferenceUtils.getString(mContext, SpConstants.KEY_USERNAME, "");
+//            mTvSigninState.setText(usename);
+//            mTvSignin.setText("退出登录");
+//            mTvSignin.setTag(0);
+//        }
+//    }
 
     @Override
     public void onBackPressed() {

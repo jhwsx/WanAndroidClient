@@ -23,14 +23,12 @@ import com.wan.android.R;
 import com.wan.android.bean.RegisterResponse;
 import com.wan.android.client.RegisterClient;
 import com.wan.android.constant.SpConstants;
+import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.PreferenceUtils;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -123,16 +121,7 @@ public class RegisterActivity extends BaseActivity /*implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            String API_BASE_URL = "http://wanandroid.com/";
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(
-                            GsonConverterFactory.create()
-                    );
-            Retrofit retrofit = builder.client(httpClient.build()).build();
-            RegisterClient client = retrofit.create(RegisterClient.class);
+            RegisterClient client = RetrofitClient.create(RegisterClient.class);
             Call<RegisterResponse> call = client.register(username, password,repassword);
             call.enqueue(new Callback<RegisterResponse>() {
                 @Override
