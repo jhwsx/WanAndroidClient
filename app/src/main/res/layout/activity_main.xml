@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:clipToPadding="false"
     tools:context="com.wan.android.activity.MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -21,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:background="#55cf86"
+        android:background="@android:color/white"
         app:itemIconTint="@color/selector_bottom_navigation_view"
         app:itemTextColor="@color/selector_bottom_navigation_view"
         app:menu="@menu/menu_bottom_navigation_view">

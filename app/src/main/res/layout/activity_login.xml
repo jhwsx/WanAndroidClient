@@ -5,6 +5,8 @@
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
               android:orientation="vertical"
+              android:fitsSystemWindows="true"
+              android:clipToPadding="false"
               tools:context="com.wan.android.activity.LoginActivity">
 
     <android.support.v7.widget.Toolbar

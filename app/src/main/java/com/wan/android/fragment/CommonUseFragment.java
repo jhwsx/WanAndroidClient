@@ -46,8 +46,9 @@ public class CommonUseFragment extends BaseFragment {
     private List<BranchListResponse.Data.Datas> mDatasList = new ArrayList<>();
     private BranchAdapter mBranchAdapter;
     private static final String ARG_CID = "arg_cid";
+
     public static CommonUseFragment newInstance(int cid) {
-        
+
         Bundle args = new Bundle();
         args.putInt(ARG_CID, cid);
         CommonUseFragment fragment = new CommonUseFragment();
@@ -56,11 +57,12 @@ public class CommonUseFragment extends BaseFragment {
     }
 
     private int mCid;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mCid =  getArguments().getInt(ARG_CID);
+            mCid = getArguments().getInt(ARG_CID);
         }
     }
 
@@ -94,6 +96,7 @@ public class CommonUseFragment extends BaseFragment {
         refresh();
         return rootView;
     }
+
     private void initRefreshLayout() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -102,6 +105,7 @@ public class CommonUseFragment extends BaseFragment {
             }
         });
     }
+
     private void initAdapter() {
         mBranchAdapter = new BranchAdapter(R.layout.home_item_view, mDatasList);
         // 加载更多
@@ -119,12 +123,14 @@ public class CommonUseFragment extends BaseFragment {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 BranchListResponse.Data.Datas datas = mDatasList.get(position);
                 String link = datas.getLink();
-                ContentActivity.start(mActivity, link);
+                String title = datas.getTitle();
+                ContentActivity.start(mActivity,title, link, datas.getId());
             }
         });
     }
 
     private int mNextPage = 1;
+
     private void loadMore() {
         BranchListClient client = RetrofitClient.create(BranchListClient.class);
         Call<BranchListResponse> call = client.getBranchList(mNextPage, mCid);

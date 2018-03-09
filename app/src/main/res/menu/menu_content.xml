@@ -7,10 +7,10 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_activity_content_collect"
-        android:title="收藏"
+        android:title="@string/collect"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_activity_content_open_with_system_browser"
-        android:title="用系统浏览器打开"
+        android:title="@string/open_with_system_browser"
         app:showAsAction="never"/>
 </menu>

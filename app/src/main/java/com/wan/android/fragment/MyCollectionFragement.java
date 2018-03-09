@@ -1,18 +1,15 @@
 package com.wan.android.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,17 +19,13 @@ import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.activity.ContentActivity;
-import com.wan.android.activity.LoginActivity;
 import com.wan.android.adapter.CollectAdapter;
 import com.wan.android.bean.CollectListResponse;
 import com.wan.android.bean.LoginMessageEvent;
-import com.wan.android.bean.LogoutMessageEvent;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.callback.LoadingCallback;
 import com.wan.android.client.CollectListClient;
-import com.wan.android.constant.SpConstants;
 import com.wan.android.retrofit.RetrofitClient;
-import com.wan.android.util.PreferenceUtils;
 import com.wan.android.view.MultiSwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,20 +39,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
  * @author wzc
- * @date 2018/2/1
+ * @date 2018/3/5
  */
-public class CollectionFragment extends BaseFragment {
-    private static final String TAG = CollectionFragment.class.getSimpleName();
-    private LinearLayout mLinearLayoutLogin;
+public class MyCollectionFragement extends BaseFragment {
+    private static final String TAG = MyFragment.class.getSimpleName();
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private LoadService mLoadService;
     private RecyclerView mRecyclerView;
     private CollectAdapter mCollectAdapter;
+    private View mView;
+    private TextView mTvUserState;
 
+    public static MyCollectionFragement newInstance() {
+
+        Bundle args = new Bundle();
+
+        MyCollectionFragement fragment = new MyCollectionFragement();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +69,8 @@ public class CollectionFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_collection, container, false);
-        mLinearLayoutLogin = (LinearLayout) view.findViewById(R.id.linearlayout_fragment_collect_login);
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout_fragment_collect);
-        String username = PreferenceUtils.getString(getActivity(), SpConstants.KEY_USERNAME, "");
-        if (TextUtils.isEmpty(username)) {
-            mLinearLayoutLogin.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setVisibility(View.INVISIBLE);
-        } else {
-            mLinearLayoutLogin.setVisibility(View.INVISIBLE);
-            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-        }
+        mView = inflater.inflate(R.layout.fragment_collection, container, false);
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_layout_fragment_collect);
         // 获取RecyclerView布局
         View recyclerView = LayoutInflater.from(getContext()).inflate(R.layout.list_view, null);
         // 获取LoadService,把RecyclerView添加进去
@@ -93,30 +84,19 @@ public class CollectionFragment extends BaseFragment {
         // 把状态管理页面添加到根布局中
         mSwipeRefreshLayout.addView(mLoadService.getLoadLayout(),
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_fragment_home, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary);
-
         mRecyclerView = (RecyclerView) recyclerView.findViewById(R.id.recyclerview_fragment_home);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         initAdapter();
         initRefreshLayout();
-        if (!TextUtils.isEmpty(username)) {
-            refresh();
-        }
-
-        TextView textView = (TextView) view.findViewById(R.id.tv_login);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), LoginActivity.class), 2000);
-            }
-        });
-        return view;
+        refresh();
+        return mView;
     }
 
-    private void initRefreshLayout() {
+
+        private void initRefreshLayout() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -187,8 +167,7 @@ public class CollectionFragment extends BaseFragment {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
                 CollectListResponse.Data.Datas data = mDatasList.get(position);
-                String link = data.getLink();
-                ContentActivity.start(mActivity, link);
+                ContentActivity.start(mActivity,data.getTitle(), data.getLink(), data.getId());
             }
         });
     }
@@ -238,37 +217,17 @@ public class CollectionFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (requestCode != 2000) {
-            return;
-        }
-        String username = PreferenceUtils.getString(getActivity(), SpConstants.KEY_USERNAME, "");
-        if (TextUtils.isEmpty(username)) {
-            mLinearLayoutLogin.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setVisibility(View.INVISIBLE);
-        } else {
-            mLinearLayoutLogin.setVisibility(View.INVISIBLE);
-            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-            refresh();
-        }
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(LogoutMessageEvent messageEvent) {
-        mLinearLayoutLogin.setVisibility(View.VISIBLE);
-        mSwipeRefreshLayout.setVisibility(View.INVISIBLE);
-    }
-
+    //    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(LogoutMessageEvent messageEvent) {
+//        mLinearLayoutLogin.setVisibility(View.VISIBLE);
+//        mSwipeRefreshLayout.setVisibility(View.INVISIBLE);
+//    }
+//
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(LoginMessageEvent messageEvent) {
-        mLinearLayoutLogin.setVisibility(View.INVISIBLE);
-        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-        refresh();
+//        mLinearLayoutLogin.setVisibility(View.INVISIBLE);
+//        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+//        refresh();
     }
 }

@@ -4,6 +4,8 @@
               android:layout_height="match_parent"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/linearlayout_activity_content_container"
+              android:fitsSystemWindows="true"
+              android:clipToPadding="false"
               android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@+id/linearlayout_my_fragment_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"/>
+
+            <TextView
+                android:id="@+id/tv_signin_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="未登录"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/divider_item_view"
+        android:showDividers="middle">
+        <com.wan.android.view.MyItemView
+            android:id="@+id/myitemview_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_favorite"
+            android:text="我的收藏"/>
+
+        <com.wan.android.view.MyItemView
+            android:id="@+id/myitemview_about"
+            android:src="@drawable/ic_about"
+            android:text="关于"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+    </LinearLayout>
+
+</LinearLayout>

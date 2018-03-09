@@ -11,8 +11,8 @@
         android:icon="@drawable/ic_main_knowlege_system"/>
 
     <item
-        android:icon="@drawable/ic_main_collection"
-        android:id="@+id/tab_collection"
-        android:title="@string/collect"/>
+        android:icon="@drawable/ic_main_my"
+        android:id="@+id/tab_my"
+        android:title="@string/my"/>
 
 </menu>

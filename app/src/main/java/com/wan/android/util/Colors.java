@@ -1,7 +1,7 @@
 package com.wan.android.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -22,10 +22,10 @@ public class Colors {
      */
     public static ArrayList<Integer> randomList(int count) {
         Random random = new Random();
-        HashSet<Integer> items = new HashSet<Integer>();
+        List<Integer> items = new ArrayList<>();
 
         // Make sure that don't infinity loop
-        count = Math.min(count, COLORS.length);
+//        count = Math.min(count, COLORS.length);
 
         while (items.size() < count) {
             items.add(COLORS[random.nextInt(COLORS.length)]);

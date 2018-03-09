@@ -3,6 +3,7 @@ package com.wan.android.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -17,9 +18,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
 import com.wan.android.R;
+import com.wan.android.bean.CollectRepsonse;
+import com.wan.android.client.CollectClient;
+import com.wan.android.retrofit.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author wzc
@@ -28,29 +37,39 @@ import com.wan.android.R;
 public class ContentActivity extends BaseActivity {
 
     private LinearLayout mLinearLayoutContainer;
-    private TextView mTitle;
+    private TextView mTvTitle;
     private static final String EXTRA_CONTENT_URL = "extra_content_url";
+    private static final String EXTRA_ID = "extra_id";
+    private static final String EXTRA_TITLE = "extra_title";
     private AgentWeb mAgentWeb;
 
-    public static void start(Context context, String url) {
+    public static void start(Context context, String title, String url, int id) {
         Intent starter = new Intent(context, ContentActivity.class);
         starter.putExtra(EXTRA_CONTENT_URL, url);
+        starter.putExtra(EXTRA_TITLE, title);
+        starter.putExtra(EXTRA_ID, id);
         context.startActivity(starter);
     }
+
     private String mUrl;
+    private int mId;
+    private String mTitle;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
-        if (getIntent()!=null) {
+        if (getIntent() != null) {
             mUrl = getIntent().getStringExtra(EXTRA_CONTENT_URL);
+            mId = getIntent().getIntExtra(EXTRA_ID, -1);
+            mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         }
         mLinearLayoutContainer = (LinearLayout) findViewById(R.id.linearlayout_activity_content_container);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_content);
-        mTitle = (TextView) findViewById(R.id.tv_activity_content_title);
+        mTvTitle = (TextView) findViewById(R.id.tv_activity_content_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        mTitle.setText(R.string.loading);
+        mTvTitle.setText(R.string.loading);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,6 +82,7 @@ public class ContentActivity extends BaseActivity {
         });
 
         mAgentWeb = AgentWeb.with(this)
+                // 设置父容器
                 .setAgentWebParent(mLinearLayoutContainer, new ViewGroup.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .defaultProgressBarColor()
@@ -84,8 +104,48 @@ public class ContentActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        switch (item.getItemId()) {
+            case R.id.action_activity_content_share:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, mTitle + ": " + mUrl);
+                startActivity(Intent.createChooser(shareIntent, "Share"));
+                return true;
+            case R.id.action_activity_content_collect:
+                collect();
+                return true;
+            case R.id.action_activity_content_open_with_system_browser:
+                final Uri uri = Uri.parse(mUrl);
+                final Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(it);
+                return true;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void collect() {
+        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
+        Call<CollectRepsonse> call = collectClient.collect(mId);
+        call.enqueue(new Callback<CollectRepsonse>() {
+            @Override
+            public void onResponse(Call<CollectRepsonse> call, Response<CollectRepsonse> response) {
+                CollectRepsonse body = response.body();
+                if (body.getErrorcode() != 0) {
+                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<CollectRepsonse> call, Throwable t) {
+                Toast.makeText(mContext, "收藏失败 " + t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     private WebViewClient mWebViewClient = new WebViewClient() {
@@ -104,8 +164,8 @@ public class ContentActivity extends BaseActivity {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if (mTitle != null) {
-                mTitle.setText(title != null ? title : "");
+            if (mTvTitle != null) {
+                mTvTitle.setText(title != null ? title : "");
             }
         }
     };

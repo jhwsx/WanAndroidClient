@@ -34,7 +34,7 @@ import retrofit2.Response;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends BaseActivity /*implements LoaderCallbacks<Cursor>*/ {
+public class RegisterActivity extends BaseActivity  {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
     // UI references.

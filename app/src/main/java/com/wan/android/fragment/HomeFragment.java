@@ -4,13 +4,14 @@ package com.wan.android.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -21,17 +22,22 @@ import com.wan.android.R;
 import com.wan.android.activity.ContentActivity;
 import com.wan.android.adapter.HomeAdapter;
 import com.wan.android.bean.BannerResponse;
+import com.wan.android.bean.CollectRepsonse;
 import com.wan.android.bean.HomeListResponse;
+import com.wan.android.bean.UncollectRepsonse;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.callback.LoadingCallback;
 import com.wan.android.client.BannerClient;
+import com.wan.android.client.CollectClient;
 import com.wan.android.client.HomeListClient;
+import com.wan.android.client.UncollectClient;
 import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.GlideImageLoader;
 import com.wan.android.view.MultiSwipeRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +83,7 @@ public class HomeFragment extends BaseFragment {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary);
         mRecyclerView = (RecyclerView) recyclerView.findViewById(R.id.recyclerview_fragment_home);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).build());
         initAdapter();
         addHeader();
         initRefreshLayout();
@@ -161,8 +167,72 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 HomeListResponse.Data.Datas datas = mDatasList.get(position);
-                String link = datas.getLink();
-                ContentActivity.start(mActivity, link);
+                ContentActivity.start(mActivity, datas.getTitle(), datas.getLink(), datas.getId());
+            }
+        });
+        mHomeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.iv_home_item_view_collect:
+                        if (mDatasList.get(position).isCollect()) {
+                            unCollect(view, position);
+                        } else {
+                            collect(view, position);
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    private void collect(final View view, final int position) {
+        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
+        Call<CollectRepsonse> call = collectClient.collect(mDatasList.get(position).getId());
+        call.enqueue(new Callback<CollectRepsonse>() {
+            @Override
+            public void onResponse(Call<CollectRepsonse> call, Response<CollectRepsonse> response) {
+                CollectRepsonse body = response.body();
+                if (body.getErrorcode() != 0) {
+                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(mActivity, "收藏成功", Toast.LENGTH_SHORT).show();
+                mDatasList.get(position).setCollect(true);
+                ((ImageView) view).setImageResource(R.drawable.ic_favorite);
+            }
+
+            @Override
+            public void onFailure(Call<CollectRepsonse> call, Throwable t) {
+                Toast.makeText(mActivity, "收藏失败 " + t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void unCollect(final View view, final int position) {
+        UncollectClient uncollectClient = RetrofitClient.create(UncollectClient.class);
+        Call<UncollectRepsonse> call = uncollectClient.uncollect(mDatasList.get(position).getId());
+        call.enqueue(new Callback<UncollectRepsonse>() {
+            @Override
+            public void onResponse(Call<UncollectRepsonse> call, Response<UncollectRepsonse> response) {
+                UncollectRepsonse body = response.body();
+                if (body.getErrorcode() != 0) {
+                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(mActivity, "取消收藏", Toast.LENGTH_SHORT).show();
+                mDatasList.get(position).setCollect(false);
+                ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
+            }
+
+            @Override
+            public void onFailure(Call<UncollectRepsonse> call, Throwable t) {
+                Toast.makeText(mActivity, "取消失败 " + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -260,7 +330,8 @@ public class HomeFragment extends BaseFragment {
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
                             public void OnBannerClick(int position) {
-                                ContentActivity.start(mActivity, data.get(position).getUrl());
+                                BannerResponse.Data e = data.get(position);
+                                ContentActivity.start(mActivity,e.getTitle(), e.getUrl(), e.getId());
                             }
                         })
                         // 开始进行banner渲染（必须放到最后执行）
