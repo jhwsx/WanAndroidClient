@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import com.wan.android.fragment.MyCollectionFragement;
+import com.wan.android.fragment.CollectionFragement;
 
 /**
+ * 我的收藏
+ *
  * @author wzc
  * @date 2018/3/5
  */
@@ -19,6 +21,6 @@ public class MyCollectionActivity extends BaseSingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return MyCollectionFragement.newInstance();
+        return CollectionFragement.newInstance();
     }
 }

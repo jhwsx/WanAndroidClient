@@ -15,12 +15,14 @@ import android.widget.TextView;
 import com.wan.android.R;
 import com.wan.android.bean.PageModel;
 import com.wan.android.bean.TreeListResponse;
-import com.wan.android.fragment.CommonUseFragment;
+import com.wan.android.fragment.BranchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 分支页面
+ *
  * @author wzc
  * @date 2018/2/11
  */
@@ -64,7 +66,7 @@ public class BranchActivity extends BaseActivity {
         for (int i = 0; i < mChildren.size(); i++) {
             TreeListResponse.Data.Children children = mChildren.get(i);
 
-            mPageModels.add(new PageModel(children.getName(), CommonUseFragment.newInstance(children.getId())));
+            mPageModels.add(new PageModel(children.getName(), BranchFragment.newInstance(children.getId())));
         }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -72,7 +74,7 @@ public class BranchActivity extends BaseActivity {
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return mPageModels.get(position).getCommonUseFragment();
+                return mPageModels.get(position).getBranchFragment();
             }
 
             @Override

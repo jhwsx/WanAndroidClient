@@ -13,14 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/dp_8">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_launcher"
-            android:textColor="@color/black"/>
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:id="@+id/tv_app_name"
@@ -29,7 +28,8 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/black"/>
+            android:textSize="@dimen/dp_16"
+            android:textColor="@color/color_3e"/>
 
         <TextView
             android:id="@+id/tv_app_version_name"
@@ -40,10 +40,12 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/dp_24"
             android:id="@+id/tv_about_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"
             tools:text="@string/about_content"/>
     </LinearLayout>
 

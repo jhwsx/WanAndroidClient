@@ -27,20 +27,20 @@
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/dp_16"
                 android:textStyle="bold"/>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/dp_48"
             android:background="@color/colorPrimary"
             app:tabIndicatorColor="@android:color/white"
-            app:tabIndicatorHeight="4dp"
+            app:tabIndicatorHeight="@dimen/dp_4"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@android:color/darker_gray"/>
+            app:tabTextColor="@color/color_tab"/>
 
 
     <android.support.v4.view.ViewPager

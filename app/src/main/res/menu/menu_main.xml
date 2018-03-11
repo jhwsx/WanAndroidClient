@@ -4,7 +4,7 @@
     <item
         android:id="@+id/action_hot"
         android:title="常用"
-        android:icon="@drawable/ic_hot"
+        android:icon="@drawable/ic_action_hot"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_search"

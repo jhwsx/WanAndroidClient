@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_main_home"/>
 
     <item
-        android:id="@+id/tab_knowledge_system"
+        android:id="@+id/tab_tree"
         android:title="@string/tree"
-        android:icon="@drawable/ic_main_knowlege_system"/>
+        android:icon="@drawable/ic_main_tree"/>
 
     <item
         android:icon="@drawable/ic_main_my"

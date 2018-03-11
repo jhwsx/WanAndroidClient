@@ -14,7 +14,7 @@ import java.util.List;
  * @author wzc
  * @date 2018/2/2
  */
-public class CollectAdapter extends BaseQuickAdapter<CollectListResponse.Data.Datas,BaseViewHolder> {
+public class CollectAdapter extends BaseQuickAdapter<CollectListResponse.Data.Datas, BaseViewHolder> {
 
     public CollectAdapter(@LayoutRes int layoutResId, @Nullable List<CollectListResponse.Data.Datas> data) {
         super(layoutResId, data);
@@ -31,6 +31,7 @@ public class CollectAdapter extends BaseQuickAdapter<CollectListResponse.Data.Da
         helper.setText(R.id.tv_home_item_view_nice_date, item.getNicedate());
         // authorName
         helper.setText(R.id.tv_home_item_view_author, item.getAuthor());
-        //
+        helper.addOnClickListener(R.id.iv_home_item_view_collect);
+        helper.setImageResource(R.id.iv_home_item_view_collect, R.drawable.ic_favorite);
     }
 }

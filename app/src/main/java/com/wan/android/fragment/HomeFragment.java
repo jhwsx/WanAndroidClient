@@ -4,8 +4,6 @@ package com.wan.android.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +13,6 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.activity.ContentActivity;
@@ -26,18 +22,15 @@ import com.wan.android.bean.CollectRepsonse;
 import com.wan.android.bean.HomeListResponse;
 import com.wan.android.bean.UncollectRepsonse;
 import com.wan.android.callback.EmptyCallback;
-import com.wan.android.callback.LoadingCallback;
 import com.wan.android.client.BannerClient;
 import com.wan.android.client.CollectClient;
 import com.wan.android.client.HomeListClient;
 import com.wan.android.client.UncollectClient;
 import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.GlideImageLoader;
-import com.wan.android.view.MultiSwipeRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,45 +43,21 @@ import retrofit2.Response;
  * @author wzc
  * @date 2018/2/1
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseListFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView mRecyclerView;
     private List<HomeListResponse.Data.Datas> mDatasList = new ArrayList<>();
     private HomeAdapter mHomeAdapter;
     private Banner mBanner;
-    private LoadService mLoadService;
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // 获取根布局
-        MultiSwipeRefreshLayout rootView = (MultiSwipeRefreshLayout) inflater.inflate(R.layout.fragment_home, container, false);
-        // 获取RecyclerView布局
-        View recyclerView = LayoutInflater.from(getContext()).inflate(R.layout.list_view, null);
-        // 获取LoadService,把RecyclerView添加进去
-        mLoadService = LoadSir.getDefault().register(recyclerView, new com.kingja.loadsir.callback.Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                mLoadService.showCallback(LoadingCallback.class);
-                refresh();
-            }
-        });
-        // 把状态管理页面添加到根布局中
-        rootView.addView(mLoadService.getLoadLayout(),
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        // 设置可下拉刷新的子view
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout_fragment_home);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_fragment_home, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary);
-        mRecyclerView = (RecyclerView) recyclerView.findViewById(R.id.recyclerview_fragment_home);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).build());
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         initAdapter();
         addHeader();
         initRefreshLayout();
         refresh();
-        return rootView;
     }
 
     private void initRefreshLayout() {
@@ -106,7 +75,8 @@ public class HomeFragment extends BaseFragment {
         isBannerLoaded = false;
     }
 
-    private void refresh() {
+    @Override
+    protected void refresh() {
         if (!isBannerLoaded) {
             initBanner();
         }
@@ -140,7 +110,7 @@ public class HomeFragment extends BaseFragment {
                     Log.d("HomeFragment", "t:" + t);
                 }
                 mLoadService.showCallback(EmptyCallback.class);
-                mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_fragment_home, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);
+                mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_view, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);
             }
         });
     }
@@ -200,14 +170,14 @@ public class HomeFragment extends BaseFragment {
                     Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(mActivity, "收藏成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, R.string.collect_successfully, Toast.LENGTH_SHORT).show();
                 mDatasList.get(position).setCollect(true);
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite);
             }
 
             @Override
             public void onFailure(Call<CollectRepsonse> call, Throwable t) {
-                Toast.makeText(mActivity, "收藏失败 " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, getString(R.string.collect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -225,14 +195,14 @@ public class HomeFragment extends BaseFragment {
                     Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(mActivity, "取消收藏", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
                 mDatasList.get(position).setCollect(false);
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
             }
 
             @Override
             public void onFailure(Call<UncollectRepsonse> call, Throwable t) {
-                Toast.makeText(mActivity, "取消失败 " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -291,7 +261,7 @@ public class HomeFragment extends BaseFragment {
                 }
                 if (body.getErrorcode() != 0) {
                     if (BuildConfig.DEBUG) {
-                        Log.d(TAG, "getBanner() onResponse error msg: " + body.getErrormsg());
+                        Log.d(TAG, "getBanner() onResponse ic_error msg: " + body.getErrormsg());
                     }
                     return;
                 }

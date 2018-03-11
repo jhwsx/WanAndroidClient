@@ -61,7 +61,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".activity.FuActivity"
+            android:name=".activity.HotActivity"
             android:label="常用"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"

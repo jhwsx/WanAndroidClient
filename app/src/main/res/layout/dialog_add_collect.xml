@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingStart="24dp"
+              android:paddingEnd="24dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_view"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/title"
+        android:gravity="left"
+        android:textColor="@color/color_73"
+        android:textSize="@dimen/dp_14"/>
+
+    <EditText
+        android:id="@+id/title_edit"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollHorizontally="true"
+        android:gravity="fill_horizontal"
+        android:textColor="@color/color_73"
+        android:textSize="@dimen/dp_14"/>
+
+    <TextView
+        android:id="@+id/author_view"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/authors"
+        android:gravity="left"
+        android:textColor="@color/color_73"
+        android:textSize="@dimen/dp_14"/>
+
+    <EditText
+        android:id="@+id/author_edit"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollHorizontally="true"
+        android:gravity="fill_horizontal"
+        android:textColor="@color/color_73"
+        android:textSize="@dimen/dp_14"/>
+
+    <TextView
+        android:id="@+id/link_view"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/link"
+        android:gravity="left"
+        android:textColor="@color/color_73"
+        android:textSize="@dimen/dp_14"/>
+
+    <EditText
+        android:id="@+id/link_edit"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollHorizontally="true"
+        android:gravity="fill_horizontal"
+        android:textColor="@color/color_73"
+        android:textSize="@dimen/dp_14"/>
+
+</LinearLayout>

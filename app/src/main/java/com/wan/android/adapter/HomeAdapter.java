@@ -31,7 +31,6 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListResponse.Data.Datas,Ba
         helper.setText(R.id.tv_home_item_view_nice_date, item.getNiceDate());
         // authorName
         helper.setText(R.id.tv_home_item_view_author, item.getAuthor());
-        //
         helper.addOnClickListener(R.id.iv_home_item_view_collect);
         helper.setImageResource(R.id.iv_home_item_view_collect, item.isCollect() ? R.drawable.ic_favorite : R.drawable.ic_favorite_empty);
     }

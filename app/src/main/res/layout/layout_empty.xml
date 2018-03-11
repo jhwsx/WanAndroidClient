@@ -7,17 +7,17 @@
               android:orientation="vertical">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/empty"/>
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:background="@drawable/ic_empty"/>
 
     <TextView
         android:id="@+id/tv_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fine_no_data"
-        android:textColor="#333333"
-        android:textSize="18sp"/>
+        android:textColor="@color/color_3e"
+        android:textSize="@dimen/dp_16"/>
 
     <TextView
         android:layout_width="wrap_content"

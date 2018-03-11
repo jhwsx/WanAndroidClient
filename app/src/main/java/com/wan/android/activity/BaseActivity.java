@@ -9,6 +9,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wan.android.R;
 
 /**
+ * 页面基类
  * @author wzc
  * @date 2018/2/1
  */

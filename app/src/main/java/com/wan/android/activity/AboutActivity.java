@@ -13,6 +13,11 @@ import android.widget.TextView;
 import com.wan.android.R;
 import com.wan.android.util.AppUtils;
 
+/**
+ * 关于
+ * @author wzc
+ * @date 2018/3/10
+ */
 public class AboutActivity extends BaseActivity {
 
     public static void start(Context context) {

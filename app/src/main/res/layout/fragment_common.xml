@@ -2,6 +2,6 @@
 
 <com.wan.android.view.MultiSwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_refresh_layout_fragment_knowledge"
+    android:id="@+id/swipe_refresh_layout_fragment_common"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

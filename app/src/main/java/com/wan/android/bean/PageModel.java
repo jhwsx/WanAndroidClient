@@ -1,6 +1,6 @@
 package com.wan.android.bean;
 
-import com.wan.android.fragment.CommonUseFragment;
+import com.wan.android.fragment.BranchFragment;
 
 /**
  * @author wzc
@@ -10,11 +10,11 @@ public class PageModel {
 
     private String mTabTitle;
 
-    private CommonUseFragment mCommonUseFragment;
+    private BranchFragment mBranchFragment;
 
-    public PageModel(String tabTitle, CommonUseFragment commonUseFragment) {
+    public PageModel(String tabTitle, BranchFragment branchFragment) {
         mTabTitle = tabTitle;
-        mCommonUseFragment = commonUseFragment;
+        mBranchFragment = branchFragment;
     }
 
     public String getTabTitle() {
@@ -25,11 +25,11 @@ public class PageModel {
         mTabTitle = tabTitle;
     }
 
-    public CommonUseFragment getCommonUseFragment() {
-        return mCommonUseFragment;
+    public BranchFragment getBranchFragment() {
+        return mBranchFragment;
     }
 
-    public void setCommonUseFragment(CommonUseFragment commonUseFragment) {
-        mCommonUseFragment = commonUseFragment;
+    public void setBranchFragment(BranchFragment branchFragment) {
+        mBranchFragment = branchFragment;
     }
 }

@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="marquee"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/dp_16"/>
     </android.support.v7.widget.Toolbar>
 
 </LinearLayout>

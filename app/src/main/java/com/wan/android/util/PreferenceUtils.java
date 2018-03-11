@@ -2,6 +2,8 @@ package com.wan.android.util;
 
 import android.content.Context;
 
+import java.util.HashSet;
+
 /**
  * Created by wzc on 2017/10/13.
  * <p>
@@ -97,5 +99,15 @@ public class PreferenceUtils {
             return defaultValue;
         }
         return context.getSharedPreferences(FILE_SP, Context.MODE_PRIVATE).getFloat(key, defaultValue);
+    }
+
+
+    public static HashSet<String> getStringSet(Context ctx, String key) {
+        HashSet<String> set = (HashSet<String>) ctx.getSharedPreferences(FILE_SP, Context.MODE_PRIVATE).getStringSet(key, new HashSet<String>());
+        return new HashSet<>(set);
+    }
+
+    public static void putStringSet(Context ctx, String key, HashSet<String> set) {
+        ctx.getSharedPreferences(FILE_SP, Context.MODE_PRIVATE).edit().putStringSet(key, set).apply();
     }
 }

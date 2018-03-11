@@ -37,7 +37,10 @@ import retrofit2.Response;
 
 
 /**
- * A login screen that offers login via email/password.
+ * 登录页面
+ *
+ * @author wzc
+ * @date 2018/3/10
  */
 public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cursor>*/ {
 
@@ -125,8 +128,8 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // There was an ic_error; don't attempt login and focus the first
+            // form field with an ic_error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to

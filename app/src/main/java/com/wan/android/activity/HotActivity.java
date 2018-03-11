@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,24 +35,26 @@ import retrofit2.Response;
  * @author wzc
  * @date 2018/2/24
  */
-public class FuActivity extends BaseActivity {
-    private static final String TAG = FuActivity.class.getSimpleName();
+public class HotActivity extends BaseActivity {
+    private static final String TAG = HotActivity.class.getSimpleName();
     private TagFlowLayout mTagFlowLayout;
 
     public static void start(Context context) {
-        Intent starter = new Intent(context, FuActivity.class);
+        Intent starter = new Intent(context, HotActivity.class);
         context.startActivity(starter);
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_fu);
+        setContentView(R.layout.activity_hot);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_hot);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        String pathSeparator = File.pathSeparator;
+        String separator = File.separator;
         mTagFlowLayout = (TagFlowLayout) findViewById(R.id.id_flowlayout);
         FriendClient client = RetrofitClient.create(FriendClient.class);
         Call<FriendResponse> call = client.getFriend();
@@ -94,6 +98,17 @@ public class FuActivity extends BaseActivity {
             }
         });
 
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

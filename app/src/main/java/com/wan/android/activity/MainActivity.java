@@ -23,6 +23,12 @@ import com.youth.banner.Banner;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 主页面
+ *
+ * @author wzc
+ * @date 2018/3/10
+ */
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private Banner banner;
@@ -51,7 +57,7 @@ public class MainActivity extends BaseActivity {
                     case R.id.tab_home:
                         mViewPager.setCurrentItem(0);
                         break;
-                    case R.id.tab_knowledge_system:
+                    case R.id.tab_tree:
                         mViewPager.setCurrentItem(1);
                         break;
                     case R.id.tab_my:
@@ -107,7 +113,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_hot:
-                FuActivity.start(mContext);
+                HotActivity.start(mContext);
                 return true;
             case R.id.action_search:
                 SearchActivity.start(mContext);

@@ -128,7 +128,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 				infos.put("versionCode", versionCode);
 			}
 		} catch (NameNotFoundException e) {
-			Log.e(TAG, "an error occured when collect package info", e);
+			Log.e(TAG, "an ic_error occured when collect package info", e);
 		}
 		Field[] fields = Build.class.getDeclaredFields();
 		for (Field field : fields) {
@@ -137,7 +137,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 				infos.put(field.getName(), field.get(null).toString());
 				Log.d(TAG, field.getName() + " : " + field.get(null));
 			} catch (Exception e) {
-				Log.e(TAG, "an error occured when collect crash info", e);
+				Log.e(TAG, "an ic_error occured when collect crash info", e);
 			}
 		}
 	}
@@ -184,7 +184,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			}
 			return fileName;
 		} catch (Exception e) {
-			Log.e(TAG, "an error occured while writing file...", e);
+			Log.e(TAG, "an ic_error occured while writing file...", e);
 		}
 		return null;
 	}

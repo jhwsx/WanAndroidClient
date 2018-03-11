@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 /**
+ * 闪屏页
  * @author wzc
  * @date 2018/3/9
  */

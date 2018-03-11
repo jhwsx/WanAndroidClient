@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wan.android.view.MultiSwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_refresh_layout_fragment_collect"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/linearlayout_my"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="@dimen/dp_180"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@+id/linearlayout_my_fragment_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+           <ImageView
+               android:layout_width="@dimen/dp_100"
+               android:layout_height="@dimen/dp_100"
+               android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:id="@+id/tv_signin_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unregistered"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/divider_item_view"
+        android:orientation="vertical"
+        android:showDividers="beginning|middle|end">
+
+        <com.wan.android.view.MyItemView
+            android:id="@+id/myitemview_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:src="@drawable/ic_my_favorite"
+            android:text="@string/my_collection"/>
+
+        <com.wan.android.view.MyItemView
+            android:id="@+id/myitemview_about"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:src="@drawable/ic_about"
+            android:text="@string/about"/>
+
+        <com.wan.android.view.MyItemView
+            android:id="@+id/myitemview_logout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:src="@drawable/ic_logout"
+            android:text="@string/logout"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_activity_fu"
+        android:id="@+id/toolbar_activity_hot"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -26,7 +26,7 @@
             android:id="@+id/id_flowlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/dp_10"
             app:max_select="1">
         </com.zhy.view.flowlayout.TagFlowLayout>
 

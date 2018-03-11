@@ -12,16 +12,16 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="@dimen/dp_8">
 
         <TextView
             android:id="@+id/tv_home_item_view_title"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:text="标题文章标题文章标题"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
+            tools:text="标题文章标题文章标题"
+            android:textColor="@color/color_3e"
+            android:textSize="@dimen/dp_16"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -31,24 +31,24 @@
             android:id="@+id/tv_home_item_view_chapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="类别: "
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/category"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_title"/>
 
         <TextView
             android:id="@+id/tv_home_item_view_chapter_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:text="具体案例具体案例具体案例具体案例具体案例具体案例"
+            tools:text="具体案例具体案例具体案例具体案例具体案例具体案例"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
+            android:textSize="@dimen/dp_14"
             app:layout_constraintLeft_toRightOf="@+id/tv_home_item_view_chapter"
             app:layout_constraintRight_toLeftOf="@+id/tv_home_item_view_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_title"/>
@@ -57,10 +57,10 @@
             android:id="@+id/tv_home_item_view_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="时间: "
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/time"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"
             app:layout_constraintRight_toLeftOf="@+id/tv_home_item_view_nice_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_title"/>
 
@@ -68,10 +68,10 @@
             android:id="@+id/tv_home_item_view_nice_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="3小时前"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/dp_8"
+            tools:text="3小时前"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dp_14"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_title"/>
 
@@ -79,24 +79,24 @@
             android:id="@+id/tv_home_item_view_author_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="作者: "
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/author"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_chapter"/>
 
         <TextView
             android:id="@+id/tv_home_item_view_author"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:text="志超"
+            tools:text="志超"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
+            android:textSize="@dimen/dp_14"
             app:layout_constraintLeft_toRightOf="@+id/tv_home_item_view_author_text"
             app:layout_constraintRight_toLeftOf="@+id/tv_home_item_view_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_chapter"/>
@@ -105,7 +105,7 @@
             android:id="@+id/iv_home_item_view_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/dp_8"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_chapter"
             app:srcCompat="@drawable/ic_favorite_empty"/>
