@@ -3,10 +3,10 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:clipToPadding="false"
+              android:fitsSystemWindows="true"
               android:gravity="center_horizontal"
               android:orientation="vertical"
-              android:fitsSystemWindows="true"
-              android:clipToPadding="false"
               tools:context="com.wan.android.activity.LoginActivity">
 
     <android.support.v7.widget.Toolbar
@@ -30,11 +30,9 @@
         <!-- Login progress -->
         <ProgressBar
             android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_gravity="center"
             android:visibility="gone"/>
 
         <ScrollView
@@ -71,28 +69,28 @@
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/dp_14"
-                        android:textColor="@color/color_3e"
                         android:hint="@string/password"
                         android:imeActionId="6"
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textColor="@color/color_3e"
+                        android:textSize="@dimen/dp_14"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:background="@drawable/shape_btn_bg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
+                    android:background="@drawable/shape_btn_bg"
                     android:text="@string/login"
-                    android:textSize="@dimen/dp_14"
                     android:textColor="@android:color/white"
+                    android:textSize="@dimen/dp_14"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -101,9 +99,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:textSize="@dimen/dp_14"
                     android:text="@string/newuser_register"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dp_14"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

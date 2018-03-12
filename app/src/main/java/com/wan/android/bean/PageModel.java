@@ -3,6 +3,8 @@ package com.wan.android.bean;
 import com.wan.android.fragment.BranchFragment;
 
 /**
+ * viewpage页面模型类
+ *
  * @author wzc
  * @date 2018/2/12
  */

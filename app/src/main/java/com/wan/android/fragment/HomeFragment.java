@@ -9,23 +9,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.activity.ContentActivity;
-import com.wan.android.adapter.HomeAdapter;
-import com.wan.android.bean.BannerResponse;
-import com.wan.android.bean.CollectRepsonse;
-import com.wan.android.bean.HomeListResponse;
-import com.wan.android.bean.UncollectRepsonse;
+import com.wan.android.adapter.CommonListAdapter;
+import com.wan.android.bean.ArticleDatas;
+import com.wan.android.bean.BannerData;
+import com.wan.android.bean.CommonResponse;
+import com.wan.android.bean.ArticleData;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.client.BannerClient;
-import com.wan.android.client.CollectClient;
 import com.wan.android.client.HomeListClient;
-import com.wan.android.client.UncollectClient;
+import com.wan.android.helper.CollectHelper;
+import com.wan.android.helper.UncollectHelper;
+import com.wan.android.listener.OnCollectSuccessListener;
+import com.wan.android.listener.OnUncollectSuccessListener;
 import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.GlideImageLoader;
 import com.youth.banner.Banner;
@@ -45,8 +46,8 @@ import retrofit2.Response;
  */
 public class HomeFragment extends BaseListFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
-    private List<HomeListResponse.Data.Datas> mDatasList = new ArrayList<>();
-    private HomeAdapter mHomeAdapter;
+    private List<ArticleDatas> mDatasList = new ArrayList<>();
+    private CommonListAdapter mCommonListAdapter;
     private Banner mBanner;
 
 
@@ -81,30 +82,30 @@ public class HomeFragment extends BaseListFragment {
             initBanner();
         }
         // 防止下拉刷新时,还可以上拉加载
-        mHomeAdapter.setEnableLoadMore(false);
+        mCommonListAdapter.setEnableLoadMore(false);
         HomeListClient client = RetrofitClient.create(HomeListClient.class);
-        Call<HomeListResponse> call = client.getHomeFeed(0);
-        call.enqueue(new Callback<HomeListResponse>() {
+        Call<CommonResponse<ArticleData>> call = client.getHomeFeed(0);
+        call.enqueue(new Callback<CommonResponse<ArticleData>>() {
             @Override
-            public void onResponse(Call<HomeListResponse> call, Response<HomeListResponse> response) {
-                mHomeAdapter.setEnableLoadMore(true);
+            public void onResponse(Call<CommonResponse<ArticleData>> call, Response<CommonResponse<ArticleData>> response) {
+                mCommonListAdapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (BuildConfig.DEBUG) {
                     Log.d("HomeFragment", "response: " + response);
                 }
 
-                HomeListResponse body = response.body();
-                HomeListResponse.Data data = body.getData();
-                List<HomeListResponse.Data.Datas> datas = data.getDatas();
+                CommonResponse<ArticleData> body = response.body();
+                ArticleData data = body.getData();
+                List<ArticleDatas> datas = data.getDatas();
                 mDatasList.clear();
                 mDatasList.addAll(datas);
-                mHomeAdapter.notifyDataSetChanged();
+                mCommonListAdapter.notifyDataSetChanged();
                 mLoadService.showSuccess();
             }
 
             @Override
-            public void onFailure(Call<HomeListResponse> call, Throwable t) {
-                mHomeAdapter.setEnableLoadMore(true);
+            public void onFailure(Call<CommonResponse<ArticleData>> call, Throwable t) {
+                mCommonListAdapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (BuildConfig.DEBUG) {
                     Log.d("HomeFragment", "t:" + t);
@@ -118,29 +119,29 @@ public class HomeFragment extends BaseListFragment {
     private void addHeader() {
         View header = LayoutInflater.from(mActivity).inflate(R.layout.home_header_view, (ViewGroup) mRecyclerView.getParent(), false);
         mBanner = (Banner) header.findViewById(R.id.banner_fragment_main_header);
-        mHomeAdapter.addHeaderView(header);
+        mCommonListAdapter.addHeaderView(header);
     }
 
     private void initAdapter() {
-        mHomeAdapter = new HomeAdapter(R.layout.home_item_view, mDatasList);
+        mCommonListAdapter = new CommonListAdapter(R.layout.home_item_view, mDatasList);
         // 加载更多
-        mHomeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        mCommonListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 Log.d(TAG, "onLoadMoreRequested() called");
                 loadMore();
             }
         }, mRecyclerView);
-        mHomeAdapter.setEmptyView(R.layout.empty_view);
-        mRecyclerView.setAdapter(mHomeAdapter);
+        mCommonListAdapter.setEmptyView(R.layout.empty_view);
+        mRecyclerView.setAdapter(mCommonListAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HomeListResponse.Data.Datas datas = mDatasList.get(position);
+                ArticleDatas datas = mDatasList.get(position);
                 ContentActivity.start(mActivity, datas.getTitle(), datas.getLink(), datas.getId());
             }
         });
-        mHomeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mCommonListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
@@ -160,83 +161,97 @@ public class HomeFragment extends BaseListFragment {
     }
 
     private void collect(final View view, final int position) {
-        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
-        Call<CollectRepsonse> call = collectClient.collect(mDatasList.get(position).getId());
-        call.enqueue(new Callback<CollectRepsonse>() {
+        CollectHelper.collect(mDatasList.get(position).getId(), new OnCollectSuccessListener() {
             @Override
-            public void onResponse(Call<CollectRepsonse> call, Response<CollectRepsonse> response) {
-                CollectRepsonse body = response.body();
-                if (body.getErrorcode() != 0) {
-                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(mActivity, R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+            public void onCollectSuccess() {
                 mDatasList.get(position).setCollect(true);
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite);
             }
-
-            @Override
-            public void onFailure(Call<CollectRepsonse> call, Throwable t) {
-                Toast.makeText(mActivity, getString(R.string.collect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
-            }
         });
+//        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
+//        Call<CommonResponse<String>> call = collectClient.collect(mDatasList.get(position).getId());
+//        call.enqueue(new Callback<CommonResponse<String>>() {
+//            @Override
+//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
+//                CommonResponse<String> body = response.body();
+//                if (body.getErrorcode() != 0) {
+//                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Toast.makeText(mActivity, R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+//                mDatasList.get(position).setCollect(true);
+//                ((ImageView) view).setImageResource(R.drawable.ic_favorite);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
+//                Toast.makeText(mActivity, getString(R.string.collect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
     }
 
     private void unCollect(final View view, final int position) {
-        UncollectClient uncollectClient = RetrofitClient.create(UncollectClient.class);
-        Call<UncollectRepsonse> call = uncollectClient.uncollect(mDatasList.get(position).getId());
-        call.enqueue(new Callback<UncollectRepsonse>() {
+        UncollectHelper.uncollect(mDatasList.get(position).getId(), new OnUncollectSuccessListener() {
             @Override
-            public void onResponse(Call<UncollectRepsonse> call, Response<UncollectRepsonse> response) {
-                UncollectRepsonse body = response.body();
-                if (body.getErrorcode() != 0) {
-                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(mActivity, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
+            public void onUncollectSuccess() {
                 mDatasList.get(position).setCollect(false);
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
             }
-
-            @Override
-            public void onFailure(Call<UncollectRepsonse> call, Throwable t) {
-                Toast.makeText(mActivity, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
-            }
         });
+//        UncollectClient uncollectClient = RetrofitClient.create(UncollectClient.class);
+//        Call<CommonResponse<String>> call = uncollectClient.uncollect(mDatasList.get(position).getId());
+//        call.enqueue(new Callback<CommonResponse<String>>() {
+//            @Override
+//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
+//                CommonResponse<String> body = response.body();
+//                if (body.getErrorcode() != 0) {
+//                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Toast.makeText(mActivity, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
+//                mDatasList.get(position).setCollect(false);
+//                ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
+//                Toast.makeText(mActivity, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private int mNextPage = 1;
 
     private void loadMore() {
         HomeListClient client = RetrofitClient.create(HomeListClient.class);
-        Call<HomeListResponse> call = client.getHomeFeed(mNextPage);
-        call.enqueue(new Callback<HomeListResponse>() {
+        Call<CommonResponse<ArticleData>> call = client.getHomeFeed(mNextPage);
+        call.enqueue(new Callback<CommonResponse<ArticleData>>() {
             @Override
-            public void onResponse(Call<HomeListResponse> call, Response<HomeListResponse> response) {
+            public void onResponse(Call<CommonResponse<ArticleData>> call, Response<CommonResponse<ArticleData>> response) {
                 mNextPage++;
                 if (mNextPage < response.body().getData().getPagecount()) {
-                    mHomeAdapter.loadMoreComplete();
+                    mCommonListAdapter.loadMoreComplete();
                 } else {
-                    mHomeAdapter.loadMoreEnd();
+                    mCommonListAdapter.loadMoreEnd();
                 }
 
                 if (BuildConfig.DEBUG) {
                     Log.d("HomeFragment", "response: " + response);
                 }
 
-                HomeListResponse body = response.body();
-                HomeListResponse.Data data = body.getData();
-                List<HomeListResponse.Data.Datas> datas = data.getDatas();
+                CommonResponse<ArticleData> body = response.body();
+                ArticleData data = body.getData();
+                List<ArticleDatas> datas = data.getDatas();
                 mDatasList.addAll(datas);
-                mHomeAdapter.notifyDataSetChanged();
+                mCommonListAdapter.notifyDataSetChanged();
                 mLoadService.showSuccess();
             }
 
             @Override
-            public void onFailure(Call<HomeListResponse> call, Throwable t) {
-                mHomeAdapter.loadMoreFail();
+            public void onFailure(Call<CommonResponse<ArticleData>> call, Throwable t) {
+                mCommonListAdapter.loadMoreFail();
                 if (BuildConfig.DEBUG) {
                     Log.d("HomeFragment", "t:" + t);
                 }
@@ -248,14 +263,14 @@ public class HomeFragment extends BaseListFragment {
 
     private void initBanner() {
         BannerClient client = RetrofitClient.create(BannerClient.class);
-        Call<BannerResponse> call = client.getBanner();
-        call.enqueue(new Callback<BannerResponse>() {
+        Call<CommonResponse<List<BannerData>>> call = client.getBanner();
+        call.enqueue(new Callback<CommonResponse<List<BannerData>>>() {
             @Override
-            public void onResponse(Call<BannerResponse> call, Response<BannerResponse> response) {
+            public void onResponse(Call<CommonResponse<List<BannerData>>> call, Response<CommonResponse<List<BannerData>>> response) {
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "getBanner() onResponse response:" + response);
                 }
-                BannerResponse body = response.body();
+                CommonResponse<List<BannerData>> body = response.body();
                 if (body == null) {
                     return;
                 }
@@ -272,11 +287,11 @@ public class HomeFragment extends BaseListFragment {
                     return;
                 }
                 isBannerLoaded = true;
-                final List<BannerResponse.Data> data = body.getData();
+                final List<BannerData> data = body.getData();
                 List<String> titles = new ArrayList<String>();
                 List<String> imagePaths = new ArrayList<String>();
                 for (int i = 0; i < data.size(); i++) {
-                    BannerResponse.Data element = data.get(i);
+                    BannerData element = data.get(i);
                     if (element == null) {
                         continue;
                     }
@@ -300,7 +315,7 @@ public class HomeFragment extends BaseListFragment {
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
                             public void OnBannerClick(int position) {
-                                BannerResponse.Data e = data.get(position);
+                                BannerData e = data.get(position);
                                 ContentActivity.start(mActivity,e.getTitle(), e.getUrl(), e.getId());
                             }
                         })
@@ -310,7 +325,7 @@ public class HomeFragment extends BaseListFragment {
             }
 
             @Override
-            public void onFailure(Call<BannerResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<List<BannerData>>> call, Throwable t) {
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "getBanner() onFailure: t = " + t);
                 }

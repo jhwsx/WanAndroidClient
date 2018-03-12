@@ -1,41 +1,10 @@
 package com.wan.android.bean;
-
-import java.util.List;
-
-public class FriendResponse {
-
-    private List<Data> data;
-    private int errorCode;
-    private String errorMsg;
-
-
-    public void setData(List<Data> data) {
-        this.data = data;
-    }
-
-    public List<Data> getData() {
-        return data;
-    }
-
-
-    public void setErrorcode(int errorcode) {
-        this.errorCode = errorcode;
-    }
-
-    public int getErrorcode() {
-        return errorCode;
-    }
-
-
-    public void setErrormsg(String errormsg) {
-        this.errorMsg = errormsg;
-    }
-
-    public String getErrormsg() {
-        return errorMsg;
-    }
-
-    public class Data {
+/**
+ * 常用网站数据类
+ * @author wzc
+ * @date 2018/3/12
+ */
+public class FriendData {
 
         private String icon;
         private int id;
@@ -99,5 +68,3 @@ public class FriendResponse {
         }
 
     }
-}
-

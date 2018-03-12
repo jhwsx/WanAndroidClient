@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
-import com.wan.android.bean.FriendResponse;
+import com.wan.android.bean.CommonResponse;
+import com.wan.android.bean.FriendData;
 import com.wan.android.client.FriendClient;
 import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.Colors;
@@ -57,11 +58,11 @@ public class HotActivity extends BaseActivity {
         String separator = File.separator;
         mTagFlowLayout = (TagFlowLayout) findViewById(R.id.id_flowlayout);
         FriendClient client = RetrofitClient.create(FriendClient.class);
-        Call<FriendResponse> call = client.getFriend();
-        call.enqueue(new Callback<FriendResponse>() {
+        Call<CommonResponse<List<FriendData>>> call = client.getFriend();
+        call.enqueue(new Callback<CommonResponse<List<FriendData>>>() {
             @Override
-            public void onResponse(Call<FriendResponse> call, Response<FriendResponse> response) {
-                FriendResponse body = response.body();
+            public void onResponse(Call<CommonResponse<List<FriendData>>> call, Response<CommonResponse<List<FriendData>>> response) {
+                CommonResponse<List<FriendData>> body = response.body();
                 if (body == null) {
                     return;
                 }
@@ -71,11 +72,11 @@ public class HotActivity extends BaseActivity {
                     }
                     return;
                 }
-                final List<FriendResponse.Data> data = body.getData();
+                final List<FriendData> data = body.getData();
                 final ArrayList<Integer> colors = Colors.randomList(data.size());
-                mTagFlowLayout.setAdapter(new TagAdapter<FriendResponse.Data>(data) {
+                mTagFlowLayout.setAdapter(new TagAdapter<FriendData>(data) {
                     @Override
-                    public View getView(FlowLayout parent, int position, FriendResponse.Data d) {
+                    public View getView(FlowLayout parent, int position, FriendData d) {
                         TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv, mTagFlowLayout, false);
                         textView.setText(d.getName());
                         textView.setTextColor(colors.get(position));
@@ -85,7 +86,7 @@ public class HotActivity extends BaseActivity {
                 mTagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                     @Override
                     public boolean onTagClick(View view, int position, FlowLayout parent) {
-                        FriendResponse.Data d = data.get(position);
+                        FriendData d = data.get(position);
                         ContentActivity.start(mContext, d.getName(),d.getLink(),d.getId());
                         return true;
                     }
@@ -93,7 +94,7 @@ public class HotActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<FriendResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<List<FriendData>>> call, Throwable t) {
 
             }
         });

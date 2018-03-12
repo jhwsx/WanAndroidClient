@@ -1,41 +1,11 @@
 package com.wan.android.bean;
 
-import java.util.List;
-
 /**
+ * banner数据类
  * @author wzc
- * @date 2018/1/31
+ * @date 2018/3/12
  */
-public class BannerResponse {
-    private List<Data> data;
-    private int errorcode;
-    private String errormsg;
-
-
-    public void setData(List<Data> data) {
-        this.data = data;
-    }
-    public List<Data> getData() {
-        return data;
-    }
-
-
-    public void setErrorcode(int errorcode) {
-        this.errorcode = errorcode;
-    }
-    public int getErrorcode() {
-        return errorcode;
-    }
-
-
-    public void setErrormsg(String errormsg) {
-        this.errormsg = errormsg;
-    }
-    public String getErrormsg() {
-        return errormsg;
-    }
-
-    public class Data {
+public class BannerData {
 
         private String desc;
         private int id;
@@ -110,7 +80,3 @@ public class BannerResponse {
             return url;
         }
     }
-
-}
-
-

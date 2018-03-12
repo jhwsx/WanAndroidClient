@@ -22,8 +22,9 @@ import android.widget.Toast;
 
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
+import com.wan.android.bean.AccountData;
+import com.wan.android.bean.CommonResponse;
 import com.wan.android.bean.LoginMessageEvent;
-import com.wan.android.bean.LoginResponse;
 import com.wan.android.client.LoginClient;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.retrofit.RetrofitClient;
@@ -136,15 +137,15 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
             // perform the user login attempt.
             showProgress(true);
             LoginClient client = RetrofitClient.create(LoginClient.class);
-            Call<LoginResponse> call = client.login(email, password);
-            call.enqueue(new Callback<LoginResponse>() {
+            Call<CommonResponse<AccountData>> call = client.login(email, password);
+            call.enqueue(new Callback<CommonResponse<AccountData>>() {
                 @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                public void onResponse(Call<CommonResponse<AccountData>> call, Response<CommonResponse<AccountData>> response) {
                     showProgress(false);
                     if (BuildConfig.DEBUG) {
                         Log.d(TAG, "response:" + response);
                     }
-                    LoginResponse body = response.body();
+                    CommonResponse<AccountData> body = response.body();
                     if (body == null) {
                         return;
                     }
@@ -156,7 +157,7 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
                         return;
                     }
 
-                    LoginResponse.Data data = body.getData();
+                    AccountData data = body.getData();
                     String username = data.getUsername();
                     PreferenceUtils.putString(mContext, SpConstants.KEY_USERNAME, username);
                     EventBus.getDefault().post(new LoginMessageEvent(username));
@@ -165,7 +166,7 @@ public class LoginActivity extends BaseActivity /*implements LoaderCallbacks<Cur
                 }
 
                 @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                public void onFailure(Call<CommonResponse<AccountData>> call, Throwable t) {
                     Log.d(TAG, "t:" + t);
                     showProgress(false);
                 }

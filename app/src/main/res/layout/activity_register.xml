@@ -3,10 +3,10 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:clipToPadding="false"
+              android:fitsSystemWindows="true"
               android:gravity="center_horizontal"
               android:orientation="vertical"
-              android:fitsSystemWindows="true"
-              android:clipToPadding="false"
               tools:context="com.wan.android.activity.RegisterActivity">
 
     <android.support.v7.widget.Toolbar
@@ -30,10 +30,8 @@
         <!-- Login progress -->
         <ProgressBar
             android:id="@+id/register_progress"
-            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_gravity="center"
             android:visibility="gone"/>
 
@@ -58,10 +56,10 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/username"
                         android:inputType="text"
-                        android:textSize="@dimen/dp_14"
-                        android:textColor="@color/color_3e"
                         android:maxLines="1"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textColor="@color/color_3e"
+                        android:textSize="@dimen/dp_14"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -75,13 +73,13 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
                         android:imeActionId="6"
-                        android:textSize="@dimen/dp_14"
-                        android:textColor="@color/color_3e"
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textColor="@color/color_3e"
+                        android:textSize="@dimen/dp_14"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -96,12 +94,12 @@
                         android:hint="@string/confirm_password"
                         android:imeActionId="6"
                         android:imeActionLabel="@string/action_sign_in_short"
-                        android:textSize="@dimen/dp_14"
-                        android:textColor="@color/color_3e"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textColor="@color/color_3e"
+                        android:textSize="@dimen/dp_14"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -111,10 +109,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:text="@string/register"
-                    android:textSize="@dimen/dp_14"
-                    android:textColor="@android:color/white"
                     android:background="@drawable/shape_btn_bg"
+                    android:text="@string/register"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/dp_14"
                     android:textStyle="bold"/>
 
             </LinearLayout>

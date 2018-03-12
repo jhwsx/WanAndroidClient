@@ -2,37 +2,12 @@ package com.wan.android.bean;
 
 import java.util.List;
 
-public class LoginResponse {
-
-   private Data data;
-   private int errorCode;
-   private String errorMsg;
-
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-    public Data getData() {
-        return data;
-    }
-    
-
-    public void setErrorcode(int errorcode) {
-        this.errorCode = errorcode;
-    }
-    public int getErrorcode() {
-        return errorCode;
-    }
-    
-
-    public void setErrormsg(String errormsg) {
-        this.errorMsg = errormsg;
-    }
-    public String getErrormsg() {
-        return errorMsg;
-    }
-
-    public class Data {
+/**
+ * 账户数据类
+ * @author wzc
+ * @date 2018/3/12
+ */
+public class AccountData {
 
         private List<Integer> collectIds;
         private String email;
@@ -99,5 +74,3 @@ public class LoginResponse {
         }
 
     }
-    
-}

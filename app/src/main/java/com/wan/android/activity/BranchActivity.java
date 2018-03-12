@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wan.android.R;
+import com.wan.android.bean.BranchData;
 import com.wan.android.bean.PageModel;
-import com.wan.android.bean.TreeListResponse;
 import com.wan.android.fragment.BranchFragment;
 
 import java.util.ArrayList;
@@ -31,9 +31,9 @@ public class BranchActivity extends BaseActivity {
     private static final String EXTRA_BRANCH_TITLE = "EXTRA_BRANCH_TITLE";
     private static final String EXTRA_CHILDREN_LIST = "EXTRA_CHILDREN_LIST";
     private String mTitle;
-    private ArrayList<TreeListResponse.Data.Children> mChildren;
+    private ArrayList<BranchData.Leaf> mChildren;
 
-    public static void start(Context context, String title, ArrayList<TreeListResponse.Data.Children> children) {
+    public static void start(Context context, String title, ArrayList<BranchData.Leaf> children) {
         Intent starter = new Intent(context, BranchActivity.class);
         starter.putExtra(EXTRA_BRANCH_TITLE, title);
         starter.putExtra(EXTRA_CHILDREN_LIST, children);
@@ -46,7 +46,7 @@ public class BranchActivity extends BaseActivity {
         setContentView(R.layout.activity_branch);
         if (getIntent() != null) {
             mTitle = getIntent().getStringExtra(EXTRA_BRANCH_TITLE);
-            mChildren = (ArrayList<TreeListResponse.Data.Children>) getIntent().getSerializableExtra(EXTRA_CHILDREN_LIST);
+            mChildren = (ArrayList<BranchData.Leaf>) getIntent().getSerializableExtra(EXTRA_CHILDREN_LIST);
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_branch);
         toolbar.setTitle("");
@@ -64,7 +64,7 @@ public class BranchActivity extends BaseActivity {
             }
         });
         for (int i = 0; i < mChildren.size(); i++) {
-            TreeListResponse.Data.Children children = mChildren.get(i);
+            BranchData.Leaf children = mChildren.get(i);
 
             mPageModels.add(new PageModel(children.getName(), BranchFragment.newInstance(children.getId())));
         }

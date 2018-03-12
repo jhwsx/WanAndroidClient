@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -28,18 +27,20 @@ import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
-import com.wan.android.adapter.SearchAdapter;
-import com.wan.android.bean.CollectRepsonse;
-import com.wan.android.bean.HotkeyResponse;
-import com.wan.android.bean.SearchResponse;
-import com.wan.android.bean.UncollectRepsonse;
+import com.wan.android.adapter.CommonListAdapter;
+import com.wan.android.bean.CommonResponse;
+import com.wan.android.bean.ArticleData;
+import com.wan.android.bean.ArticleDatas;
+import com.wan.android.bean.HotkeyData;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.callback.LoadingCallback;
-import com.wan.android.client.CollectClient;
 import com.wan.android.client.HotkeyClient;
 import com.wan.android.client.SearchClient;
-import com.wan.android.client.UncollectClient;
 import com.wan.android.constant.SpConstants;
+import com.wan.android.helper.CollectHelper;
+import com.wan.android.helper.UncollectHelper;
+import com.wan.android.listener.OnCollectSuccessListener;
+import com.wan.android.listener.OnUncollectSuccessListener;
 import com.wan.android.retrofit.RetrofitClient;
 import com.wan.android.util.Colors;
 import com.wan.android.util.PreferenceUtils;
@@ -49,6 +50,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -73,7 +75,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private MultiSwipeRefreshLayout mMultiSwipeRefreshLayout;
     private LoadService mLoadService;
     private RecyclerView mRecyclerView;
-    private SearchAdapter mSearchAdapter;
+    private CommonListAdapter mCommonListAdapter;
     private SearchView mSearchView;
     private TagFlowLayout mTagFlowLayoutHistory;
     private Button mBtnClearHistory;
@@ -156,20 +158,20 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     private void setHotkey() {
         HotkeyClient client = RetrofitClient.create(HotkeyClient.class);
-        Call<HotkeyResponse> call = client.getHotkey();
-        call.enqueue(new Callback<HotkeyResponse>() {
+        Call<CommonResponse<List<HotkeyData>>> call = client.getHotkey();
+        call.enqueue(new Callback<CommonResponse<List<HotkeyData>>>() {
             @Override
-            public void onResponse(Call<HotkeyResponse> call, Response<HotkeyResponse> response) {
-                HotkeyResponse body = response.body();
+            public void onResponse(Call<CommonResponse<List<HotkeyData>>> call, Response<CommonResponse<List<HotkeyData>>> response) {
+                CommonResponse<List<HotkeyData>> body = response.body();
                 if (body.getErrorcode() != 0) {
                     Log.d(TAG, body.getErrormsg());
                     return;
                 }
-                final List<HotkeyResponse.Data> dataList = body.getData();
+                final List<HotkeyData> dataList = body.getData();
                 final ArrayList<Integer> colors = Colors.randomList(dataList.size());
-                mTagFlowLayout.setAdapter(new TagAdapter<HotkeyResponse.Data>(dataList) {
+                mTagFlowLayout.setAdapter(new TagAdapter<HotkeyData>(dataList) {
                     @Override
-                    public View getView(FlowLayout parent, int position, HotkeyResponse.Data d) {
+                    public View getView(FlowLayout parent, int position, HotkeyData d) {
                         TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv, mTagFlowLayout, false);
                         textView.setText(d.getName());
                         textView.setTextColor(colors.get(position));
@@ -186,7 +188,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             }
 
             @Override
-            public void onFailure(Call<HotkeyResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<List<HotkeyData>>> call, Throwable t) {
 
             }
         });
@@ -222,33 +224,33 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         initAdapter();
     }
 
-    private List<SearchResponse.Data.Datas> mDatasList = new ArrayList<>();
+    private List<ArticleDatas> mDatasList = new ArrayList<>();
 
     private void initAdapter() {
-        mSearchAdapter = new SearchAdapter(R.layout.home_item_view, mDatasList);
+        mCommonListAdapter = new CommonListAdapter(R.layout.home_item_view, mDatasList);
         // 加载更多
-        mSearchAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        mCommonListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 Log.d(TAG, "onLoadMoreRequested() called");
                 loadMore();
             }
         }, mRecyclerView);
-        mSearchAdapter.setEmptyView(R.layout.empty_view);
-        mRecyclerView.setAdapter(mSearchAdapter);
+        mCommonListAdapter.setEmptyView(R.layout.empty_view);
+        mRecyclerView.setAdapter(mCommonListAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SearchResponse.Data.Datas datas = mDatasList.get(position);
+                ArticleDatas datas = mDatasList.get(position);
                 ContentActivity.start(mContext, datas.getTitle(), datas.getLink(), datas.getId());
             }
         });
-        mSearchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mCommonListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.iv_home_item_view_collect:
-                        if (mDatasList.get(position).getCollect()) {
+                        if (mDatasList.get(position).isCollect()) {
                             unCollect(view, position);
                         } else {
                             collect(view, position);
@@ -262,83 +264,97 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void collect(final View view, final int position) {
-        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
-        Call<CollectRepsonse> call = collectClient.collect(mDatasList.get(position).getId());
-        call.enqueue(new Callback<CollectRepsonse>() {
+        CollectHelper.collect(mDatasList.get(position).getId(), new OnCollectSuccessListener() {
             @Override
-            public void onResponse(Call<CollectRepsonse> call, Response<CollectRepsonse> response) {
-                CollectRepsonse body = response.body();
-                if (body.getErrorcode() != 0) {
-                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(mContext, R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+            public void onCollectSuccess() {
                 mDatasList.get(position).setCollect(true);
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite);
             }
-
-            @Override
-            public void onFailure(Call<CollectRepsonse> call, Throwable t) {
-                Toast.makeText(mContext, getString(R.string.collect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
-            }
         });
+//        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
+//        Call<CommonResponse<String>> call = collectClient.collect(mDatasList.get(position).getId());
+//        call.enqueue(new Callback<CommonResponse<String>>() {
+//            @Override
+//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
+//                CommonResponse<String> body = response.body();
+//                if (body.getErrorcode() != 0) {
+//                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Toast.makeText(mContext, R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+//                mDatasList.get(position).setCollect(true);
+//                ((ImageView) view).setImageResource(R.drawable.ic_favorite);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
+//                Toast.makeText(mContext, getString(R.string.collect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
     }
 
     private void unCollect(final View view, final int position) {
-        UncollectClient uncollectClient = RetrofitClient.create(UncollectClient.class);
-        Call<UncollectRepsonse> call = uncollectClient.uncollect(mDatasList.get(position).getId());
-        call.enqueue(new Callback<UncollectRepsonse>() {
+        UncollectHelper.uncollect(mDatasList.get(position).getId(), new OnUncollectSuccessListener() {
             @Override
-            public void onResponse(Call<UncollectRepsonse> call, Response<UncollectRepsonse> response) {
-                UncollectRepsonse body = response.body();
-                if (body.getErrorcode() != 0) {
-                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(mContext, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
+            public void onUncollectSuccess() {
                 mDatasList.get(position).setCollect(false);
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
             }
-
-            @Override
-            public void onFailure(Call<UncollectRepsonse> call, Throwable t) {
-                Toast.makeText(mContext, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
-            }
         });
+//        UncollectClient uncollectClient = RetrofitClient.create(UncollectClient.class);
+//        Call<CommonResponse<String>> call = uncollectClient.uncollect(mDatasList.get(position).getId());
+//        call.enqueue(new Callback<CommonResponse<String>>() {
+//            @Override
+//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
+//                CommonResponse<String> body = response.body();
+//                if (body.getErrorcode() != 0) {
+//                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Toast.makeText(mContext, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
+//                mDatasList.get(position).setCollect(false);
+//                ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
+//                Toast.makeText(mContext, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private int mNextPage = 1;
 
     private void loadMore() {
         SearchClient client = RetrofitClient.create(SearchClient.class);
-        Call<SearchResponse> call = client.search(mNextPage, mCurrQuery);
-        call.enqueue(new Callback<SearchResponse>() {
+        Call<CommonResponse<ArticleData>> call = client.search(mNextPage, mCurrQuery);
+        call.enqueue(new Callback<CommonResponse<ArticleData>>() {
             @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+            public void onResponse(Call<CommonResponse<ArticleData>> call, Response<CommonResponse<ArticleData>> response) {
                 mNextPage++;
                 if (mNextPage < response.body().getData().getPagecount()) {
-                    mSearchAdapter.loadMoreComplete();
+                    mCommonListAdapter.loadMoreComplete();
                 } else {
-                    mSearchAdapter.loadMoreEnd();
+                    mCommonListAdapter.loadMoreEnd();
                 }
 
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "response: " + response);
                 }
 
-                SearchResponse body = response.body();
-                SearchResponse.Data data = body.getData();
-                List<SearchResponse.Data.Datas> datas = data.getDatas();
+                CommonResponse<ArticleData> body = response.body();
+                ArticleData data = body.getData();
+                List<ArticleDatas> datas = data.getDatas();
                 mDatasList.addAll(datas);
-                mSearchAdapter.notifyDataSetChanged();
+                mCommonListAdapter.notifyDataSetChanged();
                 mLoadService.showSuccess();
             }
 
             @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
-                mSearchAdapter.loadMoreFail();
+            public void onFailure(Call<CommonResponse<ArticleData>> call, Throwable t) {
+                mCommonListAdapter.loadMoreFail();
                 if (BuildConfig.DEBUG) {
                     Log.d("HomeFragment", "t:" + t);
                 }
@@ -350,6 +366,15 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         mSearchView = (SearchView) menu.findItem(R.id.action_activity_search_search).getActionView();
+        try {
+            Field mSearchSrcTextViewField = SearchView.class.getDeclaredField("mSearchSrcTextView");
+            mSearchSrcTextViewField.setAccessible(true);
+            SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete) mSearchSrcTextViewField.get(mSearchView);
+            searchAutoComplete.setTextSize(getResources().getDimensionPixelSize(R.dimen.dp_8));
+            searchAutoComplete.setHint(R.string.search_hint);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // 展开searchView
         mSearchView.setIconified(false);
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -378,7 +403,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         return true;
     }
 
-    private int mPage = 0;
     private String mCurrQuery;
 
     private void search(String query) {
@@ -389,36 +413,36 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         }
         mCurrQuery = query;
         SearchClient client = RetrofitClient.create(SearchClient.class);
-        Call<SearchResponse> search = client.search(0, query);
-        search.enqueue(new Callback<SearchResponse>() {
+        Call<CommonResponse<ArticleData>> search = client.search(0, query);
+        search.enqueue(new Callback<CommonResponse<ArticleData>>() {
             @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+            public void onResponse(Call<CommonResponse<ArticleData>> call, Response<CommonResponse<ArticleData>> response) {
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "search response:" + response);
                 }
-                mSearchAdapter.setEnableLoadMore(true);
+                mCommonListAdapter.setEnableLoadMore(true);
                 mMultiSwipeRefreshLayout.setRefreshing(false);
                 mScrollView.setVisibility(View.GONE);
                 mMultiSwipeRefreshLayout.setVisibility(View.VISIBLE);
-                SearchResponse body = response.body();
-                SearchResponse.Data data = body.getData();
-                List<SearchResponse.Data.Datas> datas = data.getDatas();
+                CommonResponse<ArticleData> body = response.body();
+                ArticleData data = body.getData();
+                List<ArticleDatas> datas = data.getDatas();
                 if (datas == null) {
                     mLoadService.showCallback(EmptyCallback.class);
                     return;
                 }
                 mDatasList.clear();
                 mDatasList.addAll(datas);
-                mSearchAdapter.notifyDataSetChanged();
+                mCommonListAdapter.notifyDataSetChanged();
                 mLoadService.showSuccess();
             }
 
             @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<ArticleData>> call, Throwable t) {
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "search onFailure t:" + t);
                 }
-                mSearchAdapter.setEnableLoadMore(true);
+                mCommonListAdapter.setEnableLoadMore(true);
                 mMultiSwipeRefreshLayout.setRefreshing(false);
                 mLoadService.showCallback(EmptyCallback.class);
                 mMultiSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_view, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);

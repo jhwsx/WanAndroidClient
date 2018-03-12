@@ -1,39 +1,10 @@
 package com.wan.android.bean;
-
-public class CollectOtherResponse {
-
-    private Data data;
-    private int errorCode;
-    private String errorMsg;
-
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-
-    public void setErrorcode(int errorcode) {
-        this.errorCode = errorcode;
-    }
-
-    public int getErrorcode() {
-        return errorCode;
-    }
-
-
-    public void setErrormsg(String errormsg) {
-        this.errorMsg = errormsg;
-    }
-
-    public String getErrormsg() {
-        return errorMsg;
-    }
-
-    public class Data {
+/**
+ * 收藏列表条目类
+ * @author wzc
+ * @date 2018/3/12
+ */
+public class CollectDatas {
 
         private String author;
         private int chapterId;
@@ -197,5 +168,3 @@ public class CollectOtherResponse {
         }
 
     }
-}
-

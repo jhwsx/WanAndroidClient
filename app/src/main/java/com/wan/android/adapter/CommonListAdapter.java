@@ -2,11 +2,12 @@ package com.wan.android.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.text.Html;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wan.android.R;
-import com.wan.android.bean.HomeListResponse;
+import com.wan.android.bean.ArticleDatas;
 
 import java.util.List;
 
@@ -14,17 +15,17 @@ import java.util.List;
  * @author wzc
  * @date 2018/2/2
  */
-public class HomeAdapter extends BaseQuickAdapter<HomeListResponse.Data.Datas,BaseViewHolder> {
+public class CommonListAdapter extends BaseQuickAdapter<ArticleDatas,BaseViewHolder> {
 
-    public HomeAdapter(@LayoutRes int layoutResId, @Nullable List<HomeListResponse.Data.Datas> data) {
+    public CommonListAdapter(@LayoutRes int layoutResId, @Nullable List<ArticleDatas> data) {
         super(layoutResId, data);
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, HomeListResponse.Data.Datas item) {
+    protected void convert(BaseViewHolder helper, ArticleDatas item) {
         // title
-        helper.setText(R.id.tv_home_item_view_title, item.getTitle());
+        helper.setText(R.id.tv_home_item_view_title, Html.fromHtml(item.getTitle()));
         // chapterName
         helper.setText(R.id.tv_home_item_view_chapter_name, item.getChapterName());
         // niceDate

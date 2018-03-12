@@ -10,7 +10,8 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.wan.android.R;
 import com.wan.android.activity.BranchActivity;
 import com.wan.android.adapter.TreeAdapter;
-import com.wan.android.bean.TreeListResponse;
+import com.wan.android.bean.BranchData;
+import com.wan.android.bean.CommonResponse;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.client.TreeListClient;
 import com.wan.android.retrofit.RetrofitClient;
@@ -41,22 +42,22 @@ public class TreeFragment extends BaseListFragment {
     @Override
     protected void refresh() {
         TreeListClient client = RetrofitClient.create(TreeListClient.class);
-        Call<TreeListResponse> call = client.getTree();
-        call.enqueue(new Callback<TreeListResponse>() {
+        Call<CommonResponse<ArrayList<BranchData>>> call = client.getTree();
+        call.enqueue(new Callback<CommonResponse<ArrayList<BranchData>>>() {
             @Override
-            public void onResponse(Call<TreeListResponse> call, Response<TreeListResponse> response) {
+            public void onResponse(Call<CommonResponse<ArrayList<BranchData>>> call, Response<CommonResponse<ArrayList<BranchData>>> response) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 mLoadService.showSuccess();
 
-                TreeListResponse body = response.body();
-                List<TreeListResponse.Data> data = body.getData();
+                CommonResponse<ArrayList<BranchData>> body = response.body();
+                List<BranchData> data = body.getData();
                 mDatasList.clear();
                 mDatasList.addAll(data);
                 mTreeAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<TreeListResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<ArrayList<BranchData>>> call, Throwable t) {
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 mLoadService.showCallback(EmptyCallback.class);
@@ -73,7 +74,7 @@ public class TreeFragment extends BaseListFragment {
             }
         });
     }
-    private List<TreeListResponse.Data> mDatasList = new ArrayList<>();
+    private List<BranchData> mDatasList = new ArrayList<>();
 
     private void initAdapter() {
         mTreeAdapter = new TreeAdapter(R.layout.tree_item_view, mDatasList);
@@ -84,9 +85,9 @@ public class TreeFragment extends BaseListFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                TreeListResponse.Data data = mDatasList.get(position);
+                BranchData data = mDatasList.get(position);
                 String title = data.getName();
-                ArrayList<TreeListResponse.Data.Children> children = data.getChildren();
+                ArrayList<BranchData.Leaf> children = data.getChildren();
                 BranchActivity.start(mActivity, title, children);
             }
         });

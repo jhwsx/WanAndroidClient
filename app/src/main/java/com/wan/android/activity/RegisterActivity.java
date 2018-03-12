@@ -20,7 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wan.android.R;
-import com.wan.android.bean.RegisterResponse;
+import com.wan.android.bean.AccountData;
+import com.wan.android.bean.CommonResponse;
 import com.wan.android.client.RegisterClient;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.retrofit.RetrofitClient;
@@ -124,13 +125,13 @@ public class RegisterActivity extends BaseActivity  {
             // perform the user login attempt.
             showProgress(true);
             RegisterClient client = RetrofitClient.create(RegisterClient.class);
-            Call<RegisterResponse> call = client.register(username, password,repassword);
-            call.enqueue(new Callback<RegisterResponse>() {
+            Call<CommonResponse<AccountData>> call = client.register(username, password,repassword);
+            call.enqueue(new Callback<CommonResponse<AccountData>>() {
                 @Override
-                public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                public void onResponse(Call<CommonResponse<AccountData>> call, Response<CommonResponse<AccountData>> response) {
                     showProgress(false);
                     Log.d(TAG, "response:" + response);
-                    RegisterResponse body = response.body();
+                    CommonResponse<AccountData> body = response.body();
                     if (body == null) {
                         return;
                     }
@@ -140,14 +141,14 @@ public class RegisterActivity extends BaseActivity  {
                         return;
                     }
                     Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                    RegisterResponse.Data data = body.getData();
-                    String username = data.getUsername();
+                    AccountData accountData = body.getData();
+                    String username = accountData.getUsername();
                     PreferenceUtils.putString(mContext, SpConstants.KEY_USERNAME, username);
                     finish();
                 }
 
                 @Override
-                public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                public void onFailure(Call<CommonResponse<AccountData>> call, Throwable t) {
                     Log.d(TAG, "t:" + t);
                     showProgress(false);
                 }

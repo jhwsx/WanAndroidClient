@@ -23,3 +23,36 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.3'
+    applicationId = 'com.wan.android'
+    minSdkVersion = 16
+    targetSdkVersion = 22
+    versionCode = 1
+    versionName = '1.0'
+
+    supportLibraryVersion = '25.3.1'
+    constraintVersion = '1.0.2'
+    glideVersion = '3.8.0'
+    okhttpVersion = '3.5.0'
+    brvahVersion = '2.9.30'
+    bannerVersion = '1.4.10'
+    retrofit2Version = '2.1.0'
+    gsonVersion = '2.6.2'
+    rxjavaVersion = '1.1.0'
+    rxandroidVersion = '1.1.0'
+    convertergsonVersion = '2.1.0'
+    adapterrxjavaVersion = '2.1.0'
+    agentwebVersion = '3.1.0'
+    loadsirVersion = '1.3.5'
+    eventbusVersion = '3.1.1'
+    flowlayoutVersion = '1.1.2'
+    persistentCookieJarVersion = 'v1.0.1'
+    flexibledividerVersion = '1.4.0'
+    systembartintVersion = '1.0.3'
+    junitVersion = '4.12'
+    espressoVersion = '2.2.2'
+}

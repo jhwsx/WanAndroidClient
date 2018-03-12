@@ -21,9 +21,9 @@ import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.activity.ContentActivity;
 import com.wan.android.adapter.CollectAdapter;
-import com.wan.android.bean.CollectListResponse;
-import com.wan.android.bean.CollectOtherResponse;
-import com.wan.android.bean.UncollectRepsonse;
+import com.wan.android.bean.CollectData;
+import com.wan.android.bean.CollectDatas;
+import com.wan.android.bean.CommonResponse;
 import com.wan.android.callback.EmptyCallback;
 import com.wan.android.client.CollectListClient;
 import com.wan.android.client.CollectOtherClient;
@@ -82,25 +82,25 @@ public class CollectionFragement extends BaseListFragment {
         // 防止下拉刷新时,还可以上拉加载
         mCollectAdapter.setEnableLoadMore(false);
         CollectListClient client = RetrofitClient.create(CollectListClient.class);
-        Call<CollectListResponse> call = client.getCollect(0);
-        call.enqueue(new Callback<CollectListResponse>() {
+        Call<CommonResponse<CollectData>> call = client.getCollect(0);
+        call.enqueue(new Callback<CommonResponse<CollectData>>() {
             @Override
-            public void onResponse(Call<CollectListResponse> call, Response<CollectListResponse> response) {
+            public void onResponse(Call<CommonResponse<CollectData>> call, Response<CommonResponse<CollectData>> response) {
 
                 mCollectAdapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "response:" + response);
                 }
-                CollectListResponse body = response.body();
+                CommonResponse<CollectData> body = response.body();
                 if (body == null) {
                     return;
                 }
-                CollectListResponse.Data data = body.getData();
+                CollectData data = body.getData();
                 if (data == null) {
                     return;
                 }
-                List<CollectListResponse.Data.Datas> datas = data.getDatas();
+                List<CollectDatas> datas = data.getDatas();
                 if (datas.size() == 0) {
                     mLoadService.showCallback(EmptyCallback.class);
                     return;
@@ -112,7 +112,7 @@ public class CollectionFragement extends BaseListFragment {
             }
 
             @Override
-            public void onFailure(Call<CollectListResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<CollectData>> call, Throwable t) {
                 mCollectAdapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
                 mLoadService.showCallback(EmptyCallback.class);
@@ -124,7 +124,7 @@ public class CollectionFragement extends BaseListFragment {
         });
     }
 
-    private List<CollectListResponse.Data.Datas> mDatasList = new ArrayList<>();
+    private List<CollectDatas> mDatasList = new ArrayList<>();
 
     private void initAdapter() {
         mCollectAdapter = new CollectAdapter(R.layout.home_item_view, mDatasList);
@@ -139,7 +139,7 @@ public class CollectionFragement extends BaseListFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                CollectListResponse.Data.Datas data = mDatasList.get(position);
+                CollectDatas data = mDatasList.get(position);
                 ContentActivity.start(mActivity, data.getTitle(), data.getLink(), data.getId());
             }
         });
@@ -160,11 +160,11 @@ public class CollectionFragement extends BaseListFragment {
 
     private void unCollect(final int position) {
         UncollectAllClient client = RetrofitClient.create(UncollectAllClient.class);
-        Call<UncollectRepsonse> call = client.uncollectAll(mDatasList.get(position).getId(),"-1");
-        call.enqueue(new Callback<UncollectRepsonse>() {
+        Call<CommonResponse<String>> call = client.uncollectAll(mDatasList.get(position).getId(),mDatasList.get(position).getOriginid());
+        call.enqueue(new Callback<CommonResponse<String>>() {
             @Override
-            public void onResponse(Call<UncollectRepsonse> call, Response<UncollectRepsonse> response) {
-                UncollectRepsonse body = response.body();
+            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
+                CommonResponse<String> body = response.body();
                 if (body.getErrorcode() != 0) {
                     Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
                     return;
@@ -175,7 +175,7 @@ public class CollectionFragement extends BaseListFragment {
             }
 
             @Override
-            public void onFailure(Call<UncollectRepsonse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
                 Toast.makeText(mActivity, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -186,15 +186,15 @@ public class CollectionFragement extends BaseListFragment {
 
     private void loadMore() {
         CollectListClient client = RetrofitClient.create(CollectListClient.class);
-        Call<CollectListResponse> call = client.getCollect(mNextPage);
-        call.enqueue(new Callback<CollectListResponse>() {
+        Call<CommonResponse<CollectData>> call = client.getCollect(mNextPage);
+        call.enqueue(new Callback<CommonResponse<CollectData>>() {
             @Override
-            public void onResponse(Call<CollectListResponse> call, Response<CollectListResponse> response) {
-                CollectListResponse body = response.body();
+            public void onResponse(Call<CommonResponse<CollectData>> call, Response<CommonResponse<CollectData>> response) {
+                CommonResponse<CollectData> body = response.body();
                 if (body == null) {
                     return;
                 }
-                CollectListResponse.Data data = body.getData();
+                CollectData data = body.getData();
                 if (data == null) {
                     return;
                 }
@@ -208,14 +208,14 @@ public class CollectionFragement extends BaseListFragment {
                     Log.d(TAG, "response:" + response);
                 }
 
-                List<CollectListResponse.Data.Datas> datas = data.getDatas();
+                List<CollectDatas> datas = data.getDatas();
                 mDatasList.addAll(datas);
                 mCollectAdapter.notifyDataSetChanged();
                 mLoadService.showSuccess();
             }
 
             @Override
-            public void onFailure(Call<CollectListResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse<CollectData>> call, Throwable t) {
                 mCollectAdapter.loadMoreFail();
             }
         });
@@ -259,19 +259,19 @@ public class CollectionFragement extends BaseListFragment {
                         String author = etAuthor.getText().toString();
                         String link = etLink.getText().toString();
                         if (TextUtils.isEmpty(title)) {
-                            Toast.makeText(mActivity, "标题不可以为空", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, R.string.title_cannot_be_null, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         if (TextUtils.isEmpty(link)) {
-                            Toast.makeText(mActivity, "链接不可以为空", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, R.string.link_cannot_be_null, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         CollectOtherClient client = RetrofitClient.create(CollectOtherClient.class);
-                        Call<CollectOtherResponse> call = client.collectOther(title, author, link);
-                        call.enqueue(new Callback<CollectOtherResponse>() {
+                        Call<CommonResponse<CollectDatas>> call = client.collectOther(title, author, link);
+                        call.enqueue(new Callback<CommonResponse<CollectDatas>>() {
                             @Override
-                            public void onResponse(Call<CollectOtherResponse> call, Response<CollectOtherResponse> response) {
-                                CollectOtherResponse body = response.body();
+                            public void onResponse(Call<CommonResponse<CollectDatas>> call, Response<CommonResponse<CollectDatas>> response) {
+                                CommonResponse<CollectDatas> body = response.body();
                                 if (body.getErrorcode() != 0) {
                                     Toast.makeText(mActivity, mActivity.getString(R.string.collect_failed) + " : " + body.getErrormsg(), Toast.LENGTH_SHORT).show();
                                     return;
@@ -282,7 +282,7 @@ public class CollectionFragement extends BaseListFragment {
                             }
 
                             @Override
-                            public void onFailure(Call<CollectOtherResponse> call, Throwable t) {
+                            public void onFailure(Call<CommonResponse<CollectDatas>> call, Throwable t) {
                                 Toast.makeText(mActivity, mActivity.getString(R.string.collect_failed) + " : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }

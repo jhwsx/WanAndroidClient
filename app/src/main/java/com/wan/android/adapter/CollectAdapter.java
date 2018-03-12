@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wan.android.R;
-import com.wan.android.bean.CollectListResponse;
+import com.wan.android.bean.CollectDatas;
 
 import java.util.List;
 
@@ -14,15 +14,15 @@ import java.util.List;
  * @author wzc
  * @date 2018/2/2
  */
-public class CollectAdapter extends BaseQuickAdapter<CollectListResponse.Data.Datas, BaseViewHolder> {
+public class CollectAdapter extends BaseQuickAdapter<CollectDatas, BaseViewHolder> {
 
-    public CollectAdapter(@LayoutRes int layoutResId, @Nullable List<CollectListResponse.Data.Datas> data) {
+    public CollectAdapter(@LayoutRes int layoutResId, @Nullable List<CollectDatas> data) {
         super(layoutResId, data);
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CollectListResponse.Data.Datas item) {
+    protected void convert(BaseViewHolder helper, CollectDatas item) {
         // title
         helper.setText(R.id.tv_home_item_view_title, item.getTitle());
         // chapterName

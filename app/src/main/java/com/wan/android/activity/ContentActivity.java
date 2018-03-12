@@ -18,17 +18,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
 import com.wan.android.R;
-import com.wan.android.bean.CollectRepsonse;
-import com.wan.android.client.CollectClient;
-import com.wan.android.retrofit.RetrofitClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.wan.android.helper.CollectHelper;
 
 /**
  * 内容页面
@@ -113,7 +106,7 @@ public class ContentActivity extends BaseActivity {
                 startActivity(Intent.createChooser(shareIntent, "Share"));
                 return true;
             case R.id.action_activity_content_collect:
-                collect();
+                CollectHelper.collect(mId, null);
                 return true;
             case R.id.action_activity_content_open_with_system_browser:
                 final Uri uri = Uri.parse(mUrl);
@@ -126,28 +119,29 @@ public class ContentActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void collect() {
-        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
-        Call<CollectRepsonse> call = collectClient.collect(mId);
-        call.enqueue(new Callback<CollectRepsonse>() {
-            @Override
-            public void onResponse(Call<CollectRepsonse> call, Response<CollectRepsonse> response) {
-                CollectRepsonse body = response.body();
-                if (body.getErrorcode() != 0) {
-                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<CollectRepsonse> call, Throwable t) {
-                Toast.makeText(mContext, "收藏失败 " + t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
+//    private void collect() {
+//
+//        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
+//        Call<CommonResponse<String>> call = collectClient.collect(mId);
+//        call.enqueue(new Callback<CommonResponse<String>>() {
+//            @Override
+//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
+//                CommonResponse<String> body = response.body();
+//                if (body.getErrorcode() != 0) {
+//                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
+//                Toast.makeText(mContext, "收藏失败 " + t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//
+//    }
 
     private WebViewClient mWebViewClient = new WebViewClient() {
         @Override
