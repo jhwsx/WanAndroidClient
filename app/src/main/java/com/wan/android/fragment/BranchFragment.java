@@ -80,7 +80,7 @@ public class BranchFragment extends BaseListFragment {
     }
 
     private void initAdapter() {
-        mCommonListAdapter = new CommonListAdapter(R.layout.home_item_view, mDatasList);
+        mCommonListAdapter = new CommonListAdapter(R.layout.list_item_view, mDatasList);
         // 加载更多
         mCommonListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -127,28 +127,6 @@ public class BranchFragment extends BaseListFragment {
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite);
             }
         });
-//        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
-//        Call<CommonResponse<String>> call = collectClient.collect(mDatasList.get(position).getId());
-//        call.enqueue(new Callback<CommonResponse<String>>() {
-//            @Override
-//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
-//                CommonResponse<String> body = response.body();
-//                if (body.getErrorcode() != 0) {
-//                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                Toast.makeText(mActivity, R.string.collect_successfully, Toast.LENGTH_SHORT).show();
-//                mDatasList.get(position).setCollect(true);
-//                ((ImageView) view).setImageResource(R.drawable.ic_favorite);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
-//                Toast.makeText(mActivity, getString(R.string.collect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
     }
 
     private void unCollect(final View view, final int position) {
@@ -159,26 +137,7 @@ public class BranchFragment extends BaseListFragment {
                 ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
             }
         });
-//        UncollectClient uncollectClient = RetrofitClient.create(UncollectClient.class);
-//        Call<CommonResponse<String>> call = uncollectClient.uncollect(mDatasList.get(position).getId());
-//        call.enqueue(new Callback<CommonResponse<String>>() {
-//            @Override
-//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
-//                CommonResponse<String> body = response.body();
-//                if (body.getErrorcode() != 0) {
-//                    Toast.makeText(mActivity, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                Toast.makeText(mActivity, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
-//                mDatasList.get(position).setCollect(false);
-//                ((ImageView) view).setImageResource(R.drawable.ic_favorite_empty);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
-//                Toast.makeText(mActivity, getString(R.string.uncollect_failed) + t.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
     private int mNextPage = 1;
 

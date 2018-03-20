@@ -22,7 +22,6 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +53,6 @@ public class HotActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        String pathSeparator = File.pathSeparator;
-        String separator = File.separator;
         mTagFlowLayout = (TagFlowLayout) findViewById(R.id.id_flowlayout);
         FriendClient client = RetrofitClient.create(FriendClient.class);
         Call<CommonResponse<List<FriendData>>> call = client.getFriend();

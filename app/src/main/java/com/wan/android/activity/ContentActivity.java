@@ -119,29 +119,6 @@ public class ContentActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private void collect() {
-//
-//        CollectClient collectClient = RetrofitClient.create(CollectClient.class);
-//        Call<CommonResponse<String>> call = collectClient.collect(mId);
-//        call.enqueue(new Callback<CommonResponse<String>>() {
-//            @Override
-//            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
-//                CommonResponse<String> body = response.body();
-//                if (body.getErrorcode() != 0) {
-//                    Toast.makeText(mContext, body.getErrormsg(), Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
-//                Toast.makeText(mContext, "收藏失败 " + t.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//
-//    }
 
     private WebViewClient mWebViewClient = new WebViewClient() {
         @Override

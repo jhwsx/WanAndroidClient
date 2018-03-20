@@ -74,8 +74,10 @@
     <string name="authors">作者</string>
     <string name="link">链接地址</string>
     <string name="home">首页</string>
+    <string name="navigation">导航</string>
     <string name="hot">常用</string>
     <string name="search_hint">支持多个关键词，用空格隔开</string>
     <string name="title_cannot_be_null">标题不可以为空</string>
     <string name="link_cannot_be_null">链接不可以为空</string>
+    <string name="navigation_updating">导航持续更新中</string>
 </resources>

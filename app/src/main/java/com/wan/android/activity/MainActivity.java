@@ -17,7 +17,9 @@ import com.wan.android.R;
 import com.wan.android.constant.DefaultConstants;
 import com.wan.android.fragment.HomeFragment;
 import com.wan.android.fragment.MyFragment;
+import com.wan.android.fragment.NavigationFragment;
 import com.wan.android.fragment.TreeFragment;
+import com.wan.android.helper.BottomNavigationViewHelper;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class MainActivity extends BaseActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view_activity_main);
+        BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,8 +63,11 @@ public class MainActivity extends BaseActivity {
                     case R.id.tab_tree:
                         mViewPager.setCurrentItem(1);
                         break;
-                    case R.id.tab_my:
+                    case R.id.tab_navigation:
                         mViewPager.setCurrentItem(2);
+                        break;
+                    case R.id.tab_my:
+                        mViewPager.setCurrentItem(3);
                         break;
                     default:
                         break;
@@ -86,6 +92,7 @@ public class MainActivity extends BaseActivity {
 
         mFragments.add(new HomeFragment());
         mFragments.add(new TreeFragment());
+        mFragments.add(new NavigationFragment());
         mFragments.add(new MyFragment());
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

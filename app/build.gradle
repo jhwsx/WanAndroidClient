@@ -56,5 +56,9 @@ dependencies {
     compile "com.yqritc:recyclerview-flexibledivider:$rootProject.flexibledividerVersion"
     // systembartint
     compile "com.readystatesoftware.systembartint:systembartint:$rootProject.systembartintVersion"
+
+    compile 'me.kaelaela:verticalviewpager:1.0.0@aar'
+
+    compile 'q.rorbin:VerticalTabLayout:1.2.5'
     testCompile "junit:junit:$rootProject.junitVersion"
 }

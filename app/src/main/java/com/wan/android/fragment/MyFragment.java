@@ -38,6 +38,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = MyFragment.class.getSimpleName();
     private TextView mTvUserState;
     private MyItemView mMivLogout;
+    private LinearLayout mLinearLayoutUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,9 +54,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         mSwipeRefreshLayout.addView(inflate);
         // 设置可下拉刷新的子view
         mSwipeRefreshLayout.setSwipeableChildren(R.id.linearlayout_my);
-        LinearLayout linearLayoutUser = (LinearLayout) linearLayoutRoot.findViewById(R.id.linearlayout_my_fragment_user);
+        mLinearLayoutUser = (LinearLayout) linearLayoutRoot.findViewById(R.id.linearlayout_my_fragment_user);
         mTvUserState = (TextView) linearLayoutRoot.findViewById(R.id.tv_signin_state);
-        linearLayoutUser.setOnClickListener(this);
+        mLinearLayoutUser.setOnClickListener(this);
         MyItemView mivFavorite = (MyItemView) linearLayoutRoot.findViewById(R.id.myitemview_favorite);
         MyItemView mivAbout = (MyItemView) linearLayoutRoot.findViewById(R.id.myitemview_about);
         mMivLogout = (MyItemView) linearLayoutRoot.findViewById(R.id.myitemview_logout);
@@ -83,9 +84,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(username)) {
             mTvUserState.setText(username);
             mMivLogout.setVisibility(View.VISIBLE);
+            mLinearLayoutUser.setOnClickListener(null);
         } else {
             mTvUserState.setText(R.string.unregistered);
             mMivLogout.setVisibility(View.GONE);
+            mLinearLayoutUser.setOnClickListener(this);
         }
     }
 

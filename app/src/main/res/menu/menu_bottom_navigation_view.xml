@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_main_tree"/>
 
     <item
+        android:id="@+id/tab_navigation"
+        android:title="@string/navigation"
+        android:icon="@drawable/ic_main_navigation"/>
+
+    <item
         android:icon="@drawable/ic_main_my"
         android:id="@+id/tab_my"
         android:title="@string/my"/>

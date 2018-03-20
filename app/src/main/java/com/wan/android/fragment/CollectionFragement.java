@@ -127,7 +127,7 @@ public class CollectionFragement extends BaseListFragment {
     private List<CollectDatas> mDatasList = new ArrayList<>();
 
     private void initAdapter() {
-        mCollectAdapter = new CollectAdapter(R.layout.home_item_view, mDatasList);
+        mCollectAdapter = new CollectAdapter(R.layout.list_item_view, mDatasList);
         mCollectAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -171,7 +171,7 @@ public class CollectionFragement extends BaseListFragment {
                 }
                 Toast.makeText(mActivity, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
                 mDatasList.remove(position);
-                mCollectAdapter.notifyDataSetChanged();
+                mCollectAdapter.notifyItemRemoved(position);
             }
 
             @Override

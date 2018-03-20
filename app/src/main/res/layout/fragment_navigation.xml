@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/constraintlayout_fragment_navigation"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <view
+        android:id="@+id/verticaltablayout"
+        class="q.rorbin.verticaltablayout.VerticalTabLayout"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_0"
+        android:background="@color/colorPrimary"
+        app:indicator_color="@color/color_73"
+        app:indicator_gravity="fill"
+        app:tab_height="@dimen/dp_48"
+        android:paddingLeft="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_8"
+        app:tab_mode="scrollable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <view
+        android:id="@+id/verticalviewpager"
+        class="me.kaelaela.verticalviewpager.VerticalViewPager"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/verticaltablayout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+</android.support.constraint.ConstraintLayout>
