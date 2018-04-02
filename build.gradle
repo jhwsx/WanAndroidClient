@@ -55,4 +55,5 @@ ext {
     systembartintVersion = '1.0.3'
     junitVersion = '4.12'
     espressoVersion = '2.2.2'
+    guavaVersion = '18.0'
 }

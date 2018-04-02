@@ -24,7 +24,7 @@ public class TimeoutCallback extends Callback {
 
     @Override
     protected boolean onReloadEvent(Context context, View view) {
-        Toast.makeText(context.getApplicationContext(),"Connecting to the network again!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context.getApplicationContext(), R.string.loadsir_connection_overtime, Toast.LENGTH_SHORT).show();
         return false;
     }
 
