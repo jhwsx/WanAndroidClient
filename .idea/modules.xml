@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WanAndroid.iml" filepath="$PROJECT_DIR$/WanAndroid.iml" />
-      <module fileurl="file://$USER_HOME$/Desktop/WanAndroidClient/WanAndroid.iml" filepath="$USER_HOME$/Desktop/WanAndroidClient/WanAndroid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WanAndroidClient.iml" filepath="$PROJECT_DIR$/WanAndroidClient.iml" />
+      <module fileurl="file://C:\Users\wangzhichao\Desktop\WanAndroidClient\WanAndroid.iml" filepath="C:\Users\wangzhichao\Desktop\WanAndroidClient\WanAndroid.iml" />
+      <module fileurl="file://E:\AndroidWorkspaces\WanAndroid\WanAndroidClient.iml" filepath="E:\AndroidWorkspaces\WanAndroid\WanAndroidClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
