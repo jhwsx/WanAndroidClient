@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wan.android.R;
-import com.wan.android.bean.BranchData;
+import com.wan.android.data.bean.BranchData;
 
 import java.util.List;
 

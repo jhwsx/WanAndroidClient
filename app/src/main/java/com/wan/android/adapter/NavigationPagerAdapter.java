@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.wan.android.bean.NavigationData;
-import com.wan.android.fragment.NavigationListFragment;
+import com.wan.android.data.bean.NavigationData;
+import com.wan.android.navigate.NavigationListFragment;
 
 import java.util.ArrayList;
 import java.util.List;

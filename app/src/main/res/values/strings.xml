@@ -2,9 +2,9 @@
     <string name="app_name">玩Android</string>
     <string name="share">分享</string>
     <string name="no_data">没有数据</string>
-    <string name="fine_no_data">fine, no accountData.</string>
-    <string name="click_me_to_retry">click me to retry!</string>
-    <string name="loading">正在加载中...</string>
+    <string name="fine_no_data">没有数据</string>
+    <string name="click_me_to_retry">点击重试!</string>
+    <string name="loading">正在加载中…</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_register">注册</string>
 
@@ -43,11 +43,13 @@
     <string name="my_collection">我的收藏</string>
     <string name="open_with_system_browser">用系统浏览器打开</string>
     <string name="about">关于</string>
-    <string name="exit_after_one_more_click">再按一次退出应用</string>
+    <string name="main_exit_text">再按一次退出%s</string>
     <string name="login">登录</string>
+    <string name="login_ok">登录成功</string>
     <string name="newuser_register">新用户注册</string>
     <string name="password">密码</string>
     <string name="register">注册</string>
+    <string name="register_ok">注册成功</string>
     <string name="confirm_password">确认密码</string>
     <string name="username">用户名</string>
     <string name="search_history">历史搜索</string>
@@ -56,13 +58,15 @@
     <string name="category">类别：</string>
     <string name="time">时间：</string>
     <string name="author">作者：</string>
-    <string name="boss_something_is_wrong">Boss! something is wrong.</string>
-    <string name="oh_no_timeout">Oh no, timeout.</string>
+    <string name="boss_something_is_wrong">出错了.</string>
+    <string name="oh_no_timeout">超时了</string>
     <string name="please_login_first">请先登录</string>
     <string name="collect_successfully">收藏成功</string>
     <string name="collect_failed">收藏失败</string>
-    <string name="uncollect_successfully">取消收藏</string>
-    <string name="uncollect_failed">取消失败</string>
+    <string name="add_collect_successfully">添加收藏成功</string>
+    <string name="add_collect_failed">添加收藏失败: %s</string>
+    <string name="uncollect_successfully">取消收藏成功</string>
+    <string name="uncollect_failed">取消收藏失败: %s</string>
     <string name="add_collection">添加收藏</string>
     <string name="new_collection">新增收藏</string>
     <string name="alert_dialog_ok">保存</string>
@@ -80,4 +84,6 @@
     <string name="title_cannot_be_null">标题不可以为空</string>
     <string name="link_cannot_be_null">链接不可以为空</string>
     <string name="navigation_updating">导航持续更新中</string>
+    <string name="login_first">请先登录</string>
+    <string name="loadsir_connection_overtime">联网超时</string>
 </resources>

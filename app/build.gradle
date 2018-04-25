@@ -60,5 +60,7 @@ dependencies {
     compile 'me.kaelaela:verticalviewpager:1.0.0@aar'
 
     compile 'q.rorbin:VerticalTabLayout:1.2.5'
+
+    compile "com.google.guava:guava:$rootProject.guavaVersion"
     testCompile "junit:junit:$rootProject.junitVersion"
 }

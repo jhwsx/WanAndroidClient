@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wan.android.R;
-import com.wan.android.bean.CollectDatas;
+import com.wan.android.data.bean.CollectDatas;
 
 import java.util.List;
 
@@ -32,6 +32,10 @@ public class CollectAdapter extends BaseQuickAdapter<CollectDatas, BaseViewHolde
         // authorName
         helper.setText(R.id.tv_home_item_view_author, item.getAuthor());
         helper.addOnClickListener(R.id.iv_home_item_view_collect);
+        // 类别可以点击
+        helper.addOnClickListener(R.id.tv_home_item_view_chapter_name);
+        // 作者名字可点击
+        helper.addOnClickListener(R.id.tv_home_item_view_author);
         helper.setImageResource(R.id.iv_home_item_view_collect, R.drawable.ic_favorite);
     }
 }
