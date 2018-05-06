@@ -2,6 +2,7 @@ package com.wan.android.author;
 
 import com.wan.android.BasePresenter;
 import com.wan.android.BaseView;
+import com.wan.android.annotation.NotProguard;
 import com.wan.android.data.bean.ArticleDatas;
 import com.wan.android.data.bean.CommonException;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @date 2018/3/30
  */
 public interface AuthorContract {
+    @NotProguard
     interface View extends BaseView<Presenter> {
         // 下拉刷新成功
         void showSwipeRefreshSuccess(List<ArticleDatas> datas);
@@ -43,7 +45,7 @@ public interface AuthorContract {
         // 取消收藏失败
         void showUncollectFail(CommonException e);
     }
-
+    @NotProguard
     interface Presenter extends BasePresenter {
         // 下拉刷新
         void swipeRefresh(String author);

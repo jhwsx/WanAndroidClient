@@ -1,9 +1,10 @@
 package com.wan.android.home;
 
-import com.wan.android.data.bean.ArticleDatas;
-import com.wan.android.data.bean.BannerData;
 import com.wan.android.BasePresenter;
 import com.wan.android.BaseView;
+import com.wan.android.annotation.NotProguard;
+import com.wan.android.data.bean.ArticleDatas;
+import com.wan.android.data.bean.BannerData;
 import com.wan.android.data.bean.CommonException;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * @date 2018/3/27
  */
 public interface HomeContract {
-
+    @NotProguard
     interface View extends BaseView<Presenter> {
         // banner获取成功
         void showBannerSuccess(List<BannerData> data);
@@ -51,7 +52,7 @@ public interface HomeContract {
         // 取消收藏失败
         void showUncollectFail(CommonException e);
     }
-
+    @NotProguard
     interface Presenter extends BasePresenter {
         // 下拉刷新
         void swipeRefresh();

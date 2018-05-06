@@ -1,28 +1,52 @@
 apply plugin: 'com.android.application'
-
+//apply plugin: 'com.tencent.tinker.patch'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId  rootProject.ext.applicationId
-        minSdkVersion  rootProject.ext.minSdkVersion
-        targetSdkVersion  rootProject.ext.targetSdkVersion
+        applicationId rootProject.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [UMENG_APPKEY        : "5aeaeedba40fa36a6e00019d",
+                                UMENG_MESSAGE_SECRET: "9526d39c9c3778bed2c4ac93e55b41f5",
+                                UMENG_CHANNEL       : "QiHu",
+        ]
+    }
+    signingConfigs { // signingConfigs 是一个闭包
+        release {
+            try {
+                storeFile file(KEY_PATH)
+                storePassword KEY_PASSWORD
+                keyAlias ALIAS_NAME
+                keyPassword ALIAS_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+
+        debug {
+            storeFile file("./keystore/debug.keystore")
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
 }
 
 dependencies {
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
@@ -38,10 +62,11 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Version"//retrofit
     compile "com.google.code.gson:gson:$rootProject.gsonVersion"//Gson 库
     //下面两个是RxJava 和RxAndroid
-    compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
-    compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
-    compile "com.squareup.retrofit2:converter-gson:$rootProject.convertergsonVersion"//转换器，请求结果转换成Model
-    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.adapterrxjavaVersion"//配合Rxjava 使用
+    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.convertergsonVersion"
+//转换器，请求结果转换成Model
+    compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.adapterrxjavaVersion"//配合Rxjava 使用
     // AgentWeb
     compile "com.just.agentweb:agentweb:$rootProject.agentwebVersion"
     // LoadSir
@@ -57,10 +82,17 @@ dependencies {
     // systembartint
     compile "com.readystatesoftware.systembartint:systembartint:$rootProject.systembartintVersion"
 
-    compile 'me.kaelaela:verticalviewpager:1.0.0@aar'
+    compile "me.kaelaela:verticalviewpager:$rootProject.verticalviewpagerVersion"
 
-    compile 'q.rorbin:VerticalTabLayout:1.2.5'
+    compile "q.rorbin:VerticalTabLayout:$rootProject.verticalTabLayoutVersion"
 
     compile "com.google.guava:guava:$rootProject.guavaVersion"
-    testCompile "junit:junit:$rootProject.junitVersion"
+    compile 'com.google.code.findbugs:jsr305:2.0.2'
+//    //optional, help to generate the final application
+//    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
+//    //tinker's main Android lib
+//    compile('com.tencent.tinker:tinker-android-lib:1.9.1')
+
+    compile 'com.umeng.sdk:common:latest.integration'
+    compile 'com.umeng.sdk:analytics:latest.integration'
 }

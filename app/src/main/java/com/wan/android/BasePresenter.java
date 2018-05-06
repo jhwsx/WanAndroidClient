@@ -16,6 +16,9 @@
 
 package com.wan.android;
 
+import com.wan.android.annotation.NotProguard;
+
+@NotProguard
 public interface BasePresenter {
     // 规定Presenter必须要实现start()方法
     void start();

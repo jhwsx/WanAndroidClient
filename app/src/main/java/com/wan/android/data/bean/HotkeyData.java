@@ -1,11 +1,14 @@
 package com.wan.android.data.bean;
 
+import com.wan.android.annotation.NotProguard;
+
 /**
  * 热搜数据类
  *
  * @author wzc
  * @date 2018/3/12
  */
+@NotProguard
 public class HotkeyData {
 
     private int id;

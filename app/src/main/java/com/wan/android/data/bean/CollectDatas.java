@@ -1,9 +1,13 @@
 package com.wan.android.data.bean;
+
+import com.wan.android.annotation.NotProguard;
+
 /**
  * 收藏列表条目类
  * @author wzc
  * @date 2018/3/12
  */
+@NotProguard
 public class CollectDatas {
 
         private String author;

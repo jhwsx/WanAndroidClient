@@ -2,8 +2,9 @@ package com.wan.android.search;
 
 import com.wan.android.BasePresenter;
 import com.wan.android.BaseView;
-import com.wan.android.data.bean.CommonException;
+import com.wan.android.annotation.NotProguard;
 import com.wan.android.data.bean.ArticleDatas;
+import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.bean.HotkeyData;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * @date 2018/3/29
  */
 public interface SearchContract {
-
+    @NotProguard
     interface View extends BaseView<Presenter> {
         // 获取热门搜索成功
         void showHotkeySuccess(List<HotkeyData> dataList);
@@ -52,7 +53,7 @@ public interface SearchContract {
         void showUncollectFail(CommonException e);
 
     }
-
+    @NotProguard
     interface Presenter extends BasePresenter {
         // 获取热门搜索
         void fetchHotkey();

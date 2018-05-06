@@ -1,8 +1,9 @@
 package com.wan.android.branch;
 
-import com.wan.android.data.bean.ArticleDatas;
 import com.wan.android.BasePresenter;
 import com.wan.android.BaseView;
+import com.wan.android.annotation.NotProguard;
+import com.wan.android.data.bean.ArticleDatas;
 import com.wan.android.data.bean.CommonException;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @date 2018/3/27
  */
 public interface BranchContract {
-
+    @NotProguard
     interface View extends BaseView<Presenter> {
         // 下拉刷新成功
         void showSwipeRefreshSuccess(List<ArticleDatas> datas);
@@ -44,7 +45,7 @@ public interface BranchContract {
         // 取消收藏失败
         void showUncollectFail(CommonException e);
     }
-
+    @NotProguard
     interface Presenter extends BasePresenter {
         // 下拉刷新
         void swipeRefresh(int cid);

@@ -1,11 +1,14 @@
 package com.wan.android.data.bean;
 
+import com.wan.android.annotation.NotProguard;
+
 import java.util.ArrayList;
 
 /**
  * @author wzc
  * @date 2018/3/20
  */
+@NotProguard
 public class NavigationData {
     private ArrayList<ArticleDatas> articles;
     private int cid;

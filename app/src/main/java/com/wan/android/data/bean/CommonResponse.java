@@ -1,11 +1,14 @@
 package com.wan.android.data.bean;
 
+import com.wan.android.annotation.NotProguard;
+
 /**
  * 通用响应类
  *
  * @author wzc
  * @date 2018/3/12
  */
+@NotProguard
 public class CommonResponse<T> {
     private T data;
     private int errorCode;

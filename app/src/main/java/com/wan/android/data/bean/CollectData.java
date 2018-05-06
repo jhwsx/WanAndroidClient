@@ -1,5 +1,7 @@
 package com.wan.android.data.bean;
 
+import com.wan.android.annotation.NotProguard;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @author wzc
  * @date 2018/3/12
  */
+@NotProguard
 public class CollectData {
 
     private int curPage;

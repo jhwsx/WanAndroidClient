@@ -5,13 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- CrashHandler必须 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- AgentWeb必须 -->
+    <!-- AgentWeb必须, 友盟统计必须 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!--友盟统计必须-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--友盟统计必须-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".WanAndroidApplication"
@@ -39,8 +38,8 @@
 
         <activity
             android:name=".friend.FriendActivity"
-            android:label="@string/hot"
             android:configChanges="screenSize|keyboardHidden|orientation"
+            android:label="@string/hot"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -91,6 +90,21 @@
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- [友盟 推送及统计配置 start] -->
+        <!-- appkey作为应用在友盟的ID -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="${UMENG_APPKEY}"/>
+        <!-- 作为友盟的ID 的秘钥 -->
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="${UMENG_MESSAGE_SECRET}"/>
+        <!-- 推广渠道 -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL}"/>
+        <!-- [友盟 推送及统计配置 end] -->
     </application>
 
 </manifest>

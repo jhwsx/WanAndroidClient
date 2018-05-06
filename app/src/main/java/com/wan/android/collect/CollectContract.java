@@ -1,8 +1,9 @@
 package com.wan.android.collect;
 
-import com.wan.android.data.bean.CollectDatas;
 import com.wan.android.BasePresenter;
 import com.wan.android.BaseView;
+import com.wan.android.annotation.NotProguard;
+import com.wan.android.data.bean.CollectDatas;
 import com.wan.android.data.bean.CommonException;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * This specifies the contract between the view and the presenter.
  */
 public interface CollectContract {
+    @NotProguard
     interface View extends BaseView<Presenter> {
         // 下拉刷新成功
         void showSwipeRefreshSuccess(List<CollectDatas> datas);
@@ -42,7 +44,7 @@ public interface CollectContract {
         // 添加收藏失败
         void showAddCollectFail(CommonException e);
     }
-
+    @NotProguard
     interface Presenter extends BasePresenter {
         // 下拉刷新
         void swipeRefresh();
