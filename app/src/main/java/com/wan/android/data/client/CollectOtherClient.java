@@ -3,7 +3,7 @@ package com.wan.android.data.client;
 import com.wan.android.data.bean.CollectDatas;
 import com.wan.android.data.bean.CommonResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -17,7 +17,7 @@ import retrofit2.http.POST;
 public interface CollectOtherClient {
     @FormUrlEncoded
     @POST("/lg/collect/add/json")
-    Call<CommonResponse<CollectDatas>> collectOther(
+    Observable<CommonResponse<CollectDatas>> collectOther(
             @Field("title") String title,
             @Field("author") String author,
             @Field("link") String link

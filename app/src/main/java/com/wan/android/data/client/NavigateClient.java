@@ -5,7 +5,7 @@ import com.wan.android.data.bean.NavigationData;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -16,5 +16,5 @@ import retrofit2.http.GET;
 public interface NavigateClient {
     // http://www.wanandroid.com/navi/json
     @GET("/navi/json")
-    Call<CommonResponse<List<NavigationData>>> getNavigation();
+    Observable<CommonResponse<List<NavigationData>>> getNavigation();
 }

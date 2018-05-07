@@ -15,16 +15,15 @@ import android.widget.Toast;
 
 import com.wan.android.base.BaseActivity;
 import com.wan.android.constant.DefaultConstants;
-import com.wan.android.util.BottomNavigationViewHelper;
-import com.wan.android.data.source.RetrofitClient;
+import com.wan.android.friend.FriendActivity;
 import com.wan.android.home.HomeFragment;
 import com.wan.android.home.HomePresenter;
-import com.wan.android.friend.FriendActivity;
 import com.wan.android.my.MyFragment;
 import com.wan.android.navigate.NavigationFragment;
 import com.wan.android.navigate.NavigationPresenter;
 import com.wan.android.tree.TreeFragment;
 import com.wan.android.tree.TreePresenter;
+import com.wan.android.util.BottomNavigationViewHelper;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -98,13 +97,13 @@ public class MainActivity extends BaseActivity {
         HomeFragment homeFragment = new HomeFragment();
         mFragments.add(homeFragment);
         // Create the presenter
-        mPresenterList.add(new HomePresenter(RetrofitClient.getInstance(), homeFragment));
+        mPresenterList.add(new HomePresenter( homeFragment));
         TreeFragment treeFragment = new TreeFragment();
         mFragments.add(treeFragment);
-        mPresenterList.add(new TreePresenter(RetrofitClient.getInstance(), treeFragment));
+        mPresenterList.add(new TreePresenter(treeFragment));
         NavigationFragment navigationFragment = new NavigationFragment();
         mFragments.add(navigationFragment);
-        mPresenterList.add(new NavigationPresenter(RetrofitClient.getInstance(), navigationFragment));
+        mPresenterList.add(new NavigationPresenter(navigationFragment));
         MyFragment myFragment = new MyFragment();
         mFragments.add(myFragment);
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {

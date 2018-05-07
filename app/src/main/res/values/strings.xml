@@ -46,10 +46,12 @@
     <string name="main_exit_text">再按一次退出%s</string>
     <string name="login">登录</string>
     <string name="login_ok">登录成功</string>
+    <string name="login_fail">登录失败</string>
     <string name="newuser_register">新用户注册</string>
     <string name="password">密码</string>
     <string name="register">注册</string>
     <string name="register_ok">注册成功</string>
+    <string name="register_fail">注册失败</string>
     <string name="confirm_password">确认密码</string>
     <string name="username">用户名</string>
     <string name="search_history">历史搜索</string>
@@ -66,7 +68,7 @@
     <string name="add_collect_successfully">添加收藏成功</string>
     <string name="add_collect_failed">添加收藏失败: %s</string>
     <string name="uncollect_successfully">取消收藏成功</string>
-    <string name="uncollect_failed">取消收藏失败: %s</string>
+    <string name="uncollect_failed">取消收藏失败</string>
     <string name="add_collection">添加收藏</string>
     <string name="new_collection">新增收藏</string>
     <string name="alert_dialog_ok">保存</string>
@@ -86,4 +88,11 @@
     <string name="navigation_updating">导航持续更新中</string>
     <string name="login_first">请先登录</string>
     <string name="loadsir_connection_overtime">联网超时</string>
+    <string name="load_more_fail">加载更多失败</string>
+    <string name="swipe_refresh_fail">下拉刷新失败</string>
+    <string name="response_cannot_be_null">response cannot be null</string>
+    <string name="fetch_banner_fail">获取轮播图失败</string>
+    <string name="get_friends_fail">获取朋友失败</string>
+    <string name="fetch_navigation_fail">获取导航数据失败</string>
+    <string name="fetch_hotkey_fail">获取热搜失败</string>
 </resources>

@@ -10,14 +10,13 @@ import android.view.KeyEvent;
 
 import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
-import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.ActivityUtils;
 
 /**
  * @author wzc
  * @date 2018/3/29
  */
-public class ContentActivity extends BaseActivity implements OnReceivedTitleListener{
+public class ContentActivity extends BaseActivity implements OnReceivedTitleListener {
     private static final String EXTRA_CONTENT_URL = "extra_content_url";
     private static final String EXTRA_ID = "extra_id";
     private static final String EXTRA_TITLE = "extra_title";
@@ -63,7 +62,7 @@ public class ContentActivity extends BaseActivity implements OnReceivedTitleList
         }
 
         // Create the presenter
-        mContentPresenter = new ContentPresenter(RetrofitClient.getInstance(), mContentFragment);
+        mContentPresenter = new ContentPresenter(mContentFragment);
     }
 
     @Override

@@ -1,58 +1,72 @@
 package com.wan.android.content;
 
-import com.wan.android.data.client.CollectClient;
+import com.wan.android.BuildConfig;
+import com.wan.android.R;
 import com.wan.android.data.bean.CommonException;
-import com.wan.android.data.bean.ErrorCodeMessageEnum;
 import com.wan.android.data.bean.CommonResponse;
+import com.wan.android.data.client.CollectClient;
 import com.wan.android.data.source.RetrofitClient;
+import com.wan.android.util.DisposableUtil;
+import com.wan.android.util.Utils;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author wzc
  * @date 2018/3/29
  */
 public class ContentPresenter implements ContentContract.Presenter {
-    private final RetrofitClient mRetrofitClient;
     private final ContentContract.View mContentView;
 
-    public ContentPresenter(RetrofitClient retrofitClient, ContentContract.View contentView) {
-        mRetrofitClient = retrofitClient;
+    public ContentPresenter(ContentContract.View contentView) {
         mContentView = contentView;
         mContentView.setPresenter(this);
     }
 
     @Override
     public void collect(int id) {
-        CollectClient collectClient = mRetrofitClient.create(CollectClient.class);
-        Call<CommonResponse<String>> call = collectClient.collect(id);
-        call.enqueue(new Callback<CommonResponse<String>>() {
-            @Override
-            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
-                if (response == null) {
-                    mContentView.showCollectFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
-                    return;
-                }
-                CommonResponse<String> body = response.body();
-                if (body == null) {
-                    mContentView.showCollectFail(CommonException.convert(ErrorCodeMessageEnum.NULL_BODY));
-                    return;
-                }
-                if (body.getErrorcode() != 0) {
-                    mContentView.showCollectFail(new CommonException(body.getErrorcode(), body.getErrormsg()));
-                    return;
-                }
-                mContentView.showCollectSuccess();
 
-            }
+        final Disposable[] disposable = new Disposable[1];
+        RetrofitClient.getInstance()
+                .create(CollectClient.class)
+                .collect(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CommonResponse<String>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable[0] = d;
+                    }
 
-            @Override
-            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
-                mContentView.showCollectFail(new CommonException(-1, t == null ? "collect fail" : t.toString()));
-            }
-        });
+                    @Override
+                    public void onNext(CommonResponse<String> response) {
+                        if (response == null) {
+                            mContentView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
+                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            return;
+                        }
+                        if (response.getErrorcode() != 0) {
+                            mContentView.showCollectFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            return;
+                        }
+                        mContentView.showCollectSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        DisposableUtil.dispose(disposable[0]);
+                        mContentView.showCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
+                                : Utils.getContext().getString(R.string.collect_failed)));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+                });
     }
 
     @Override

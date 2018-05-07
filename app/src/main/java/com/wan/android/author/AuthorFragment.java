@@ -30,12 +30,13 @@ import java.util.List;
  * @author wzc
  * @date 2018/3/30
  */
-public class AuthorFragment extends BaseListFragment implements AuthorContract.View{
+public class AuthorFragment extends BaseListFragment implements AuthorContract.View {
     private static final String ARG_AUTHOR = "arg_author";
     private CommonListAdapter mCommonListAdapter;
     private List<ArticleDatas> mDatasList = new ArrayList<>();
     private String mAuthor;
     private AuthorContract.Presenter mPresenter;
+
     public static AuthorFragment newInstance(String author) {
         Bundle args = new Bundle();
         args.putString(ARG_AUTHOR, author);
@@ -59,6 +60,7 @@ public class AuthorFragment extends BaseListFragment implements AuthorContract.V
         initRefreshLayout();
         swipeRefresh();
     }
+
     private ImageView mView;
     private int mPosition;
     private int mCurrPage = 1;
@@ -81,7 +83,7 @@ public class AuthorFragment extends BaseListFragment implements AuthorContract.V
                 ArticleDatas datas = mDatasList.get(position);
                 String link = datas.getLink();
                 String title = datas.getTitle();
-                ContentActivity.start(mActivity,title, link, datas.getId());
+                ContentActivity.start(mActivity, title, link, datas.getId());
             }
         });
 
@@ -119,6 +121,7 @@ public class AuthorFragment extends BaseListFragment implements AuthorContract.V
             }
         });
     }
+
     @Override
     protected void swipeRefresh() {
         // 防止下拉刷新时,还可以上拉加载
@@ -156,7 +159,8 @@ public class AuthorFragment extends BaseListFragment implements AuthorContract.V
     @Override
     public void showLoadMoreFail(CommonException e) {
         mCommonListAdapter.loadMoreFail();
-        Toast.makeText(mActivity, e.toString(), Toast.LENGTH_SHORT).show();    }
+        Toast.makeText(mActivity, e.toString(), Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void showLoadMoreComplete() {

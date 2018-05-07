@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
-import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.ActivityUtils;
 
 /**
@@ -46,7 +45,7 @@ public class FriendActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), friendFragment, R.id.contentFrame);
         }
 
-        mFriendPresenter = new FriendPresenter(RetrofitClient.getInstance(), friendFragment);
+        mFriendPresenter = new FriendPresenter(friendFragment);
     }
 
     @Override

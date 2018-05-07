@@ -1,10 +1,10 @@
 package com.wan.android.data.client;
 
 
-import com.wan.android.data.bean.CommonResponse;
 import com.wan.android.data.bean.ArticleData;
+import com.wan.android.data.bean.CommonResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -23,7 +23,7 @@ public interface SearchClient {
      */
     @FormUrlEncoded
     @POST("/article/query/{page}/json")
-    Call<CommonResponse<ArticleData>> search(
+    Observable<CommonResponse<ArticleData>> search(
             @Path("page") int page,
             @Field("k") String k);
 }

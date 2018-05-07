@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
-import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.ActivityUtils;
 
 /**
@@ -57,7 +56,7 @@ public class AuthorActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), authorFragment, R.id.contentFrame);
         }
 
-        mAuthorPresenter = new AuthorPresenter(RetrofitClient.getInstance(), authorFragment);
+        mAuthorPresenter = new AuthorPresenter(authorFragment);
     }
 
 }

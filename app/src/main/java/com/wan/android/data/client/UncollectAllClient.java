@@ -2,7 +2,7 @@ package com.wan.android.data.client;
 
 import com.wan.android.data.bean.CommonResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -18,7 +18,7 @@ public interface UncollectAllClient {
     // http://www.wanandroid.com/lg/uncollect/2805/json
     @FormUrlEncoded
     @POST("/lg/uncollect/{id}/json")
-    Call<CommonResponse<String>> uncollectAll(
+    Observable<CommonResponse<String>> uncollectAll(
             @Path("id") int id,
             @Field("originId") int originId
     );

@@ -5,7 +5,7 @@ import com.wan.android.data.bean.CommonResponse;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -15,5 +15,5 @@ import retrofit2.http.GET;
  */
 public interface BannerClient {
     @GET("/banner/json")
-    Call<CommonResponse<List<BannerData>>> getBanner();
+    Observable<CommonResponse<List<BannerData>>> getBanner();
 }

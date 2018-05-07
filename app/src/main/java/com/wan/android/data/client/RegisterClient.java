@@ -1,9 +1,9 @@
 package com.wan.android.data.client;
 
-import com.wan.android.data.bean.CommonResponse;
 import com.wan.android.data.bean.AccountData;
+import com.wan.android.data.bean.CommonResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -17,7 +17,7 @@ public interface RegisterClient {
     // http://www.wanandroid.com/user/register
     @FormUrlEncoded
     @POST("/user/register")
-    Call<CommonResponse<AccountData>> register(
+    Observable<CommonResponse<AccountData>> register(
             @Field("username") String username,
             @Field("password") String password,
             @Field("repassword") String repassword

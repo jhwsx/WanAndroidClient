@@ -2,7 +2,7 @@ package com.wan.android.data.client;
 
 import com.wan.android.data.bean.CommonResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 public interface CollectClient {
     //    http://www.wanandroid.com/lg/collect/1165/json
     @POST("/lg/collect/{id}/json")
-    Call<CommonResponse<String>> collect(
+    Observable<CommonResponse<String>> collect(
             @Path("id") int id
     );
 }

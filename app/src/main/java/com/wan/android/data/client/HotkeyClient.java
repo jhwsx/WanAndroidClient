@@ -5,7 +5,7 @@ import com.wan.android.data.bean.HotkeyData;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -17,5 +17,5 @@ import retrofit2.http.GET;
 public interface HotkeyClient {
     // http://www.wanandroid.com/hotkey/json
     @GET("/hotkey/json")
-    Call<CommonResponse<List<HotkeyData>>> getHotkey();
+    Observable<CommonResponse<List<HotkeyData>>> getHotkey();
 }

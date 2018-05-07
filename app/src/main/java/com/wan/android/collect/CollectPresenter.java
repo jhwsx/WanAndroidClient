@@ -1,31 +1,32 @@
 package com.wan.android.collect;
 
+import com.wan.android.BuildConfig;
+import com.wan.android.R;
+import com.wan.android.data.bean.CollectData;
+import com.wan.android.data.bean.CollectDatas;
+import com.wan.android.data.bean.CommonException;
+import com.wan.android.data.bean.CommonResponse;
+import com.wan.android.data.bean.ErrorCodeMessageEnum;
 import com.wan.android.data.client.CollectListClient;
 import com.wan.android.data.client.CollectOtherClient;
 import com.wan.android.data.client.UncollectAllClient;
-import com.wan.android.data.bean.CommonException;
-import com.wan.android.data.bean.ErrorCodeMessageEnum;
-import com.wan.android.data.bean.CollectData;
-import com.wan.android.data.bean.CollectDatas;
-import com.wan.android.data.bean.CommonResponse;
 import com.wan.android.data.source.RetrofitClient;
+import com.wan.android.util.DisposableUtil;
+import com.wan.android.util.Utils;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author wzc
  * @date 2018/3/29
  */
 public class CollectPresenter implements CollectContract.Presenter {
-    private final RetrofitClient mRetrofitClient;
     private final CollectContract.View mCollectView;
 
-    public CollectPresenter(RetrofitClient retrofitClient, CollectContract.View collectView) {
-        mRetrofitClient = retrofitClient;
+    public CollectPresenter(CollectContract.View collectView) {
         mCollectView = collectView;
         mCollectView.setPresenter(this);
     }
@@ -37,141 +38,193 @@ public class CollectPresenter implements CollectContract.Presenter {
 
     @Override
     public void swipeRefresh() {
-        CollectListClient client = mRetrofitClient.create(CollectListClient.class);
-        Call<CommonResponse<CollectData>> call = client.getCollect(0);
-        call.enqueue(new Callback<CommonResponse<CollectData>>() {
-            @Override
-            public void onResponse(Call<CommonResponse<CollectData>> call, Response<CommonResponse<CollectData>> response) {
-                if (response == null) {
-                    mCollectView.showSwipeRefreshFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
-                    return;
-                }
-                CommonResponse<CollectData> body = response.body();
-                if (body == null) {
-                    mCollectView.showSwipeRefreshFail(CommonException.convert(ErrorCodeMessageEnum.NULL_BODY));
-                    return;
-                }
-                CollectData data = body.getData();
-                if (data == null) {
-                    mCollectView.showSwipeRefreshFail(CommonException.convert(ErrorCodeMessageEnum.NULL_DATA));
-                    return;
-                }
-                List<CollectDatas> datas = data.getDatas();
-                mCollectView.showSwipeRefreshSuccess(datas);
-            }
+        final Disposable[] disposable = new Disposable[1];
+        RetrofitClient.getInstance()
+                .create(CollectListClient.class)
+                .getCollect(0)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CommonResponse<CollectData>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable[0] = d;
+                    }
 
-            @Override
-            public void onFailure(Call<CommonResponse<CollectData>> call, Throwable t) {
-                mCollectView.showSwipeRefreshFail(new CommonException(-1, t == null ? "swipe refresh fail" : t.toString()));
-            }
-        });
+                    @Override
+                    public void onNext(CommonResponse<CollectData> response) {
+                        if (response == null) {
+                            mCollectView.showSwipeRefreshFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
+                            return;
+                        }
+
+                        if (response.getErrorcode() != 0) {
+                            mCollectView.showSwipeRefreshFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            return;
+                        }
+
+                        CollectData data = response.getData();
+                        if (data == null || data.getDatas() == null || data.getDatas().size() == 0) {
+                            mCollectView.showSwipeRefreshFail(CommonException.convert(ErrorCodeMessageEnum.NULL_DATA));
+                            return;
+                        }
+                        mCollectView.showSwipeRefreshSuccess(data.getDatas());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        mCollectView.showSwipeRefreshFail(
+                                new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
+                                        : Utils.getContext().getString(R.string.swipe_refresh_fail)));
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+                });
     }
 
     @Override
     public void loadMore(final int currPage) {
-        CollectListClient client = mRetrofitClient.create(CollectListClient.class);
-        Call<CommonResponse<CollectData>> call = client.getCollect(currPage);
-        call.enqueue(new Callback<CommonResponse<CollectData>>() {
-            @Override
-            public void onResponse(Call<CommonResponse<CollectData>> call, Response<CommonResponse<CollectData>> response) {
-                if (response == null) {
-                    mCollectView.showLoadMoreFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
-                    return;
-                }
-                CommonResponse<CollectData> body = response.body();
-                if (body == null) {
-                    mCollectView.showLoadMoreFail(CommonException.convert(ErrorCodeMessageEnum.NULL_BODY));
-                    return;
-                }
-                CollectData data = body.getData();
-                if (data == null) {
-                    mCollectView.showLoadMoreFail(CommonException.convert(ErrorCodeMessageEnum.NULL_DATA));
-                    return;
-                }
-                if (currPage + 1 < data.getPagecount()) {
-                    mCollectView.showLoadMoreComplete();
-//                    mCollectAdapter.loadMoreComplete();
-                } else {
-                    mCollectView.showLoadMoreEnd();
-//                    mCollectAdapter.loadMoreEnd();
-                }
-                mCollectView.showLoadMoreSuccess(data.getDatas());
-//                List<CollectDatas> datas = data.getDatas();
-//                mDatasList.addAll(datas);
-//                mCollectAdapter.notifyDataSetChanged();
-//                mLoadService.showSuccess();
-            }
+        final Disposable[] disposable = new Disposable[1];
+        RetrofitClient.getInstance()
+                .create(CollectListClient.class)
+                .getCollect(currPage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CommonResponse<CollectData>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable[0] = d;
+                    }
 
-            @Override
-            public void onFailure(Call<CommonResponse<CollectData>> call, Throwable t) {
-                mCollectView.showLoadMoreFail(new CommonException(-1, t == null ? "load more fail" : t.toString()));
-            }
-        });
+                    @Override
+                    public void onNext(CommonResponse<CollectData> response) {
+
+                        if (response == null) {
+                            mCollectView.showLoadMoreFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
+                            return;
+                        }
+
+                        if (response.getErrorcode() != 0) {
+                            mCollectView.showLoadMoreFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            return;
+                        }
+
+                        CollectData data = response.getData();
+                        if (data == null || data.getDatas() == null) {
+                            mCollectView.showLoadMoreFail(CommonException.convert(ErrorCodeMessageEnum.NULL_DATA));
+                            return;
+                        }
+
+                        mCollectView.showLoadMoreSuccess(data.getDatas());
+
+                        if (currPage + 1 < data.getPagecount()) {
+                            mCollectView.showLoadMoreComplete();
+                        } else {
+                            mCollectView.showLoadMoreEnd();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mCollectView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getContext().getString(R.string.load_more_fail)));
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+                });
     }
 
     @Override
     public void uncollect(int id, int originalId) {
-        UncollectAllClient client = mRetrofitClient.create(UncollectAllClient.class);
-        Call<CommonResponse<String>> call = client.uncollectAll(id, originalId);
-        call.enqueue(new Callback<CommonResponse<String>>() {
-            @Override
-            public void onResponse(Call<CommonResponse<String>> call, Response<CommonResponse<String>> response) {
-                if (response == null) {
-                    mCollectView.showUncollectFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
-                    return;
-                }
-                CommonResponse<String> body = response.body();
-                if (body == null) {
-                    mCollectView.showUncollectFail(CommonException.convert(ErrorCodeMessageEnum.NULL_BODY));
-                    return;
-                }
-                if (body.getErrorcode() != 0) {
-                    mCollectView.showUncollectFail(new CommonException(body.getErrorcode(), body.getErrormsg()));
-                    return;
-                }
-                mCollectView.showUncollectSuccess();
-//                Toast.makeText(mActivity, R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
-//                mDatasList.remove(position);
-//                mCollectAdapter.notifyItemRemoved(position);
-            }
+        final Disposable[] disposable = new Disposable[1];
+        RetrofitClient.getInstance()
+                .create(UncollectAllClient.class)
+                .uncollectAll(id, originalId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CommonResponse<String>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable[0] = d;
+                    }
 
-            @Override
-            public void onFailure(Call<CommonResponse<String>> call, Throwable t) {
-                mCollectView.showUncollectFail(new CommonException(-1, t == null ? "uncollect fail" : t.toString()));
-            }
-        });
+                    @Override
+                    public void onNext(CommonResponse<String> response) {
+                        if (response == null) {
+                            mCollectView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
+                                    : Utils.getContext().getString(R.string.uncollect_failed)));
+                            return;
+                        }
+
+                        if (response.getErrorcode() != 0) {
+                            mCollectView.showUncollectFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            return;
+                        }
+
+                        mCollectView.showUncollectSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mCollectView.showUncollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
+                                : Utils.getContext().getString(R.string.uncollect_failed)));
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+                });
     }
 
     @Override
     public void addCollect(String title, String author, String link) {
-        CollectOtherClient client = mRetrofitClient.create(CollectOtherClient.class);
-        Call<CommonResponse<CollectDatas>> call = client.collectOther(title, author, link);
-        call.enqueue(new Callback<CommonResponse<CollectDatas>>() {
-            @Override
-            public void onResponse(Call<CommonResponse<CollectDatas>> call, Response<CommonResponse<CollectDatas>> response) {
-                if (response == null) {
-                    mCollectView.showAddCollectFail(CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
-                    return;
-                }
-                CommonResponse<CollectDatas> body = response.body();
-                if (body == null) {
-                    mCollectView.showAddCollectFail(CommonException.convert(ErrorCodeMessageEnum.NULL_BODY));
-                    return;
-                }
-                if (body.getErrorcode() != 0) {
-                    mCollectView.showAddCollectFail(new CommonException(body.getErrorcode(), body.getErrormsg()));
-                    return;
-                }
-                CollectDatas data = body.getData();
-                mCollectView.showAddCollectSuccess(data);
-            }
+        final Disposable[] disposable = new Disposable[1];
+        RetrofitClient.getInstance()
+                .create(CollectOtherClient.class)
+                .collectOther(title, author, link)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CommonResponse<CollectDatas>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable[0] = d;
+                    }
 
-            @Override
-            public void onFailure(Call<CommonResponse<CollectDatas>> call, Throwable t) {
+                    @Override
+                    public void onNext(CommonResponse<CollectDatas> response) {
+                        if (response == null) {
+                            mCollectView.showAddCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
+                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            return;
+                        }
 
-                mCollectView.showAddCollectFail(new CommonException(-1, t == null ? "addcollect fail" : t.toString()));
+                        if (response.getErrorcode() != 0) {
+                            mCollectView.showAddCollectFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            return;
+                        }
+                        CollectDatas data = response.getData();
+                        mCollectView.showAddCollectSuccess(data);
+                    }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        mCollectView.showAddCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
+                                : Utils.getContext().getString(R.string.collect_failed)));
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        DisposableUtil.dispose(disposable[0]);
+                    }
+                });
     }
 }

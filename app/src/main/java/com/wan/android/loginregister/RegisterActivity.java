@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
-import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.ActivityUtils;
 
 /**
@@ -40,6 +39,6 @@ public class RegisterActivity extends BaseActivity {
         }
 
         // Creater the presenter
-        mRegisterPresenter = new RegisterPresenter(RetrofitClient.getInstance(), registerFragment);
+        mRegisterPresenter = new RegisterPresenter(registerFragment);
     }
 }

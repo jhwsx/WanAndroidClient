@@ -5,7 +5,7 @@ import com.wan.android.data.bean.CommonResponse;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -17,5 +17,5 @@ import retrofit2.http.GET;
 public interface TreeListClient {
     // http://www.wanandroid.com/tree/json
     @GET("/tree/json")
-    Call<CommonResponse<ArrayList<BranchData>>> getTree();
+    Observable<CommonResponse<ArrayList<BranchData>>> getTree();
 }

@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
-import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.ActivityUtils;
 
 /**
@@ -17,6 +16,8 @@ import com.wan.android.util.ActivityUtils;
  * @date 2018/3/29
  */
 public class SearchActivity extends BaseActivity {
+
+    private SearchPresenter mSearchPresenter;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SearchActivity.class);
@@ -42,7 +43,7 @@ public class SearchActivity extends BaseActivity {
         }
 
         // Create the presenter
-        new SearchPresenter(RetrofitClient.getInstance(), searchFragment);
+        mSearchPresenter = new SearchPresenter(searchFragment);
     }
 
 }

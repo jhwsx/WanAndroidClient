@@ -5,7 +5,7 @@ import com.wan.android.data.bean.FriendData;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -17,5 +17,5 @@ import retrofit2.http.GET;
 public interface FriendClient {
 
     @GET("/friend/json")
-    Call<CommonResponse<List<FriendData>>> getFriend();
+    Observable<CommonResponse<List<FriendData>>> getFriend();
 }

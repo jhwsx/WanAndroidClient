@@ -1,6 +1,7 @@
 package com.wan.android.data.source;
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
@@ -9,7 +10,8 @@ public class RetrofitClient {
     private RetrofitClient() {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());;
 
         mRetrofit = builder
                 .client(OkHttpClientManager.getOkHttpClient())

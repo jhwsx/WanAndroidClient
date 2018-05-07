@@ -1,10 +1,10 @@
 package com.wan.android.data.client;
 
 
-import com.wan.android.data.bean.CommonResponse;
 import com.wan.android.data.bean.ArticleData;
+import com.wan.android.data.bean.CommonResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -19,7 +19,7 @@ import retrofit2.http.Query;
 public interface BranchListClient {
     //    http://www.wanandroid.com/article/list/0/json?cid=60
     @GET("article/list/{page}/json")
-    Call<CommonResponse<ArticleData>> getBranchList(
+    Observable<CommonResponse<ArticleData>> getBranchList(
             @Path("page") int page,
             @Query("cid") int cid
     );

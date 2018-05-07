@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,10 +25,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.just.agentweb.AgentWeb;
+import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.base.BaseFragment;
+import com.wan.android.constant.SpConstants;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.bean.ContentCollectEvent;
+import com.wan.android.loginregister.LoginActivity;
+import com.wan.android.util.PreferenceUtils;
 import com.wan.android.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -88,7 +93,9 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
                     @Override
                     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
                         super.onScrollChanged(l, t, oldl, oldt);
-                        Log.d(TAG, "onScrollChanged: l = " + l + ", t = " + t + ", oldl = " + oldl + ", oldt = " + oldt + ", getScrollY() = " + getScrollY() );
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "onScrollChanged: l = " + l + ", t = " + t + ", oldl = " + oldl + ", oldt = " + oldt + ", getScrollY() = " + getScrollY() );
+                        }
                         if (this.getScrollY() == 0){
                             mSwipeRefreshLayout.setEnabled(true);
                         }else {
@@ -141,13 +148,21 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
                     try {
                         startActivity(Intent.createChooser(shareIntent, mActivity.getString(R.string.share)));
                     } catch (ActivityNotFoundException e) {
-                        Log.e(TAG, "activity not found", e);
+                        if (BuildConfig.DEBUG) {
+                            Log.e(TAG, "activity not found", e);
+                        }
                     }
 
                 }
 
                 return true;
             case R.id.action_activity_content_collect:
+                if (TextUtils.isEmpty(PreferenceUtils.getString(Utils.getContext(), SpConstants.KEY_USERNAME, ""))) {
+                    Toast.makeText(Utils.getContext(), R.string.login_first, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
                 mPresenter.collect(mId);
                 return true;
             case R.id.action_activity_content_open_with_system_browser:

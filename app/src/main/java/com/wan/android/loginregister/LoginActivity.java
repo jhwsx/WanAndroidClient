@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
-import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.ActivityUtils;
 
 /**
@@ -39,6 +38,6 @@ public class LoginActivity extends BaseActivity {
         }
 
         // Create the presenter
-        mLoginPresenter = new LoginPresenter(RetrofitClient.getInstance(), loginFragment);
+        mLoginPresenter = new LoginPresenter(loginFragment);
     }
 }

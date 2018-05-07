@@ -246,7 +246,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
 
     @Override
     public void showUncollectFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), mActivity.getString(R.string.uncollect_failed, e.toString()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getContext(), mActivity.getString(R.string.uncollect_failed) + ":" + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

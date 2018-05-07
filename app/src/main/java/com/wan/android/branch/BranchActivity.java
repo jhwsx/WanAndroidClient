@@ -12,12 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.wan.android.BasePresenter;
 import com.wan.android.R;
+import com.wan.android.base.BaseActivity;
 import com.wan.android.data.bean.BranchData;
 import com.wan.android.data.bean.PageModel;
-import com.wan.android.base.BaseActivity;
-import com.wan.android.BasePresenter;
-import com.wan.android.data.source.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,7 @@ public class BranchActivity extends BaseActivity {
 
             BranchFragment branchFragment = BranchFragment.newInstance(children.getId());
             mPageModels.add(new PageModel(children.getName(), branchFragment));
-            mPresenterList.add(new BranchPresenter(RetrofitClient.getInstance(), branchFragment));
+            mPresenterList.add(new BranchPresenter(branchFragment));
         }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
