@@ -36,6 +36,11 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName="${defaultConfig.applicationId}_v${defaultConfig.versionName}.apk"
+                }
+            }
         }
         debug {
             debuggable true
