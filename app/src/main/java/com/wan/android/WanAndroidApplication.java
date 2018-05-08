@@ -2,6 +2,7 @@ package com.wan.android;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.kingja.loadsir.core.LoadSir;
 import com.umeng.commonsdk.UMConfigure;
@@ -45,5 +46,11 @@ public class WanAndroidApplication extends Application {
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
         // 友盟+设置日志加密
         UMConfigure.setEncryptEnabled(!BuildConfig.DEBUG);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

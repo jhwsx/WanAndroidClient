@@ -14,6 +14,12 @@ android {
                                 UMENG_MESSAGE_SECRET: "9526d39c9c3778bed2c4ac93e55b41f5",
                                 UMENG_CHANNEL       : "QiHu",
         ]
+        // Enable multidex support
+        multiDexEnabled true
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
     signingConfigs { // signingConfigs 是一个闭包
         release {
@@ -70,7 +76,7 @@ dependencies {
     compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
     compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.convertergsonVersion"
-//转换器，请求结果转换成Model
+    //转换器，请求结果转换成Model
     compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.adapterrxjavaVersion"//配合Rxjava 使用
     // AgentWeb
     compile "com.just.agentweb:agentweb:$rootProject.agentwebVersion"
@@ -92,7 +98,12 @@ dependencies {
     compile "q.rorbin:VerticalTabLayout:$rootProject.verticalTabLayoutVersion"
 
     compile "com.google.guava:guava:$rootProject.guavaVersion"
-    compile 'com.google.code.findbugs:jsr305:2.0.2'
+
+    compile ("com.airbnb.android:lottie:2.5.4") {
+        exclude group: 'com.android.support'
+    }
+
+    compile "com.android.support:multidex:$rootProject.multidexVersion"
 //    //optional, help to generate the final application
 //    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
 //    //tinker's main Android lib

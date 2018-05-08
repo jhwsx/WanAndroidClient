@@ -11,7 +11,7 @@ public class RetrofitClient {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());;
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
         mRetrofit = builder
                 .client(OkHttpClientManager.getOkHttpClient())

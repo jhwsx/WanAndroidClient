@@ -35,7 +35,7 @@ ext {
     minSdkVersion = 16
     targetSdkVersion = 22
     versionCode = 1
-    versionName = '1.0'
+    versionName = '1.1'
 
     supportLibraryVersion = '26.1.0'
     constraintVersion = '1.0.2'
@@ -61,4 +61,5 @@ ext {
     junitVersion = '4.12'
     espressoVersion = '2.2.2'
     guavaVersion = '24.1-android'
+    multidexVersion = '1.0.3'
 }
