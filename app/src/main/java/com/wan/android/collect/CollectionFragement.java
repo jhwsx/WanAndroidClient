@@ -6,12 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -153,7 +156,19 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
                 final EditText etTitle = (EditText) textEntryView.findViewById(R.id.title_edit);
                 final EditText etAuthor = (EditText) textEntryView.findViewById(R.id.author_edit);
                 final EditText etLink = (EditText) textEntryView.findViewById(R.id.link_edit);
-                mDialog = new AlertDialog.Builder(mActivity)
+
+                etLink.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        boolean handled = false;
+                        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                            save(etTitle, etAuthor, etLink);
+                            handled = true;
+                        }
+                        return handled;
+                    }
+                });
+                mDialog = new AlertDialog.Builder(mActivity,R.style.DialogSoftInput)
                         .setCustomTitle(textEntryTitle)
                         .setView(textEntryView)
                         .setCancelable(false)
@@ -170,18 +185,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
                 mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String title = etTitle.getText().toString();
-                        String author = etAuthor.getText().toString();
-                        String link = etLink.getText().toString();
-                        if (TextUtils.isEmpty(title)) {
-                            Toast.makeText(mActivity, R.string.title_cannot_be_null, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (TextUtils.isEmpty(link)) {
-                            Toast.makeText(mActivity, R.string.link_cannot_be_null, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        mPresenter.addCollect(title, author, link);
+                        save(etTitle, etAuthor, etLink);
                     }
                 });
                 return true;
@@ -189,6 +193,21 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void save(EditText etTitle, EditText etAuthor, EditText etLink) {
+        String title = etTitle.getText().toString();
+        String author = etAuthor.getText().toString();
+        String link = etLink.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            Toast.makeText(mActivity, R.string.title_cannot_be_null, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(link)) {
+            Toast.makeText(mActivity, R.string.link_cannot_be_null, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mPresenter.addCollect(title, author, link);
     }
 
     @Override
