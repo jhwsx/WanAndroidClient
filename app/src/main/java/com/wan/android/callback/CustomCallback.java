@@ -8,12 +8,7 @@ import com.kingja.loadsir.callback.Callback;
 import com.wan.android.R;
 
 
-/**
- * Description:TODO
- * Create Time:2017/9/3 10:22
- * Author:KingJA
- * Email:kingjavip@gmail.com
- */
+
 public class CustomCallback extends Callback {
 
     @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wan.android.R;
+import com.wan.android.util.NightModeUtils;
 import com.wan.android.view.MultiSwipeRefreshLayout;
 
 /**
@@ -19,6 +20,7 @@ import com.wan.android.view.MultiSwipeRefreshLayout;
 public abstract class BaseFragment extends Fragment {
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
     protected Activity mActivity;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -35,6 +37,9 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                NightModeUtils.isNightMode()
+                        ? new int[]{R.color.colorPrimaryDark_night, R.color.colorPrimary_night}
+                        : new int[]{R.color.colorPrimaryDark, R.color.colorPrimary});
     }
 }

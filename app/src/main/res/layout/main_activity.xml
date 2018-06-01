@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_activity_main"
@@ -21,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_56"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
+        android:background="@color/color_background"
         app:itemIconTint="@color/selector_bottom_navigation_view"
         app:itemTextColor="@color/selector_bottom_navigation_view"
         app:menu="@menu/menu_bottom_navigation_view">

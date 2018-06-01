@@ -17,6 +17,7 @@ import com.wan.android.R;
 import com.wan.android.base.BaseActivity;
 import com.wan.android.data.bean.BranchData;
 import com.wan.android.data.bean.PageModel;
+import com.wan.android.util.EdgeEffectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,7 @@ public class BranchActivity extends BaseActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        EdgeEffectUtils.setViewPagerEdgeEffect(viewPager);
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {

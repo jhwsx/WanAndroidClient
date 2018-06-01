@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary_night">@color/color_background_night</color>
+    <color name="colorPrimary1_night">#426AAA</color>
+    <color name="colorPrimaryDark_night">@color/color_background_night</color>
+    <color name="colorAccent_night">@color/color_background_night</color>
+    <!--divider color-->
+    <color name="color_ef_night">#FF171923</color>
+    <color name="color_3e_night">#FFFFFFFF</color>
+    <color name="color_f0_night">#FF34343F</color>
+    <color name="color_background_night">#FF1E1E2A</color>
+</resources>

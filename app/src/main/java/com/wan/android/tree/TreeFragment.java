@@ -3,23 +3,22 @@ package com.wan.android.tree;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.wan.android.R;
-import com.wan.android.branch.BranchActivity;
 import com.wan.android.adapter.TreeAdapter;
-import com.wan.android.data.bean.BranchData;
 import com.wan.android.base.BaseListFragment;
+import com.wan.android.branch.BranchActivity;
+import com.wan.android.data.bean.BranchData;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author wzc
@@ -41,6 +40,8 @@ public class TreeFragment extends BaseListFragment implements TreeContract.View 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // fixme
+        mTreePresenter = new TreePresenter(this);
         initAdapter();
         initRefreshLayout();
         swipeRefresh();
@@ -74,6 +75,7 @@ public class TreeFragment extends BaseListFragment implements TreeContract.View 
 
     @Override
     protected void swipeRefresh() {
+        Log.d("haha", "swipeRefresh: mTreePresenter = " + mTreePresenter);
         mTreePresenter.swipeRefresh();
     }
 
@@ -93,6 +95,7 @@ public class TreeFragment extends BaseListFragment implements TreeContract.View 
 
     @Override
     public void setPresenter(TreeContract.Presenter presenter) {
-        mTreePresenter = checkNotNull(presenter);
+        // fixme
+//        mTreePresenter = checkNotNull(presenter);
     }
 }

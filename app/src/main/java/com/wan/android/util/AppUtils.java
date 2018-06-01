@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 
@@ -102,6 +103,31 @@ public class AppUtils {
         intent.setDataAndType(Uri.fromFile(file),
                 "application/vnd.android.package-archive");
         context.startActivity(intent);
+    }
+
+    /**
+     * Return whether the app is installed.
+     *
+     * @param packageName The name of the package.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isAppInstalled(@NonNull final String packageName) {
+        return !isSpace(packageName) && IntentUtils.getLaunchAppIntent(packageName) != null;
+    }
+
+    public static File getApkFile() {
+        try {
+            PackageManager pm = Utils.getContext().getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(getAppPackageName(), 0);
+            if (pi == null || pi.applicationInfo == null || pi.applicationInfo.sourceDir == null) {
+                return null;
+            }
+            String sourceDir = pi.applicationInfo.sourceDir;
+            return new File(sourceDir);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

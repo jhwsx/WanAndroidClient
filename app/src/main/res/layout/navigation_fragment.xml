@@ -10,7 +10,7 @@
 
     <view
         android:id="@+id/verticaltablayout"
-        class="q.rorbin.verticaltablayout.VerticalTabLayout"
+        class="com.wan.android.skin.VerticalTabLayoutCompat"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_0"
         android:background="@color/colorPrimary"
@@ -26,9 +26,10 @@
 
     <view
         android:id="@+id/verticalviewpager"
-        class="me.kaelaela.verticalviewpager.VerticalViewPager"
+        class="com.wan.android.skin.VerticalViewPagerCompat"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
+        android:background="@color/color_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/verticaltablayout"
         app:layout_constraintRight_toRightOf="parent"

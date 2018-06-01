@@ -2,6 +2,7 @@
 <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/color_background"
         android:id="@+id/scrollview_friend"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

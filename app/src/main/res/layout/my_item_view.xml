@@ -39,4 +39,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/iv_my_item_view_arrow"
         app:srcCompat="@drawable/ic_arrow"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/switch_my_item_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:theme="@style/MySwitch"
+        android:checked="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </android.support.constraint.ConstraintLayout>

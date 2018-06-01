@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,16 +16,20 @@ import android.widget.Toast;
 
 import com.wan.android.base.BaseActivity;
 import com.wan.android.constant.DefaultConstants;
+import com.wan.android.data.bean.NightModeEvent;
 import com.wan.android.friend.FriendActivity;
 import com.wan.android.home.HomeFragment;
-import com.wan.android.home.HomePresenter;
 import com.wan.android.my.MyFragment;
 import com.wan.android.navigate.NavigationFragment;
-import com.wan.android.navigate.NavigationPresenter;
+import com.wan.android.setting.SettingsActivity;
 import com.wan.android.tree.TreeFragment;
-import com.wan.android.tree.TreePresenter;
 import com.wan.android.util.BottomNavigationViewHelper;
+import com.wan.android.util.EdgeEffectUtils;
 import com.youth.banner.Banner;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +48,7 @@ public class MainActivity extends BaseActivity {
     private BottomNavigationView mBottomNavigationView;
     private MenuItem menuItem;
     private List<Fragment> mFragments = new ArrayList<>();
-    private List<BasePresenter> mPresenterList = new ArrayList<>();
+//    private List<BasePresenter> mPresenterList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +57,9 @@ public class MainActivity extends BaseActivity {
         ViewCompat.setElevation(mToolbar, getResources().getDimensionPixelSize(R.dimen.elevation_value));
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(R.string.app_name);
-
+        EventBus.getDefault().register(this);
         mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
+        EdgeEffectUtils.setViewPagerEdgeEffect(mViewPager);
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view_activity_main);
         BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -97,13 +103,16 @@ public class MainActivity extends BaseActivity {
         HomeFragment homeFragment = new HomeFragment();
         mFragments.add(homeFragment);
         // Create the presenter
-        mPresenterList.add(new HomePresenter( homeFragment));
+        // fixme
+//        mPresenterList.add(new HomePresenter( homeFragment));
         TreeFragment treeFragment = new TreeFragment();
         mFragments.add(treeFragment);
-        mPresenterList.add(new TreePresenter(treeFragment));
+        // fixme
+//        mPresenterList.add(new TreePresenter(treeFragment));
         NavigationFragment navigationFragment = new NavigationFragment();
         mFragments.add(navigationFragment);
-        mPresenterList.add(new NavigationPresenter(navigationFragment));
+        // fixme
+//        mPresenterList.add(new NavigationPresenter(navigationFragment));
         MyFragment myFragment = new MyFragment();
         mFragments.add(myFragment);
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -125,23 +134,32 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_search:
+                com.wan.android.search.SearchActivity .start(mContext);
+                return true;
             case R.id.action_hot:
                 FriendActivity.start(mContext);
                 return true;
-            case R.id.action_search:
-                com.wan.android.search.SearchActivity .start(mContext);
+            case R.id.action_settings:
+                SettingsActivity.start(mContext);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     //声明一个long类型变量：用于存放上一点击“返回键”的时刻
     private long mExitTime;
@@ -159,11 +177,19 @@ public class MainActivity extends BaseActivity {
                 mExitTime = System.currentTimeMillis();
             } else {
                 //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
-                System.exit(0);
+                finish();
             }
             // 返回true表示事件不再传递了
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(NightModeEvent nightModeEvent) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "receive nightModeEvent");
+        }
+        EdgeEffectUtils.setViewPagerEdgeEffect(mViewPager);
     }
 }

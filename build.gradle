@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.13'
         // TinkerPatch 插件
 //        classpath ('com.tencent.tinker:tinker-patch-gradle-plugin:1.9.1')
         // NOTE: Do not place your application dependencies here; they belong
@@ -34,8 +35,8 @@ ext {
     applicationId = 'com.wan.android'
     minSdkVersion = 16
     targetSdkVersion = 22
-    versionCode = 1
-    versionName = '1.1'
+    versionCode = 2
+    versionName = '1.2'
 
     supportLibraryVersion = '26.1.0'
     constraintVersion = '1.0.2'
@@ -55,7 +56,6 @@ ext {
     flowlayoutVersion = '1.1.2'
     persistentCookieJarVersion = 'v1.0.1'
     flexibledividerVersion = '1.4.0'
-    systembartintVersion = '1.0.3'
     verticalviewpagerVersion = '1.0.0@aar'
     verticalTabLayoutVersion = '1.2.5'
     junitVersion = '4.12'

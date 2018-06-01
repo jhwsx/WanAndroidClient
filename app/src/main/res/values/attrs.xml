@@ -3,5 +3,6 @@
     <declare-styleable name="MyItemView">
         <attr name="android:src"/>
         <attr name="android:text"/>
+        <attr name="is_show_switch" format="boolean"/>
     </declare-styleable>
 </resources>

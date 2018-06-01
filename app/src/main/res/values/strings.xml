@@ -41,6 +41,7 @@
     ]]></string>
     <string name="action_settings">Settings</string>
     <string name="my_collection">我的收藏</string>
+    <string name="my_website">我的网站</string>
     <string name="open_with_system_browser">用系统浏览器打开</string>
     <string name="about">关于</string>
     <string name="main_exit_text">再按一次退出%s</string>
@@ -56,6 +57,7 @@
     <string name="username">用户名</string>
     <string name="search_history">历史搜索</string>
     <string name="search">搜索</string>
+    <string name="settings">设置</string>
     <string name="unregistered">未登录</string>
     <string name="category">类别：</string>
     <string name="time">时间：</string>
@@ -93,6 +95,23 @@
     <string name="response_cannot_be_null">response cannot be null</string>
     <string name="fetch_banner_fail">获取轮播图失败</string>
     <string name="get_friends_fail">获取朋友失败</string>
+    <string name="get_websites_fail">获取我的网站失败</string>
     <string name="fetch_navigation_fail">获取导航数据失败</string>
     <string name="fetch_hotkey_fail">获取热搜失败</string>
+    <string name="nihgt_mode">夜间模式</string>
+    <string name="service_feedback">客服反馈</string>
+    <string name="score">评分</string>
+    <string name="share_apk">分享应用</string>
+    <string name="check_update">检查更新</string>
+    <string name="key_score">key_score</string>
+    <string name="key_service_feedback">key_service_feedback</string>
+    <string name="key_check_update">key_check_update</string>
+    <string name="key_about">key_about</string>
+    <string name="key_logout">key_logout</string>
+    <string name="key_share_apk">key_share_apk</string>
+    <string name="up_to_date_version">当前已是最新版本！</string>
+    <string name="new_version">检测到新版本</string>
+    <string name="check_network">请检查当前网络！</string>
+    <string name="new_version_info">版本号：%1$s；\n版本更新信息：\n%2$s</string>
+    <string name="update">更新</string>
 </resources>

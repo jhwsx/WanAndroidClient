@@ -2,7 +2,6 @@ package com.wan.android.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.R;
 import com.wan.android.callback.LoadingCallback;
+import com.wan.android.util.EdgeEffectUtils;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 /**
  * @author wzc
@@ -44,7 +45,17 @@ public abstract class BaseListFragment extends BaseFragment {
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recyclerview_view, R.id.ll_error, R.id.ll_empty, R.id.ll_loading);
         mRecyclerView = (RecyclerView) recyclerView.findViewById(R.id.recyclerview_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mActivity)
+                .color(R.color.color_ef).sizeResId(R.dimen.px_1).build());
+        EdgeEffectUtils.setRecyclerViewEdgeEffect(mRecyclerView);
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                EdgeEffectUtils.setRecyclerViewEdgeEffect(mRecyclerView);
+            }
+        });
+
     }
 
     protected abstract void swipeRefresh();

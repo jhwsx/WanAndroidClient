@@ -41,8 +41,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author wzc
  * @date 2018/3/27
@@ -69,6 +67,8 @@ public class HomeFragment extends BaseListFragment implements HomeContract.View 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // fixme
+        mPresenter = new HomePresenter(this);
         initAdapter();
         addHeader();
         initRefreshLayout();
@@ -301,6 +301,7 @@ public class HomeFragment extends BaseListFragment implements HomeContract.View 
 
     @Override
     public void setPresenter(HomeContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        // fixme
+//        mPresenter = checkNotNull(presenter);
     }
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/linearlayout_my"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/color_background"
               android:orientation="vertical">
 
     <RelativeLayout
@@ -19,9 +21,9 @@
             android:orientation="vertical">
 
            <ImageView
-               android:layout_width="@dimen/dp_100"
-               android:layout_height="@dimen/dp_100"
-               android:src="@mipmap/ic_launcher"/>
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_launcher_foreground"/>
 
             <TextView
                 android:id="@+id/tv_signin_state"
@@ -35,30 +37,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/divider_item_view"
-        android:orientation="vertical"
-        android:showDividers="beginning|middle|end">
+        android:orientation="vertical">
+
+        <include layout="@layout/divider"/>
 
         <com.wan.android.view.MyItemView
             android:id="@+id/myitemview_favorite"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_48"
             android:src="@drawable/ic_my_favorite"
+            app:is_show_switch="false"
             android:text="@string/my_collection"/>
 
-        <com.wan.android.view.MyItemView
-            android:id="@+id/myitemview_about"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_48"
-            android:src="@drawable/ic_about"
-            android:text="@string/about"/>
+        <include layout="@layout/divider"/>
 
         <com.wan.android.view.MyItemView
-            android:id="@+id/myitemview_logout"
+            android:id="@+id/myitemview_website"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_48"
-            android:src="@drawable/ic_logout"
-            android:text="@string/logout"/>
+            android:src="@drawable/ic_my_website"
+            app:is_show_switch="false"
+            android:text="@string/my_website"/>
+
+        <include layout="@layout/divider"/>
+
+        <com.wan.android.view.MyItemView
+            android:id="@+id/myitemview_night_mode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            app:is_show_switch="true"
+            android:visibility="gone"
+            android:src="@drawable/ic_night_mode"
+            android:text="@string/nihgt_mode"/>
+
+        <include layout="@layout/divider"/>
+
 
     </LinearLayout>
 

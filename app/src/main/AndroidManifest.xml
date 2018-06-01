@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- AgentWeb必须, 友盟统计必须 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--友盟统计必须-->
+    <!--友盟统计必须, 判断网络有无必须-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!--友盟统计必须-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -44,6 +44,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name=".funet.FUNetActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation"
+            android:label="@string/my_website"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".my.AboutActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:label="@string/about"
@@ -54,6 +61,12 @@
             android:name=".collect.MyCollectionActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:label="@string/my_collection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation"
+            android:label="@string/settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
@@ -91,6 +104,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <service
+            android:name=".setting.VersionUpdateService"
+            android:exported="false"/>
         <!-- [友盟 推送及统计配置 start] -->
         <!-- appkey作为应用在友盟的ID -->
         <meta-data

@@ -255,7 +255,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
         mMultiSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary);
         mRecyclerView = (RecyclerView) recyclerView.findViewById(R.id.recyclerview_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mActivity).build());
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mActivity)
+                .color(R.color.color_ef).sizeResId(R.dimen.px_1).build());
         mMultiSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
