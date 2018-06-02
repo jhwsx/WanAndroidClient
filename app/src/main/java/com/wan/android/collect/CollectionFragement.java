@@ -119,7 +119,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
                         leaf.setName(collectDatas.getChaptername());
                         ArrayList<BranchData.Leaf> data = new ArrayList<BranchData.Leaf>();
                         data.add(leaf);
-                        BranchActivity.start(mActivity, title, data);
+                        BranchActivity.start(mActivity, title, title, data);
                         break;
                     case R.id.tv_home_item_view_author:
                         AuthorActivity.start(mActivity, collectDatas.getAuthor());

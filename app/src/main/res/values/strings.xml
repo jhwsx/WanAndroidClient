@@ -114,4 +114,9 @@
     <string name="check_network">请检查当前网络！</string>
     <string name="new_version_info">版本号：%1$s；\n版本更新信息：\n%2$s</string>
     <string name="update">更新</string>
+    <string name="download_progress">下载进度: %d%%</string>
+    <string name="download_completed">下载完成</string>
+    <string name="new_version_downloading">%s新版本下载</string>
+    <string name="app_update">%s应用更新</string>
+    <string name="downloading">正在下载中...</string>
 </resources>

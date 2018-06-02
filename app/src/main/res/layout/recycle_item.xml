@@ -103,6 +103,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_home_item_view_title"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/ic_favorite_empty"/>
+            tools:srcCompat="@drawable/ic_favorite_empty"/>
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

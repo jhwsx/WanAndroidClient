@@ -14,7 +14,7 @@ android {
 
         manifestPlaceholders = [UMENG_APPKEY        : "5aeaeedba40fa36a6e00019d",
                                 UMENG_MESSAGE_SECRET: "9526d39c9c3778bed2c4ac93e55b41f5",
-                                UMENG_CHANNEL       : "QiHu",
+                                UMENG_CHANNEL       : "kuan",
         ]
         // Enable multidex support
         multiDexEnabled true

@@ -28,7 +28,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ArticleDatas,BaseViewHol
         // title
         helper.setText(R.id.tv_home_item_view_title, Html.fromHtml(item.getTitle()));
         // chapterName
-        helper.setText(R.id.tv_home_item_view_chapter_name, item.getChapterName());
+        helper.setText(R.id.tv_home_item_view_chapter_name, item.getSuperChapterName() + "/"+ item.getChapterName());
         // niceDate
         helper.setText(R.id.tv_home_item_view_nice_date, item.getNiceDate());
         // authorName

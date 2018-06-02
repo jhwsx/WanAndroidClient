@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.data.bean.VersionUpdateData;
 import com.wan.android.util.AppUtils;
+import com.wan.android.util.EventReporterFactory;
 import com.wan.android.util.Utils;
 
 import java.io.File;
@@ -88,7 +91,8 @@ public class VersionUpdateService extends Service {
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "progress = " + progress);
                         }
-                        mBuilder.setContentText("下载进度: " + progress + "%").setProgress(100, progress, false);
+
+                        mBuilder.setContentText(getString(R.string.download_progress,progress)).setProgress(100, progress, false);
                         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
                     }
 
@@ -98,11 +102,11 @@ public class VersionUpdateService extends Service {
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "completed: ");
                         }
-                        mBuilder.setContentText("下载完成")
+                        EventReporterFactory.getReporter().report("download_complete");
+                        mBuilder.setContentText(getString(R.string.download_completed))
                                 .setProgress(0, 0, false);
                         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
                         AppUtils.installApk(Utils.getContext(), wanAndroidApkFilePath);
-//                        mNotificationManager.cancelAll();
                         setDownloading(false);
                         mDownloadListener.onDownloadSuccess();
                     }
@@ -118,14 +122,14 @@ public class VersionUpdateService extends Service {
 
     private void starDownLoadForeground() {
         mBuilder = new NotificationCompat.Builder(this)
-//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setSmallIcon(R.drawable.ic_small_icon)
-//                .setColor(Color.parseColor("#0F9D58"))
-                .setTicker("玩Android新版本下载")
+                .setColor(Color.parseColor("#0F9D58"))
+                .setTicker(getString(R.string.new_version_downloading, getString(R.string.app_name)))
                 .setWhen(System.currentTimeMillis())
                 .setOngoing(true)
-                .setContentTitle("玩Android应用更新") // 通知标题
-                .setContentText("正在下载中...") // 通知内容
+                .setContentTitle(getString(R.string.app_update, getString(R.string.app_name))) // 通知标题
+                .setContentText(getString(R.string.downloading)) // 通知内容
                 .setAutoCancel(false);
         Notification notification = mBuilder.getNotification();
         startForeground(NOTIFICATION_ID, notification);

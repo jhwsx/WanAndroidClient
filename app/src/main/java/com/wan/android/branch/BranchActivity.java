@@ -31,12 +31,16 @@ import java.util.List;
 public class BranchActivity extends BaseActivity {
     private static final String TAG = BranchActivity.class.getSimpleName();
     private static final String EXTRA_BRANCH_TITLE = "EXTRA_BRANCH_TITLE";
+    private static final String EXTRA_BRANCH_SUPER_CHAPTERNAME = "EXTRA_BRANCH_SUPER_CHAPTERNAME";
     private static final String EXTRA_CHILDREN_LIST = "EXTRA_CHILDREN_LIST";
     private String mTitle;
+    private String mSuperChapterName;
     private ArrayList<BranchData.Leaf> mChildren;
     private List<BasePresenter> mPresenterList = new ArrayList<>();
-    public static void start(Context context, String title, ArrayList<BranchData.Leaf> children) {
+    public static void start(Context context, String superChapterName, String title,
+                             ArrayList<BranchData.Leaf> children) {
         Intent starter = new Intent(context, BranchActivity.class);
+        starter.putExtra(EXTRA_BRANCH_SUPER_CHAPTERNAME, superChapterName);
         starter.putExtra(EXTRA_BRANCH_TITLE, title);
         starter.putExtra(EXTRA_CHILDREN_LIST, children);
         context.startActivity(starter);
@@ -47,6 +51,7 @@ public class BranchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.branch_activity);
         if (getIntent() != null) {
+            mSuperChapterName = getIntent().getStringExtra(EXTRA_BRANCH_SUPER_CHAPTERNAME);
             mTitle = getIntent().getStringExtra(EXTRA_BRANCH_TITLE);
             mChildren = (ArrayList<BranchData.Leaf>) getIntent().getSerializableExtra(EXTRA_CHILDREN_LIST);
         }
@@ -54,7 +59,7 @@ public class BranchActivity extends BaseActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         TextView tvTitle = (TextView) findViewById(R.id.tv_activity_branch_title);
-        tvTitle.setText(mTitle);
+        tvTitle.setText(mSuperChapterName);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

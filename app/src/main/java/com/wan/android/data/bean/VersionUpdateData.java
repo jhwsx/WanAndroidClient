@@ -1,9 +1,12 @@
 package com.wan.android.data.bean;
 
+import com.wan.android.annotation.NotProguard;
+
 /**
  * @author wzc
  * @date 2018/5/29
  */
+@NotProguard
 public class VersionUpdateData {
     private String downloadUrl;
     private String info;

@@ -319,6 +319,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
                         }
                         break;
                     case R.id.tv_home_item_view_chapter_name:
+                        String superChapterName = articleDatas.getSuperChapterName();
                         String title = articleDatas.getChapterName();
                         BranchData.Leaf leaf = new BranchData.Leaf();
                         leaf.setChildren(new ArrayList<String>());
@@ -327,7 +328,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
                         leaf.setName(articleDatas.getChapterName());
                         ArrayList<BranchData.Leaf> data = new ArrayList<BranchData.Leaf>();
                         data.add(leaf);
-                        BranchActivity.start(mActivity, title, data);
+                        BranchActivity.start(mActivity,superChapterName,title, data);
                         break;
                     case R.id.tv_home_item_view_author:
                         AuthorActivity.start(mActivity, articleDatas.getAuthor());

@@ -59,7 +59,7 @@ public class TreeFragment extends BaseListFragment implements TreeContract.View 
                 BranchData data = mDatasList.get(position);
                 String title = data.getName();
                 ArrayList<BranchData.Leaf> children = data.getChildren();
-                BranchActivity.start(mActivity, title, children);
+                BranchActivity.start(mActivity, title, title, children);
             }
         });
     }
