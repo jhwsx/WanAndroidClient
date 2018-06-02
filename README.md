@@ -4,7 +4,7 @@
 
 ## Apk
 
-[com.wan.android_v1.1.apk](https://github.com/jhwsx/WanAndroidClient/blob/35ba976d1ffaec25471766854d46afd2ed911d90/app/release/com.wan.android_v1.1.apk?raw=true)
+[com.wan.android_v1.2.apk](https://github.com/jhwsx/WanAndroidClient/blob/master/app/release/com.wan.android_v1.2.apk?raw=true)
 
 ## API
 
