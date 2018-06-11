@@ -8,6 +8,11 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
+import com.wan.android.BuildConfig;
 
 import java.lang.reflect.Method;
 import java.net.NetworkInterface;
@@ -33,14 +38,14 @@ public class UmengUtils {
      * @param context 上下文
      */
     public static void initUmengAnalytics(Context context) {
-//        // 普通统计场景类型
-//        MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
-//        // 初始化友盟+common库
-//        UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, MetaDataUtils.getStringMetaData(context,"UMENG_MESSAGE_SECRET"));
-//        if(BuildConfig.DEBUG) {
-//            String deviceInfo = getDeviceInfo(context);
-//            Log.d(TAG, "initUmengAnalytics: deviceInfo = " + deviceInfo);
-//        }
+        // 普通统计场景类型
+        MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
+        // 初始化友盟+common库
+        UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, MetaDataUtils.getStringMetaData(context,"UMENG_MESSAGE_SECRET"));
+        if(BuildConfig.DEBUG) {
+            String deviceInfo = getDeviceInfo(context);
+            Log.d(TAG, "initUmengAnalytics: deviceInfo = " + deviceInfo);
+        }
 
     }
 

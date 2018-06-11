@@ -99,12 +99,15 @@
     <string name="fetch_navigation_fail">获取导航数据失败</string>
     <string name="fetch_hotkey_fail">获取热搜失败</string>
     <string name="nihgt_mode">夜间模式</string>
+    <string name="feedback">反馈</string>
     <string name="service_feedback">客服反馈</string>
+    <string name="tucao">吐个槽</string>
     <string name="score">评分</string>
     <string name="share_apk">分享应用</string>
     <string name="check_update">检查更新</string>
     <string name="key_score">key_score</string>
     <string name="key_service_feedback">key_service_feedback</string>
+    <string name="key_tucao_feedback">key_tucao_feedback</string>
     <string name="key_check_update">key_check_update</string>
     <string name="key_about">key_about</string>
     <string name="key_logout">key_logout</string>

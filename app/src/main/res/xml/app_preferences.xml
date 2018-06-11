@@ -8,9 +8,16 @@
     <android.support.v7.preference.Preference
         android:key="@string/key_share_apk"
         android:title="@string/share_apk"/>
-    <android.support.v7.preference.Preference
-        android:key="@string/key_service_feedback"
-        android:title="@string/service_feedback"/>
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/feedback">
+        <android.support.v7.preference.Preference
+            android:key="@string/key_service_feedback"
+            android:title="@string/service_feedback"/>
+        <android.support.v7.preference.Preference
+            android:key="@string/key_tucao_feedback"
+            android:title="@string/tucao"/>
+    </android.support.v7.preference.PreferenceCategory>
+
     <android.support.v7.preference.Preference
         android:key="@string/key_check_update"
         android:title="@string/check_update"/>

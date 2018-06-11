@@ -29,6 +29,7 @@ import com.wan.android.constant.SpConstants;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.bean.LogoutMessageEvent;
 import com.wan.android.data.bean.VersionUpdateData;
+import com.wan.android.loginregister.LoginActivity;
 import com.wan.android.my.AboutActivity;
 import com.wan.android.util.AppUtils;
 import com.wan.android.util.EdgeEffectUtils;
@@ -50,6 +51,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private Preference mPreferenceScore;
     private Preference mPreferenceShareApk;
     private Preference mPreferenceServiceFeedback;
+    private Preference mPreferenceTucao;
     private Preference mPreferenceCheckUpdate;
     private Preference mPreferenceAbout;
     private Preference mPreferenceLogout;
@@ -104,6 +106,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         mPreferenceScore = findPreference(getString(R.string.key_score));
         mPreferenceShareApk = findPreference(getString(R.string.key_share_apk));
         mPreferenceServiceFeedback = findPreference(getString(R.string.key_service_feedback));
+        mPreferenceTucao = findPreference(getString(R.string.key_tucao_feedback));
         mPreferenceCheckUpdate = findPreference(getString(R.string.key_check_update));
         mPreferenceAbout = findPreference(getString(R.string.key_about));
         mPreferenceLogout = findPreference(getString(R.string.key_logout));
@@ -113,6 +116,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         mPreferenceScore.setOnPreferenceClickListener(this);
         mPreferenceShareApk.setOnPreferenceClickListener(this);
         mPreferenceServiceFeedback.setOnPreferenceClickListener(this);
+        mPreferenceTucao.setOnPreferenceClickListener(this);
         mPreferenceCheckUpdate.setOnPreferenceClickListener(this);
         mPreferenceAbout.setOnPreferenceClickListener(this);
         mPreferenceLogout.setOnPreferenceClickListener(this);
@@ -135,6 +139,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         if (TextUtils.equals(preference.getKey(), getString(R.string.key_service_feedback))) {
             serviceFeedback();
+            return true;
+        }
+
+        if (TextUtils.equals(preference.getKey(), getString(R.string.key_tucao_feedback))) {
+            String username = PreferenceUtils.getString(getContext(), SpConstants.KEY_USERNAME, "");
+            if (TextUtils.isEmpty(username)) {
+                Toast.makeText(getActivity(), R.string.please_login_first, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            } else {
+                TucaoActivity.start(getActivity());
+            }
+
             return true;
         }
 
