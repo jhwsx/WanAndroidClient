@@ -12,18 +12,17 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wan.android.R;
-import com.wan.android.data.bean.AccountData;
-import com.wan.android.data.bean.LoginMessageEvent;
-import com.wan.android.constant.SpConstants;
 import com.wan.android.base.BaseFragment;
+import com.wan.android.constant.SpConstants;
+import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
+import com.wan.android.data.bean.LoginMessageEvent;
 import com.wan.android.util.PreferenceUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,7 +36,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     private LoginContract.Presenter mPresenter;
-    private AutoCompleteTextView mNameView;
+    private EditText mNameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -73,8 +72,8 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         // 设置可下拉刷新的子view
         mSwipeRefreshLayout.setSwipeableChildren(R.id.framelayout_login_root);
         // Set up the login form.
-        mNameView = (AutoCompleteTextView) view.findViewById(R.id.name);
-        mPasswordView = (EditText) view.findViewById(R.id.password);
+        mNameView = view.findViewById(R.id.name);
+        mPasswordView = view.findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {

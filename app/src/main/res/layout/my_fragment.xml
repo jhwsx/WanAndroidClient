@@ -66,7 +66,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_48"
             app:is_show_switch="true"
-            android:visibility="gone"
             android:src="@drawable/ic_night_mode"
             android:text="@string/nihgt_mode"/>
 

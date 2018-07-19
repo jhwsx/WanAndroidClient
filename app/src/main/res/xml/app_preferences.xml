@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.preference.Preference
+    <com.wan.android.view.MyPreference
         android:key="@string/key_score"
-        android:textColor="@color/color_3e_night"
         android:title="@string/score"/>
-    <android.support.v7.preference.Preference
+    <com.wan.android.view.MyPreference
         android:key="@string/key_share_apk"
         android:title="@string/share_apk"/>
-    <android.support.v7.preference.PreferenceCategory
+    <com.wan.android.view.MyPreferenceCategory
         android:title="@string/feedback">
-        <android.support.v7.preference.Preference
+        <com.wan.android.view.MyPreference
             android:key="@string/key_service_feedback"
             android:title="@string/service_feedback"/>
-        <android.support.v7.preference.Preference
+        <com.wan.android.view.MyPreference
             android:key="@string/key_tucao_feedback"
             android:title="@string/tucao"/>
-    </android.support.v7.preference.PreferenceCategory>
+    </com.wan.android.view.MyPreferenceCategory>
 
-    <android.support.v7.preference.Preference
+    <com.wan.android.view.MyPreference
         android:key="@string/key_check_update"
         android:title="@string/check_update"/>
-    <android.support.v7.preference.Preference
+    <com.wan.android.view.MyPreference
         android:key="@string/key_about"
         android:title="@string/about"/>
-    <android.support.v7.preference.Preference
+    <com.wan.android.view.MyPreference
         android:key="@string/key_logout"
         android:title="@string/logout"/>
 </android.support.v7.preference.PreferenceScreen>

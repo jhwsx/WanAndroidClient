@@ -21,9 +21,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
-    </style>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/white</item>
@@ -54,5 +51,26 @@
     <style name="MySwitch" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/colorPrimary1_night</item>
+    </style>
+
+    <style name="MyToolbarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/color_3e</item>
+        <item name="android:colorBackground">@color/color_background</item>
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/color_3e</item>
+        <item name="android:textColorLink">@color/colorPrimary1</item>
+        <item name="android:textColorHighlight">@color/colorPrimary1</item>
+        <item name="colorControlNormal">@color/color_3e</item>
+    </style>
+
+
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/colorPrimary1</item>
+        <!--下划线没有获取焦点，也就是默认的颜色-->
+        <item name="colorControlNormal">@color/color_3e</item>
+        <!--点击时下划线的颜色-->
+        <item name="colorControlActivated">@color/colorPrimary1</item>
     </style>
 </resources>

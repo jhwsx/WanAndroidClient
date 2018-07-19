@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -11,15 +12,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wan.android.R;
-import com.wan.android.data.bean.AccountData;
 import com.wan.android.base.BaseFragment;
+import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
 
 /**
@@ -28,7 +28,7 @@ import com.wan.android.data.bean.CommonException;
  */
 public class RegisterFragment extends BaseFragment implements RegisterContract.View {
     // UI references.
-    private AutoCompleteTextView mNameView;
+    private TextInputEditText mNameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mRegisterFormView;
@@ -58,7 +58,7 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
         // 设置可下拉刷新的子view
         mSwipeRefreshLayout.setSwipeableChildren(R.id.framelayout_register_root);
         // Set up the register form.
-        mNameView = (AutoCompleteTextView) view.findViewById(R.id.name);
+        mNameView =  view.findViewById(R.id.name);
         mPasswordView = (EditText) view.findViewById(R.id.password);
         mRePasswordView = (EditText) view.findViewById(R.id.repassword);
         mRePasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
