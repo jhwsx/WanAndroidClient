@@ -187,6 +187,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
             mMultiSwipeRefreshLayout.setVisibility(View.GONE);
             return;
         }
+        resetCurrPage();
         mCurrQuery = query;
         mCommonListAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh(query);
@@ -450,5 +451,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
     @Override
     public void setPresenter(SearchContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    public void resetCurrPage() {
+        mCurrPage = 1;
     }
 }

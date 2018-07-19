@@ -69,6 +69,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
     protected void swipeRefresh() {
         // 防止下拉刷新时,还可以上拉加载
         mCollectAdapter.setEnableLoadMore(false);
+        resetCurrPage(mCurrPage);
         mPresenter.swipeRefresh();
     }
 

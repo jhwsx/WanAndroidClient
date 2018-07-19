@@ -92,6 +92,9 @@ public class NavigationFragment extends BaseFragment implements NavigationContra
             ArrayList<ArticleDatas> articles = navigationData.getArticles();
             navigationListFragments.add(NavigationListFragment.newInstance(articles));
         }
+        if (!isAdded()) {
+            return;
+        }
         mVerticalViewPager.setAdapter(new NavigationPagerAdapter(getChildFragmentManager(), dataList, navigationListFragments));
         mVerticalViewPager.setPageTransformer(true, new ZoomOutTransformer());
         mVerticalTabLayout.setupWithViewPager(mVerticalViewPager);

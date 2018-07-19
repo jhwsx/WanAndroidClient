@@ -42,4 +42,8 @@ public abstract class BaseFragment extends Fragment {
                         ? new int[]{R.color.colorPrimaryDark_night, R.color.colorPrimary_night}
                         : new int[]{R.color.colorPrimaryDark, R.color.colorPrimary});
     }
+
+    public void resetCurrPage(int currPage) {
+        currPage = 1;
+    }
 }

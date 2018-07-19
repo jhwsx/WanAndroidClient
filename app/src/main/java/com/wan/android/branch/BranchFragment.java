@@ -178,6 +178,7 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
     protected void swipeRefresh() {
         // 防止下拉刷新时,还可以上拉加载
         mCommonListAdapter.setEnableLoadMore(false);
+        resetCurrPage(mCurrPage);
         // 下拉刷新
         mPresenter.swipeRefresh(mCid);
     }
