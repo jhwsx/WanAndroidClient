@@ -169,20 +169,20 @@ public class TucaoFragment extends BaseFragment {
     }
 
     public String getOpenId() {
-        String openId = PreferenceUtils.getString(Utils.getContext(), SpConstants.KEY_OPEN_ID, "");
+        String openId = PreferenceUtils.getString(Utils.getApp(), SpConstants.KEY_OPEN_ID, "");
         if (TextUtils.isEmpty(openId)) {
             openId = UUID.randomUUID().toString();
-            PreferenceUtils.putString(Utils.getContext(), SpConstants.KEY_OPEN_ID, openId);
+            PreferenceUtils.putString(Utils.getApp(), SpConstants.KEY_OPEN_ID, openId);
         }
         return openId;
 
     }
 
     public int getHeadPicId() {
-        int headPicId = PreferenceUtils.getInt(Utils.getContext(), SpConstants.KEY_HEAD_PIC_ID, 0);
+        int headPicId = PreferenceUtils.getInt(Utils.getApp(), SpConstants.KEY_HEAD_PIC_ID, 0);
         if (headPicId == 0) {
             headPicId = new Random().nextInt(100) + 1;
-            PreferenceUtils.putInt(Utils.getContext(), SpConstants.KEY_HEAD_PIC_ID, headPicId);
+            PreferenceUtils.putInt(Utils.getApp(), SpConstants.KEY_HEAD_PIC_ID, headPicId);
         }
         return headPicId;
 

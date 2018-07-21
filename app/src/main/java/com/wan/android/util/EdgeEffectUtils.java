@@ -75,14 +75,14 @@ public class EdgeEffectUtils {
     public static  void setViewPagerEdgeEffect(ViewPager viewPager) {
         EdgeEffectUtils.setEdgeGlowColor(viewPager,
                 NightModeUtils.isNightMode()
-                        ? Utils.getContext().getResources().getColor(R.color.color_ef_night)
-                        : Utils.getContext().getResources().getColor(R.color.colorPrimary2));
+                        ? Utils.getApp().getResources().getColor(R.color.color_ef_night)
+                        : Utils.getApp().getResources().getColor(R.color.colorPrimary2));
     }
 
     public static void setRecyclerViewEdgeEffect(RecyclerView recyclerView) {
         EdgeEffectUtils.setEdgeGlowColor(recyclerView,
                 NightModeUtils.isNightMode()
-                        ? Utils.getContext().getResources().getColor(R.color.color_ef_night)
-                        : Utils.getContext().getResources().getColor(R.color.colorPrimary2));
+                        ? Utils.getApp().getResources().getColor(R.color.color_ef_night)
+                        : Utils.getApp().getResources().getColor(R.color.colorPrimary2));
     }
 }

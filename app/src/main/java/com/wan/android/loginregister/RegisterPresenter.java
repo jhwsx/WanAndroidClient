@@ -54,8 +54,8 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
                         if (response == null) {
                             mRegisterView.showRegisterFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                            : Utils.getContext().getString(R.string.register_fail)));
+                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                            : Utils.getApp().getString(R.string.register_fail)));
                             return;
                         }
 
@@ -71,7 +71,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                     public void onError(Throwable e) {
                         mRegisterView.dismissProgressBar();
                         mRegisterView.showRegisterFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.register_fail)));
+                                : Utils.getApp().getString(R.string.register_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

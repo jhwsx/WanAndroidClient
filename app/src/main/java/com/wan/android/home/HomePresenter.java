@@ -82,7 +82,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     public void accept(Throwable t) throws Exception {
                         mHomeView.showSwipeRefreshFail(
                                 new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
-                                        : Utils.getContext().getString(R.string.swipe_refresh_fail)));
+                                        : Utils.getApp().getString(R.string.swipe_refresh_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
                 }, new Action() {
@@ -120,8 +120,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
                         if (response == null) {
                             mHomeView.showLoadMoreFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                            : Utils.getContext().getString(R.string.load_more_fail)));
+                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                            : Utils.getApp().getString(R.string.load_more_fail)));
                             return;
                         }
 
@@ -156,7 +156,7 @@ public class HomePresenter implements HomeContract.Presenter {
                         }
                         mHomeView.showLoadMoreFail(
                                 new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                        : Utils.getContext().getString(R.string.load_more_fail)));
+                                        : Utils.getApp().getString(R.string.load_more_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -191,8 +191,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
                         if (response == null) {
                             mHomeView.showBannerFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                            : Utils.getContext().getString(R.string.fetch_banner_fail)));
+                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                            : Utils.getApp().getString(R.string.fetch_banner_fail)));
                             return;
                         }
 
@@ -212,7 +212,7 @@ public class HomePresenter implements HomeContract.Presenter {
                         DisposableUtil.dispose(disposable[0]);
                         mHomeView.showBannerFail(
                                 new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                        : Utils.getContext().getString(R.string.fetch_banner_fail)));
+                                        : Utils.getApp().getString(R.string.fetch_banner_fail)));
                     }
 
                     @Override
@@ -239,8 +239,8 @@ public class HomePresenter implements HomeContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mHomeView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            mHomeView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.collect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -253,7 +253,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mHomeView.showCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.collect_failed)));
+                                : Utils.getApp().getString(R.string.collect_failed)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -281,8 +281,8 @@ public class HomePresenter implements HomeContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mHomeView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.uncollect_failed)));
+                            mHomeView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.uncollect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -295,7 +295,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mHomeView.showUncollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.uncollect_failed)));
+                                : Utils.getApp().getString(R.string.uncollect_failed)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

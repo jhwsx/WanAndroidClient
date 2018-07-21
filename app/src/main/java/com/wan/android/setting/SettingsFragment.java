@@ -27,7 +27,7 @@ import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.data.bean.CommonException;
-import com.wan.android.data.bean.LogoutMessageEvent;
+import com.wan.android.data.event.LogoutMessageEvent;
 import com.wan.android.data.bean.VersionUpdateData;
 import com.wan.android.loginregister.LoginActivity;
 import com.wan.android.my.AboutActivity;
@@ -208,7 +208,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (getActivity().getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
             try {
-                startActivity(intent);
+                startActivity(Intent.createChooser(intent, getString(R.string.score)));
             } catch (ActivityNotFoundException e) {
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "activity not found", e);

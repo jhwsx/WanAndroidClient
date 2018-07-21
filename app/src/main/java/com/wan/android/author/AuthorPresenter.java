@@ -73,7 +73,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     public void onError(Throwable t) {
                         mAuthorView.showSwipeRefreshFail(
                                 new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
-                                        : Utils.getContext().getString(R.string.swipe_refresh_fail)));
+                                        : Utils.getApp().getString(R.string.swipe_refresh_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -102,8 +102,8 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     public void onNext(CommonResponse<ArticleData> response) {
                         if (response == null) {
                             mAuthorView.showLoadMoreFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                            : Utils.getContext().getString(R.string.load_more_fail)));
+                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                            : Utils.getApp().getString(R.string.load_more_fail)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -128,7 +128,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mAuthorView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getContext().getString(R.string.load_more_fail)));
+                        mAuthorView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getApp().getString(R.string.load_more_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -157,8 +157,8 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mAuthorView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            mAuthorView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.collect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -172,7 +172,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     public void onError(Throwable e) {
                         DisposableUtil.dispose(disposable[0]);
                         mAuthorView.showCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.collect_failed)));
+                                : Utils.getApp().getString(R.string.collect_failed)));
                     }
 
                     @Override
@@ -200,8 +200,8 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mAuthorView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.uncollect_failed)));
+                            mAuthorView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.uncollect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -215,7 +215,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     public void onError(Throwable e) {
                         DisposableUtil.dispose(disposable[0]);
                         mAuthorView.showUncollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.uncollect_failed)));
+                                : Utils.getApp().getString(R.string.uncollect_failed)));
                     }
 
                     @Override

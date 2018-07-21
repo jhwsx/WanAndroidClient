@@ -71,7 +71,7 @@ public class FUNetPresenter implements FUNetConstract.Presenter {
                         DisposableUtil.dispose(disposable[0]);
                         mFunetView.showGetFUNetsFail(
                                 new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
-                                        : Utils.getContext().getString(R.string.get_friends_fail)));
+                                        : Utils.getApp().getString(R.string.get_friends_fail)));
 
                     }
 

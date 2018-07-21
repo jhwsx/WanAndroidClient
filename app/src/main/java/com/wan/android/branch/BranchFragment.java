@@ -11,17 +11,20 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.wan.android.MainActivity;
 import com.wan.android.R;
 import com.wan.android.adapter.CommonListAdapter;
 import com.wan.android.author.AuthorActivity;
 import com.wan.android.base.BaseListFragment;
 import com.wan.android.callback.EmptyCallback;
+import com.wan.android.constant.FromTypeConstants;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.content.ContentActivity;
 import com.wan.android.data.bean.ArticleDatas;
-import com.wan.android.data.bean.BranchData;
 import com.wan.android.data.bean.CommonException;
-import com.wan.android.data.bean.ContentCollectEvent;
+import com.wan.android.data.event.ContentCollectSuccessFromBranchEvent;
+import com.wan.android.data.event.NavigationEvent;
+import com.wan.android.data.event.ProjectEvent;
 import com.wan.android.loginregister.LoginActivity;
 import com.wan.android.util.PreferenceUtils;
 import com.wan.android.util.Utils;
@@ -84,7 +87,8 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(ContentCollectEvent contentCollectEvent) {
+    public void contentCollectSuccessFromBranchEvent(
+            ContentCollectSuccessFromBranchEvent event) {
         mItemIv.setImageResource(R.drawable.ic_favorite);
         mDatasList.get(mItemPosition).setCollect(true);
     }
@@ -118,7 +122,7 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
                 String title = datas.getTitle();
                 mItemIv = (ImageView) view.findViewById(R.id.iv_home_item_view_collect);
                 mItemPosition = position;
-                ContentActivity.start(mActivity,title, link, datas.getId());
+                ContentActivity.start(mActivity, FromTypeConstants.FROM_BRANCH_FRAGMENT, title, link, datas.getId());
             }
         });
 
@@ -128,8 +132,8 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
                 ArticleDatas articleDatas = mDatasList.get(position);
                 switch (view.getId()) {
                     case R.id.iv_home_item_view_collect:
-                        if (TextUtils.isEmpty(PreferenceUtils.getString(Utils.getContext(), SpConstants.KEY_USERNAME, ""))) {
-                            Toast.makeText(Utils.getContext(), R.string.login_first, Toast.LENGTH_SHORT).show();
+                        if (TextUtils.isEmpty(PreferenceUtils.getString(Utils.getApp(), SpConstants.KEY_USERNAME, ""))) {
+                            Toast.makeText(Utils.getApp(), R.string.login_first, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(mActivity, LoginActivity.class);
                             startActivity(intent);
                             return;
@@ -142,20 +146,22 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
                             mPresenter.collect(articleDatas.getId());
                         }
                         break;
-                    case R.id.tv_home_item_view_chapter_name:
-                        String superChapterName = articleDatas.getSuperChapterName();
-                        String title = articleDatas.getChapterName();
-                        BranchData.Leaf leaf = new BranchData.Leaf();
-                        leaf.setChildren(new ArrayList<String>());
-                        leaf.setCourseid(articleDatas.getCourseId());
-                        leaf.setId(articleDatas.getChapterId());
-                        leaf.setName(articleDatas.getChapterName());
-                        ArrayList<BranchData.Leaf> data = new ArrayList<BranchData.Leaf>();
-                        data.add(leaf);
-                        BranchActivity.start(mActivity, superChapterName, title, data);
-                        break;
                     case R.id.tv_home_item_view_author:
                         AuthorActivity.start(mActivity, articleDatas.getAuthor());
+                        break;
+                    case R.id.tv_home_item_view_tag:
+                        ArrayList<ArticleDatas.TagsBean> tags = mDatasList.get(position).getTags();
+                        if (!tags.isEmpty() && tags.get(0) != null) {
+                            String name = tags.get(0).getName();
+                            if (name.contains(getString(R.string.navigation))) {
+                                // 跳转导航
+                                EventBus.getDefault().post(new NavigationEvent());
+                            } else if (name.contains(getString(R.string.project))) {
+                                // 跳转项目
+                                EventBus.getDefault().post(new ProjectEvent());
+                            }
+                        }
+                        MainActivity.start(mActivity);
                         break;
                     default:
                         break;
@@ -178,7 +184,7 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
     protected void swipeRefresh() {
         // 防止下拉刷新时,还可以上拉加载
         mCommonListAdapter.setEnableLoadMore(false);
-        resetCurrPage(mCurrPage);
+        mCurrPage = resetCurrPage();
         // 下拉刷新
         mPresenter.swipeRefresh(mCid);
     }
@@ -195,7 +201,7 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
 
     @Override
     public void showSwipeRefreshFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), e.toString(), Toast.LENGTH_SHORT).show();
         mCommonListAdapter.setEnableLoadMore(true);
         mSwipeRefreshLayout.setRefreshing(false);
         mLoadService.showCallback(EmptyCallback.class);
@@ -229,24 +235,24 @@ public class BranchFragment extends BaseListFragment implements BranchContract.V
     public void showCollectSuccess() {
         mCollectIv.setImageResource(R.drawable.ic_favorite);
         mDatasList.get(mCollectPosition).setCollect(true);
-        Toast.makeText(Utils.getContext(), R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), R.string.collect_successfully, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showCollectFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), Utils.getContext().getString(R.string.collect_failed) + " : " + e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), Utils.getApp().getString(R.string.collect_failed) + " : " + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showUncollectSuccess() {
         mCollectIv.setImageResource(R.drawable.ic_favorite_empty);
         mDatasList.get(mCollectPosition).setCollect(false);
-        Toast.makeText(Utils.getContext(), R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showUncollectFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), Utils.getContext().getString(R.string.uncollect_failed) + " : " + e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), Utils.getApp().getString(R.string.uncollect_failed) + " : " + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
 

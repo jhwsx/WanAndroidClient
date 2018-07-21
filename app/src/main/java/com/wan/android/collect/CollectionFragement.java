@@ -69,7 +69,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
     protected void swipeRefresh() {
         // 防止下拉刷新时,还可以上拉加载
         mCollectAdapter.setEnableLoadMore(false);
-        resetCurrPage(mCurrPage);
+        mCurrPage = resetCurrPage();
         mPresenter.swipeRefresh();
     }
 
@@ -227,7 +227,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
 
     @Override
     public void showSwipeRefreshFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), e.toString(), Toast.LENGTH_SHORT).show();
         mCollectAdapter.setEnableLoadMore(true);
         mSwipeRefreshLayout.setRefreshing(false);
         mLoadService.showCallback(EmptyCallback.class);
@@ -243,7 +243,7 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
 
     @Override
     public void showLoadMoreFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), e.toString(), Toast.LENGTH_SHORT).show();
         mCollectAdapter.loadMoreFail();
     }
 
@@ -259,14 +259,14 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
 
     @Override
     public void showUncollectSuccess() {
-        Toast.makeText(Utils.getContext(), R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), R.string.uncollect_successfully, Toast.LENGTH_SHORT).show();
         mDatasList.remove(mPosition);
         mCollectAdapter.notifyItemRemoved(mPosition);
     }
 
     @Override
     public void showUncollectFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), mActivity.getString(R.string.uncollect_failed) + ":" + e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), mActivity.getString(R.string.uncollect_failed) + ":" + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -274,13 +274,13 @@ public class CollectionFragement extends BaseListFragment implements CollectCont
         mDatasList.add(0, data);
         mCollectAdapter.notifyItemInserted(0);
         mRecyclerView.scrollToPosition(0);
-        Toast.makeText(Utils.getContext(), R.string.add_collect_successfully, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), R.string.add_collect_successfully, Toast.LENGTH_SHORT).show();
         mDialog.dismiss();
     }
 
     @Override
     public void showAddCollectFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), mActivity.getString(R.string.add_collect_failed, e.toString()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), mActivity.getString(R.string.add_collect_failed, e.toString()), Toast.LENGTH_SHORT).show();
         mDialog.dismiss();
     }
 

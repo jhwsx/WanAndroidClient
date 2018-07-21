@@ -106,7 +106,7 @@ public class VersionUpdateService extends Service {
                         mBuilder.setContentText(getString(R.string.download_completed))
                                 .setProgress(0, 0, false);
                         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-                        AppUtils.installApk(Utils.getContext(), wanAndroidApkFilePath);
+                        AppUtils.installApk(Utils.getApp(), wanAndroidApkFilePath);
                         setDownloading(false);
                         mDownloadListener.onDownloadSuccess();
                     }

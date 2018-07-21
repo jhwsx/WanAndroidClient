@@ -1,6 +1,6 @@
 package com.wan.android.data.bean;
 
-import com.wan.android.branch.BranchFragment;
+import android.support.v4.app.Fragment;
 
 /**
  * viewpage页面模型类
@@ -12,9 +12,9 @@ public class PageModel {
 
     private String mTabTitle;
 
-    private BranchFragment mBranchFragment;
+    private Fragment mBranchFragment;
 
-    public PageModel(String tabTitle, BranchFragment branchFragment) {
+    public PageModel(String tabTitle, Fragment branchFragment) {
         mTabTitle = tabTitle;
         mBranchFragment = branchFragment;
     }
@@ -27,11 +27,11 @@ public class PageModel {
         mTabTitle = tabTitle;
     }
 
-    public BranchFragment getBranchFragment() {
+    public Fragment getFragment() {
         return mBranchFragment;
     }
 
-    public void setBranchFragment(BranchFragment branchFragment) {
+    public void setBranchFragment(Fragment branchFragment) {
         mBranchFragment = branchFragment;
     }
 }

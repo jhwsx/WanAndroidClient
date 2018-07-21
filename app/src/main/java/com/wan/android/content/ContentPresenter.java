@@ -44,8 +44,8 @@ public class ContentPresenter implements ContentContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mContentView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            mContentView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.collect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -59,7 +59,7 @@ public class ContentPresenter implements ContentContract.Presenter {
                     public void onError(Throwable e) {
                         DisposableUtil.dispose(disposable[0]);
                         mContentView.showCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.collect_failed)));
+                                : Utils.getApp().getString(R.string.collect_failed)));
                     }
 
                     @Override

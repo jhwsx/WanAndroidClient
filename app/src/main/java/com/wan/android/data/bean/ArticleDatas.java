@@ -28,7 +28,8 @@ public class ArticleDatas implements Serializable {
     private Long publishTime;
     private Integer superChapterId;
     private String superChapterName;
-    private ArrayList<?> tags;
+    private ArrayList<TagsBean> tags;
+    private int userId;
     private String title;
     private Integer type;
     private Integer visible;
@@ -170,11 +171,11 @@ public class ArticleDatas implements Serializable {
         this.superChapterName = superChapterName;
     }
 
-    public ArrayList<?> getTags() {
+    public ArrayList<TagsBean> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<?> tags) {
+    public void setTags(ArrayList<TagsBean> tags) {
         this.tags = tags;
     }
 
@@ -210,4 +211,37 @@ public class ArticleDatas implements Serializable {
         this.zan = zan;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public static class TagsBean implements Serializable {
+        /**
+         * name : 项目
+         * url : /project/list/1?cid=294
+         */
+
+        private String name;
+        private String url;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
 }

@@ -20,9 +20,11 @@ public class ContentActivity extends BaseActivity implements OnReceivedTitleList
     private static final String EXTRA_CONTENT_URL = "extra_content_url";
     private static final String EXTRA_ID = "extra_id";
     private static final String EXTRA_TITLE = "extra_title";
+    private static final String EXTRA_FROM_TYPE = "extra_from_type";
     private Toolbar mToolbar;
     private ContentFragment mContentFragment;
     private ContentPresenter mContentPresenter;
+
 
     public static void start(Context context, String title, String url, int id) {
         Intent starter = new Intent(context, ContentActivity.class);
@@ -32,15 +34,25 @@ public class ContentActivity extends BaseActivity implements OnReceivedTitleList
         context.startActivity(starter);
     }
 
+    public static void start(Context context, int fromType, String title, String url, int id) {
+        Intent starter = new Intent(context, ContentActivity.class);
+        starter.putExtra(EXTRA_FROM_TYPE, fromType);
+        starter.putExtra(EXTRA_CONTENT_URL, url);
+        starter.putExtra(EXTRA_TITLE, title);
+        starter.putExtra(EXTRA_ID, id);
+        context.startActivity(starter);
+    }
+
     private String mUrl;
     private int mId;
     private String mTitle;
-
+    private int mFromType;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_act);
         if (getIntent() != null) {
+            mFromType = getIntent().getIntExtra(EXTRA_FROM_TYPE, 0);
             mUrl = getIntent().getStringExtra(EXTRA_CONTENT_URL);
             mId = getIntent().getIntExtra(EXTRA_ID, -1);
             mTitle = getIntent().getStringExtra(EXTRA_TITLE);
@@ -57,7 +69,7 @@ public class ContentActivity extends BaseActivity implements OnReceivedTitleList
         mContentFragment = (ContentFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (mContentFragment == null) {
             // Create the fragment
-            mContentFragment = ContentFragment.newInstance(mTitle, mUrl, mId);
+            mContentFragment = ContentFragment.newInstance(mFromType, mTitle, mUrl, mId);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mContentFragment, R.id.contentFrame);
         }
 

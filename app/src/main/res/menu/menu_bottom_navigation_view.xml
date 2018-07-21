@@ -16,6 +16,11 @@
         android:icon="@drawable/ic_main_navigation"/>
 
     <item
+        android:id="@+id/tab_project"
+        android:title="@string/project"
+        android:icon="@drawable/ic_main_project"/>
+
+    <item
         android:icon="@drawable/ic_main_my"
         android:id="@+id/tab_my"
         android:title="@string/my"/>

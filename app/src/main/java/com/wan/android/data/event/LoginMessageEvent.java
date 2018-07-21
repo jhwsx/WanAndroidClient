@@ -1,4 +1,4 @@
-package com.wan.android.data.bean;
+package com.wan.android.data.event;
 
 /**
  * 登录信息事件

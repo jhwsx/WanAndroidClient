@@ -11,6 +11,6 @@ public class UmengEventReporter implements EventReporterWrapper {
 
     @Override
     public void report(String event) {
-        MobclickAgent.onEvent(Utils.getContext(), event);
+        MobclickAgent.onEvent(Utils.getApp(), event);
     }
 }

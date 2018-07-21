@@ -74,7 +74,7 @@ public class CollectPresenter implements CollectContract.Presenter {
                     public void onError(Throwable t) {
                         mCollectView.showSwipeRefreshFail(
                                 new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
-                                        : Utils.getContext().getString(R.string.swipe_refresh_fail)));
+                                        : Utils.getApp().getString(R.string.swipe_refresh_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -129,7 +129,7 @@ public class CollectPresenter implements CollectContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mCollectView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getContext().getString(R.string.load_more_fail)));
+                        mCollectView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getApp().getString(R.string.load_more_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -157,8 +157,8 @@ public class CollectPresenter implements CollectContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mCollectView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.uncollect_failed)));
+                            mCollectView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.uncollect_failed)));
                             return;
                         }
 
@@ -173,7 +173,7 @@ public class CollectPresenter implements CollectContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mCollectView.showUncollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.uncollect_failed)));
+                                : Utils.getApp().getString(R.string.uncollect_failed)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -201,8 +201,8 @@ public class CollectPresenter implements CollectContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<CollectDatas> response) {
                         if (response == null) {
-                            mCollectView.showAddCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            mCollectView.showAddCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.collect_failed)));
                             return;
                         }
 
@@ -217,7 +217,7 @@ public class CollectPresenter implements CollectContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mCollectView.showAddCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.collect_failed)));
+                                : Utils.getApp().getString(R.string.collect_failed)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

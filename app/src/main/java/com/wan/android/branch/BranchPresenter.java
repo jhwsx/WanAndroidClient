@@ -75,7 +75,7 @@ public class BranchPresenter implements BranchContract.Presenter {
                     public void onError(Throwable t) {
                         mBranchView.showSwipeRefreshFail(
                                 new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
-                                        : Utils.getContext().getString(R.string.swipe_refresh_fail)));
+                                        : Utils.getApp().getString(R.string.swipe_refresh_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -131,7 +131,7 @@ public class BranchPresenter implements BranchContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mBranchView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getContext().getString(R.string.load_more_fail)));
+                        mBranchView.showLoadMoreFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString() : Utils.getApp().getString(R.string.load_more_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 
@@ -160,8 +160,8 @@ public class BranchPresenter implements BranchContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mBranchView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.collect_failed)));
+                            mBranchView.showCollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.collect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -175,7 +175,7 @@ public class BranchPresenter implements BranchContract.Presenter {
                     public void onError(Throwable e) {
                         DisposableUtil.dispose(disposable[0]);
                         mBranchView.showCollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.collect_failed)));
+                                : Utils.getApp().getString(R.string.collect_failed)));
                     }
 
                     @Override
@@ -203,8 +203,8 @@ public class BranchPresenter implements BranchContract.Presenter {
                     @Override
                     public void onNext(CommonResponse<String> response) {
                         if (response == null) {
-                            mBranchView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                    : Utils.getContext().getString(R.string.uncollect_failed)));
+                            mBranchView.showUncollectFail(new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                    : Utils.getApp().getString(R.string.uncollect_failed)));
                             return;
                         }
                         if (response.getErrorcode() != 0) {
@@ -218,7 +218,7 @@ public class BranchPresenter implements BranchContract.Presenter {
                     public void onError(Throwable e) {
                         DisposableUtil.dispose(disposable[0]);
                         mBranchView.showUncollectFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.uncollect_failed)));
+                                : Utils.getApp().getString(R.string.uncollect_failed)));
                     }
 
                     @Override

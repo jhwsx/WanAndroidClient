@@ -28,7 +28,7 @@ public class MyPreferenceCategory extends PreferenceCategory {
         super.onBindViewHolder(holder);
         if (holder.itemView instanceof TextView) {
             TextView textView = (TextView) holder.itemView;
-            textView.setTextColor(Utils.getContext().getResources().getColor(
+            textView.setTextColor(Utils.getApp().getResources().getColor(
                     NightModeUtils.isNightMode()
                             ? R.color.colorPrimary1_night
                             :R.color.colorPrimary1));

@@ -90,7 +90,7 @@ public class TreeFragment extends BaseListFragment implements TreeContract.View 
 
     @Override
     public void showSwipeRefreshFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

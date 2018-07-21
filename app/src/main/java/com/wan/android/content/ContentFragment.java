@@ -28,9 +28,14 @@ import com.just.agentweb.AgentWeb;
 import com.wan.android.BuildConfig;
 import com.wan.android.R;
 import com.wan.android.base.BaseFragment;
+import com.wan.android.constant.FromTypeConstants;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.data.bean.CommonException;
-import com.wan.android.data.bean.ContentCollectEvent;
+import com.wan.android.data.event.ContentCollectSuccessFromAuthorEvent;
+import com.wan.android.data.event.ContentCollectSuccessFromBranchEvent;
+import com.wan.android.data.event.ContentCollectSuccessFromHomeEvent;
+import com.wan.android.data.event.ContentCollectSuccessFromProjectEvent;
+import com.wan.android.data.event.ContentCollectSuccessFromSearchEvent;
 import com.wan.android.loginregister.LoginActivity;
 import com.wan.android.util.PreferenceUtils;
 import com.wan.android.util.Utils;
@@ -41,16 +46,19 @@ import org.greenrobot.eventbus.EventBus;
  * @author wzc
  * @date 2018/3/29
  */
-public class ContentFragment extends BaseFragment implements ContentContract.View{
+public class ContentFragment extends BaseFragment implements ContentContract.View {
     private static final String TAG = ContentFragment.class.getSimpleName();
     private static final String ARG_CONTENT_URL = "arg_content_url";
     private static final String ARG_ID = "arg_id";
     private static final String ARG_TITLE = "arg_title";
+    private static final String ARG_FROM_TYPE = "arg_from_type";
     private LinearLayout mLinearLayoutContainer;
     private AgentWeb mAgentWeb;
     private ContentContract.Presenter mPresenter;
-    public static ContentFragment newInstance(String title, String url, int id) {
+
+    public static ContentFragment newInstance(int fromType, String title, String url, int id) {
         Bundle args = new Bundle();
+        args.putInt(ARG_FROM_TYPE, fromType);
         args.putString(ARG_CONTENT_URL, url);
         args.putString(ARG_TITLE, title);
         args.putInt(ARG_ID, id);
@@ -62,12 +70,14 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
     private String mUrl;
     private int mId;
     private String mTitle;
+    private int mFromType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
+            mFromType = getArguments().getInt(ARG_FROM_TYPE);
             mUrl = getArguments().getString(ARG_CONTENT_URL);
             mTitle = getArguments().getString(ARG_TITLE);
             mId = getArguments().getInt(ARG_ID);
@@ -88,17 +98,17 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
                 .useDefaultIndicator()
                 .setWebChromeClient(mWebChromeClient)
                 .setWebViewClient(mWebViewClient)
-                .setWebView(new WebView(mActivity){
+                .setWebView(new WebView(mActivity) {
                     // 这里是为了解决webview下滑时和下拉刷新冲突的问题
                     @Override
                     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
                         super.onScrollChanged(l, t, oldl, oldt);
                         if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "onScrollChanged: l = " + l + ", t = " + t + ", oldl = " + oldl + ", oldt = " + oldt + ", getScrollY() = " + getScrollY() );
+                            Log.d(TAG, "onScrollChanged: l = " + l + ", t = " + t + ", oldl = " + oldl + ", oldt = " + oldt + ", getScrollY() = " + getScrollY());
                         }
-                        if (this.getScrollY() == 0){
+                        if (this.getScrollY() == 0) {
                             mSwipeRefreshLayout.setEnabled(true);
-                        }else {
+                        } else {
                             mSwipeRefreshLayout.setEnabled(false);
                         }
                     }
@@ -157,8 +167,8 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
 
                 return true;
             case R.id.action_activity_content_collect:
-                if (TextUtils.isEmpty(PreferenceUtils.getString(Utils.getContext(), SpConstants.KEY_USERNAME, ""))) {
-                    Toast.makeText(Utils.getContext(), R.string.login_first, Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(PreferenceUtils.getString(Utils.getApp(), SpConstants.KEY_USERNAME, ""))) {
+                    Toast.makeText(Utils.getApp(), R.string.login_first, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     startActivity(intent);
                     return true;
@@ -199,7 +209,7 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (mActivity != null) {
-                ((OnReceivedTitleListener)mActivity).onReceiveTitle(title != null ? title : "");
+                ((OnReceivedTitleListener) mActivity).onReceiveTitle(title != null ? title : "");
             }
         }
     };
@@ -228,13 +238,35 @@ public class ContentFragment extends BaseFragment implements ContentContract.Vie
 
     @Override
     public void showCollectSuccess() {
-        EventBus.getDefault().post(new ContentCollectEvent());
-        Toast.makeText(Utils.getContext(), R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), R.string.collect_successfully, Toast.LENGTH_SHORT).show();
+        postCollectSuccessEvent();
+    }
+
+    private void postCollectSuccessEvent() {
+        switch (mFromType) {
+            case FromTypeConstants.FROM_AUTHOR_FRAGMENT:
+                EventBus.getDefault().post(new ContentCollectSuccessFromAuthorEvent());
+                break;
+            case FromTypeConstants.FROM_BRANCH_FRAGMENT:
+                EventBus.getDefault().post(new ContentCollectSuccessFromBranchEvent());//
+                break;
+            case FromTypeConstants.FROM_HOME_FRAGMENT:
+                EventBus.getDefault().post(new ContentCollectSuccessFromHomeEvent());//
+                break;
+            case FromTypeConstants.FROM_PROJECT_FRAGMENT:
+                EventBus.getDefault().post(new ContentCollectSuccessFromProjectEvent());//
+                break;
+            case FromTypeConstants.FROM_SEARCH_FRAGMENT:
+                EventBus.getDefault().post(new ContentCollectSuccessFromSearchEvent());//
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void showCollectFail(CommonException e) {
-        Toast.makeText(Utils.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

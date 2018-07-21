@@ -28,7 +28,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     }
     @Override
     public void checkVersion() {
-        if (!NetworkUtils.isConnected(Utils.getContext())) {
+        if (!NetworkUtils.isConnected(Utils.getApp())) {
             mSettingsView.showBadNetwork();
             return;
         }
@@ -73,7 +73,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void startDownloadNewVersion(VersionUpdateData data) {
-        VersionUpdateHelper versionUpdateHelper = new VersionUpdateHelper(Utils.getContext(), data);
+        VersionUpdateHelper versionUpdateHelper = new VersionUpdateHelper(Utils.getApp(), data);
         versionUpdateHelper.bindDownloadService();
     }
 

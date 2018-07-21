@@ -83,7 +83,7 @@ public class BranchActivity extends BaseActivity {
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return mPageModels.get(position).getBranchFragment();
+                return mPageModels.get(position).getFragment();
             }
 
             @Override

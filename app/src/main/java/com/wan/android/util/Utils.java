@@ -13,7 +13,7 @@ public class Utils {
         //no instance
     }
 
-    public static Context getContext() {
+    public static Context getApp() {
         return WanAndroidApplication.getContext();
     }
 }

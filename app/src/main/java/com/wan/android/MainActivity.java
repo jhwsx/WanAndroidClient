@@ -1,5 +1,7 @@
 package com.wan.android;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,11 +18,14 @@ import android.widget.Toast;
 
 import com.wan.android.base.BaseActivity;
 import com.wan.android.constant.DefaultConstants;
-import com.wan.android.data.bean.NightModeEvent;
+import com.wan.android.data.event.NavigationEvent;
+import com.wan.android.data.event.NightModeEvent;
+import com.wan.android.data.event.ProjectEvent;
 import com.wan.android.friend.FriendActivity;
 import com.wan.android.home.HomeFragment;
 import com.wan.android.my.MyFragment;
 import com.wan.android.navigate.NavigationFragment;
+import com.wan.android.project.ProjectFragment;
 import com.wan.android.setting.SettingsActivity;
 import com.wan.android.tree.TreeFragment;
 import com.wan.android.util.BottomNavigationViewHelper;
@@ -49,6 +54,11 @@ public class MainActivity extends BaseActivity {
     private MenuItem menuItem;
     private List<Fragment> mFragments = new ArrayList<>();
 //    private List<BasePresenter> mPresenterList = new ArrayList<>();
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +86,11 @@ public class MainActivity extends BaseActivity {
                     case R.id.tab_navigation:
                         mViewPager.setCurrentItem(2);
                         break;
-                    case R.id.tab_my:
+                    case R.id.tab_project:
                         mViewPager.setCurrentItem(3);
+                        break;
+                    case R.id.tab_my:
+                        mViewPager.setCurrentItem(4);
                         break;
                     default:
                         break;
@@ -111,6 +124,9 @@ public class MainActivity extends BaseActivity {
 //        mPresenterList.add(new TreePresenter(treeFragment));
         NavigationFragment navigationFragment = new NavigationFragment();
         mFragments.add(navigationFragment);
+
+        ProjectFragment projectFragment = ProjectFragment.newInstance();
+        mFragments.add(projectFragment);
         // fixme
 //        mPresenterList.add(new NavigationPresenter(navigationFragment));
         MyFragment myFragment = new MyFragment();
@@ -191,5 +207,14 @@ public class MainActivity extends BaseActivity {
             Log.d(TAG, "receive nightModeEvent");
         }
         EdgeEffectUtils.setViewPagerEdgeEffect(mViewPager);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void navigationEvent(NavigationEvent event) {
+        mViewPager.setCurrentItem(2);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void projectEvent(ProjectEvent event) {
+        mViewPager.setCurrentItem(3);
     }
 }

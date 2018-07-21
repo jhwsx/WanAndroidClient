@@ -67,7 +67,7 @@ public class TreePresenter implements TreeContract.Presenter {
                         DisposableUtil.dispose(disposable[0]);
                         mTreeView.showSwipeRefreshFail(
                                 new CommonException(-1, t != null && BuildConfig.DEBUG ? t.toString()
-                                        : Utils.getContext().getString(R.string.swipe_refresh_fail)));
+                                        : Utils.getApp().getString(R.string.swipe_refresh_fail)));
                     }
 
                     @Override

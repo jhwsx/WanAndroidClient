@@ -13,10 +13,10 @@ public class NightModeUtils {
     }
 
     public static boolean isNightMode() {
-        return PreferenceUtils.getBoolean(Utils.getContext(), SpConstants.KEY_NIGHT_MODE, false);
+        return PreferenceUtils.getBoolean(Utils.getApp(), SpConstants.KEY_NIGHT_MODE, false);
     }
 
     public static void setNightMode(boolean nightMode) {
-        PreferenceUtils.putBoolean(Utils.getContext(), SpConstants.KEY_NIGHT_MODE, nightMode);
+        PreferenceUtils.putBoolean(Utils.getApp(), SpConstants.KEY_NIGHT_MODE, nightMode);
     }
 }

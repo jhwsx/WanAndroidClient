@@ -67,7 +67,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mNavigationView.showNavigationFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.fetch_navigation_fail)));
+                                : Utils.getApp().getString(R.string.fetch_navigation_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

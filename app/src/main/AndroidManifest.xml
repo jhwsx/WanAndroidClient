@@ -95,18 +95,21 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".branch.BranchActivity"
+            android:launchMode="singleTask"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".author.AuthorActivity"
+            android:launchMode="singleTask"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -128,6 +131,8 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL}"/>
         <!-- [友盟 推送及统计配置 end] -->
+
+        <meta-data android:name="android.max_aspect" android:value="2.4" />
     </application>
 
 </manifest>

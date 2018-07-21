@@ -19,7 +19,7 @@ import com.wan.android.callback.LoadingCallback;
 import com.wan.android.data.bean.ArticleDatas;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.bean.NavigationData;
-import com.wan.android.data.bean.NightModeEvent;
+import com.wan.android.data.event.NightModeEvent;
 import com.wan.android.skin.VerticalTabLayoutCompat;
 import com.wan.android.skin.VerticalViewPagerCompat;
 import com.wan.android.util.EdgeEffectUtils;
@@ -103,7 +103,7 @@ public class NavigationFragment extends BaseFragment implements NavigationContra
     @Override
     public void showNavigationFail(CommonException e) {
         mLoadService.showCallback(EmptyCallback.class);
-        Toast.makeText(Utils.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Utils.getApp(), e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

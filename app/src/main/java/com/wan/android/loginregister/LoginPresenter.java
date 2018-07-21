@@ -54,8 +54,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                         mLoginView.dismissProgressBar();
                         if (response == null) {
                             mLoginView.showLoginFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getContext().getString(R.string.response_cannot_be_null)
-                                            : Utils.getContext().getString(R.string.login_fail)));
+                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
+                                            : Utils.getApp().getString(R.string.login_fail)));
                             return;
                         }
 
@@ -72,7 +72,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                         mLoginView.dismissProgressBar();
 
                         mLoginView.showLoginFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getContext().getString(R.string.login_fail)));
+                                : Utils.getApp().getString(R.string.login_fail)));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

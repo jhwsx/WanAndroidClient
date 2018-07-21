@@ -22,7 +22,7 @@ import com.wan.android.base.BaseFragment;
 import com.wan.android.constant.SpConstants;
 import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
-import com.wan.android.data.bean.LoginMessageEvent;
+import com.wan.android.data.event.LoginMessageEvent;
 import com.wan.android.util.PreferenceUtils;
 
 import org.greenrobot.eventbus.EventBus;

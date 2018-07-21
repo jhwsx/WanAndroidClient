@@ -34,7 +34,7 @@ public class AppUtils {
             return null;
         }
         try {
-            PackageManager pm = Utils.getContext().getPackageManager();
+            PackageManager pm = Utils.getApp().getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? null : pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -61,7 +61,7 @@ public class AppUtils {
      * @return App 包名
      */
     public static String getAppPackageName() {
-        return Utils.getContext().getPackageName();
+        return Utils.getApp().getPackageName();
     }
 
     /**
@@ -84,7 +84,7 @@ public class AppUtils {
             return -1;
         }
         try {
-            PackageManager pm = Utils.getContext().getPackageManager();
+            PackageManager pm = Utils.getApp().getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? -1 : pi.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
@@ -117,7 +117,7 @@ public class AppUtils {
 
     public static File getApkFile() {
         try {
-            PackageManager pm = Utils.getContext().getPackageManager();
+            PackageManager pm = Utils.getApp().getPackageManager();
             PackageInfo pi = pm.getPackageInfo(getAppPackageName(), 0);
             if (pi == null || pi.applicationInfo == null || pi.applicationInfo.sourceDir == null) {
                 return null;

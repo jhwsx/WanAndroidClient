@@ -50,7 +50,7 @@ public class OkHttpClientManager {
                 if (sOkHttpClient == null) {
                     Cache httpCache = new Cache(new File(WanAndroidApplication.getContext().getExternalFilesDir(null), "HttpCache"), 1024 * 1024 * 50);
                     ClearableCookieJar cookieJar =
-                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(com.wan.android.util.Utils.getContext()));
+                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(com.wan.android.util.Utils.getApp()));
                     sOkHttpClient = new OkHttpClient.Builder()
                             .cache(httpCache)
                             .addInterceptor(sLoggingInterceptor)

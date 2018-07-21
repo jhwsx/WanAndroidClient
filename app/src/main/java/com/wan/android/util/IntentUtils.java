@@ -27,7 +27,7 @@ public final class IntentUtils {
      * @return the intent of launch app
      */
     public static Intent getLaunchAppIntent(final String packageName, final boolean isNewTask) {
-        Intent intent = Utils.getContext().getPackageManager().getLaunchIntentForPackage(packageName);
+        Intent intent = Utils.getApp().getPackageManager().getLaunchIntentForPackage(packageName);
         if (intent == null) {
             return null;
         }
