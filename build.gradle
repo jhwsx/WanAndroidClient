@@ -35,8 +35,8 @@ ext {
     applicationId = 'com.wan.android'
     minSdkVersion = 16
     targetSdkVersion = 22
-    versionCode = 4
-    versionName = '1.2.2'
+    versionCode = 5
+    versionName = '1.2.3'
 
     supportLibraryVersion = '26.1.0'
     constraintVersion = '1.0.2'
