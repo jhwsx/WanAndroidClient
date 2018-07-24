@@ -9,5 +9,6 @@ public class ErrorCodeConstants {
         //no instance
     }
 
+    public static final int CODE_OK = 0;
     public static final int CODE_ERROR = -1000;
 }

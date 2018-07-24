@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,8 +14,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.wan.android.R;
 import com.wan.android.base.BaseFragment;
 import com.wan.android.constant.SpConstants;
@@ -24,12 +23,14 @@ import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.event.LoginMessageEvent;
 import com.wan.android.util.PreferenceUtils;
+import com.wan.android.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * 登录Fragment
  * @author wzc
  * @date 2018/3/27
  */
@@ -40,8 +41,6 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private TextView mTvRegister;
-    private Button mSignInButton;
 
     public static LoginFragment newInstance() {
 
@@ -85,8 +84,8 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
             }
         });
 
-        mSignInButton = (Button) view.findViewById(R.id.sign_in_button);
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
+        Button signInButton = (Button) view.findViewById(R.id.sign_in_button);
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attempLogin();
@@ -95,8 +94,8 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
         mLoginFormView = view.findViewById(R.id.login_form);
         mProgressView = view.findViewById(R.id.login_progress);
-        mTvRegister = (TextView) view.findViewById(R.id.tv_register);
-        mTvRegister.setOnClickListener(new View.OnClickListener() {
+        TextView tvRegister = (TextView) view.findViewById(R.id.tv_register);
+        tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, RegisterActivity.class);
@@ -119,31 +118,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     private void attempLogin() {
-        // Reset errors.
-        mNameView.setError(null);
-        mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mNameView.getText().toString();
         String password = mPasswordView.getText().toString();
+        Logger.d("login");
+        mPresenter.login(email, password);
 
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mNameView.setError(getString(R.string.error_field_required));
-            focusView = mNameView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an ic_error; don't attempt login and focus the first
-            // form field with an ic_error.
-            focusView.requestFocus();
-        } else {
-            mPresenter.login(email, password);
-        }
     }
 
 
@@ -153,9 +134,28 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     @Override
+    public void showNetworkError() {
+        Logger.d("showNetworkError");
+        ToastUtils.showShort(R.string.check_network);
+    }
+
+    @Override
+    public void showLoginUsernameEmpty() {
+        Logger.d("showLoginUsernameEmpty");
+        ToastUtils.showShort(R.string.login_username_empty);
+    }
+
+    @Override
+    public void showLoginPasswordEmpty() {
+        Logger.d("showLoginPasswordEmpty");
+        ToastUtils.showShort(R.string.login_password_empty);
+    }
+
+    @Override
     public void showLoginSuccess(AccountData accountData) {
+        Logger.d("showLoginSuccess");
         // 登录成功
-        Toast.makeText(mActivity, R.string.login_ok, Toast.LENGTH_SHORT).show();
+        ToastUtils.showShort(R.string.login_ok);
         // 保存username
         PreferenceUtils.putString(mActivity, SpConstants.KEY_USERNAME, accountData.getUsername());
         // EventBus发消息,通知MyFragment页面更新
@@ -166,8 +166,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void showLoginFail(CommonException e) {
+        Logger.e("showLoginFail: %s", e.toString());
         // 登录失败
-        Toast.makeText(mActivity, e.toString(), Toast.LENGTH_SHORT).show();
+        ToastUtils.showShort(e.getErrorMessage());
     }
 
     @Override

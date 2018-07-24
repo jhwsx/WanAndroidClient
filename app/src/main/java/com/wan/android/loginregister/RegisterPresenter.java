@@ -1,14 +1,15 @@
 package com.wan.android.loginregister;
 
-import com.wan.android.BuildConfig;
-import com.wan.android.R;
+import android.text.TextUtils;
+
 import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.bean.CommonResponse;
+import com.wan.android.data.bean.ErrorCodeMessageEnum;
 import com.wan.android.data.client.RegisterClient;
 import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.DisposableUtil;
-import com.wan.android.util.Utils;
+import com.wan.android.util.NetworkUtils;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,6 +35,27 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void register(String username, String password, final String repassword) {
+        if (!NetworkUtils.isConnected()) {
+            mRegisterView.showNetworkError();
+            return;
+        }
+        if (TextUtils.isEmpty(username)) {
+            mRegisterView.showRegisterUsernameEmpty();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            mRegisterView.showRegisterPasswordEmpty();
+            return;
+        }
+        if (TextUtils.isEmpty(repassword)) {
+            mRegisterView.showRegisterRepasswordEmpty();
+            return;
+        }
+        if (!TextUtils.equals(password, repassword)) {
+            mRegisterView.showRegisterPasswordRepasswordInconsistent();
+            return;
+        }
+
         mRegisterView.showProgressBar();
         final Disposable[] disposable = new Disposable[1];
         RetrofitClient.getInstance()
@@ -54,13 +76,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
                         if (response == null) {
                             mRegisterView.showRegisterFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
-                                            : Utils.getApp().getString(R.string.register_fail)));
+                                    CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
                             return;
                         }
 
                         if (response.getErrorcode() != 0) {
-                            mRegisterView.showRegisterFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            mRegisterView.showRegisterFail(
+                                    new CommonException(response.getErrorcode(), response.getErrormsg()));
                             return;
                         }
 
@@ -70,8 +92,8 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mRegisterView.dismissProgressBar();
-                        mRegisterView.showRegisterFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getApp().getString(R.string.register_fail)));
+                        mRegisterView.showRegisterFail(
+                                CommonException.convert(ErrorCodeMessageEnum.SERVER_ERROR));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

@@ -7,6 +7,9 @@ import android.support.multidex.MultiDex;
 import com.kingja.loadsir.core.LoadSir;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadLog;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.DiskLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.umeng.commonsdk.UMConfigure;
 import com.wan.android.callback.CustomCallback;
 import com.wan.android.callback.EmptyCallback;
@@ -70,6 +73,11 @@ public class WanAndroidApplication extends Application {
 
         FileDownloadLog.NEED_LOG = BuildConfig.DEBUG;
         FileDownloader.setup(this);
+
+        if (BuildConfig.DEBUG) {
+            Logger.addLogAdapter(new AndroidLogAdapter());
+        }
+        Logger.addLogAdapter(new DiskLogAdapter());
     }
 
     @Override

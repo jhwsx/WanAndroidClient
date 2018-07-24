@@ -1,14 +1,16 @@
 package com.wan.android.loginregister;
 
-import com.wan.android.BuildConfig;
-import com.wan.android.R;
+import android.text.TextUtils;
+
+import com.wan.android.constant.ErrorCodeConstants;
 import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
 import com.wan.android.data.bean.CommonResponse;
+import com.wan.android.data.bean.ErrorCodeMessageEnum;
 import com.wan.android.data.client.LoginClient;
 import com.wan.android.data.source.RetrofitClient;
 import com.wan.android.util.DisposableUtil;
-import com.wan.android.util.Utils;
+import com.wan.android.util.NetworkUtils;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,8 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class LoginPresenter implements LoginContract.Presenter {
 
-    private static final String TAG = LoginPresenter.class.getSimpleName();
-
     private final LoginContract.View mLoginView;
 
     public LoginPresenter(LoginContract.View loginView) {
@@ -36,6 +36,18 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String username, String password) {
+        if (!NetworkUtils.isConnected()) {
+            mLoginView.showNetworkError();
+            return;
+        }
+        if (TextUtils.isEmpty(username)) {
+            mLoginView.showLoginUsernameEmpty();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            mLoginView.showLoginPasswordEmpty();
+            return;
+        }
         mLoginView.showProgressBar();
         final Disposable[] disposable = new Disposable[1];
         RetrofitClient.getInstance()
@@ -54,13 +66,20 @@ public class LoginPresenter implements LoginContract.Presenter {
                         mLoginView.dismissProgressBar();
                         if (response == null) {
                             mLoginView.showLoginFail(
-                                    new CommonException(-1, BuildConfig.DEBUG ? Utils.getApp().getString(R.string.response_cannot_be_null)
-                                            : Utils.getApp().getString(R.string.login_fail)));
+                                    CommonException.convert(ErrorCodeMessageEnum.NULL_RESPONSE));
                             return;
                         }
 
-                        if (response.getErrorcode() != 0) {
-                            mLoginView.showLoginFail(new CommonException(response.getErrorcode(), response.getErrormsg()));
+                        if (response.getErrorcode() != ErrorCodeConstants.CODE_OK) {
+                            mLoginView.showLoginFail(
+                                    new CommonException(response.getErrorcode(), response.getErrormsg()));
+                            return;
+                        }
+
+                        AccountData data = response.getData();
+                        if (data == null) {
+                            mLoginView.showLoginFail(
+                                    CommonException.convert(ErrorCodeMessageEnum.NULL_DATA));
                             return;
                         }
 
@@ -70,9 +89,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mLoginView.dismissProgressBar();
-
-                        mLoginView.showLoginFail(new CommonException(-1, e != null && BuildConfig.DEBUG ? e.toString()
-                                : Utils.getApp().getString(R.string.login_fail)));
+                        mLoginView.showLoginFail(
+                                CommonException.convert(ErrorCodeMessageEnum.SERVER_ERROR));
                         DisposableUtil.dispose(disposable[0]);
                     }
 

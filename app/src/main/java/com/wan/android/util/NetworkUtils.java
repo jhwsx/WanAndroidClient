@@ -39,8 +39,8 @@ public class NetworkUtils {
      *
      * @return {@code true}: 是<br>{@code false}: 否
      */
-    public static boolean isConnected(Context context) {
-        NetworkInfo info = getActiveNetworkInfo(context);
+    public static boolean isConnected() {
+        NetworkInfo info = getActiveNetworkInfo(Utils.getApp());
         return info != null && info.isConnected();
     }
 

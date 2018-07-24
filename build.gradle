@@ -30,15 +30,15 @@ task clean(type: Delete) {
 
 ext {
 
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.2'
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.2'
     applicationId = 'com.wan.android'
     minSdkVersion = 16
     targetSdkVersion = 22
-    versionCode = 5
-    versionName = '1.2.3'
+    versionCode = 6
+    versionName = '1.2.3.1'
 
-    supportLibraryVersion = '26.1.0'
+    supportLibraryVersion = '27.1.1'
     constraintVersion = '1.0.2'
     glideVersion = '3.8.0'
     okhttpVersion = '3.5.0'

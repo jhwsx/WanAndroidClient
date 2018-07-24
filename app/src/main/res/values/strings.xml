@@ -123,4 +123,9 @@
     <string name="new_version_downloading">%s新版本下载</string>
     <string name="app_update">%s应用更新</string>
     <string name="downloading">正在下载中...</string>
+
+    <string name="login_username_empty">用户名不可以为空</string>
+    <string name="login_password_empty">密码不可以为空</string>
+    <string name="register_repassword_empty">确认密码不可以为空</string>
+    <string name="register_password_repassword_inconsistent">密码与确认密码不一致</string>
 </resources>

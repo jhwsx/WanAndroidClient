@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,10 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.wan.android.R;
 import com.wan.android.base.BaseFragment;
 import com.wan.android.data.bean.AccountData;
 import com.wan.android.data.bean.CommonException;
+import com.wan.android.util.ToastUtils;
 
 /**
  * @author wzc
@@ -98,38 +99,50 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
     }
 
     private void attemptRegister() {
-        // Reset errors.
-        mNameView.setError(null);
-        mPasswordView.setError(null);
-        mRePasswordView.setError(null);
 
         // Store values at the time of the login attempt.
         String username = mNameView.getText().toString();
         String password = mPasswordView.getText().toString();
         String repassword = mRePasswordView.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
+        mPresenter.register(username, password, repassword);
 
-        // Check for a valid username address.
-        if (TextUtils.isEmpty(username)) {
-            mNameView.setError(getString(R.string.error_field_required));
-            focusView = mNameView;
-            cancel = true;
-        }
+    }
 
-        if (cancel) {
-            // There was an ic_error; don't attempt login and focus the first
-            // form field with an ic_error.
-            focusView.requestFocus();
-        } else {
-            mPresenter.register(username, password, repassword);
-        }
+    @Override
+    public void showNetworkError() {
+        Logger.d("showNetworkError");
+        ToastUtils.showShort(R.string.check_network);
+    }
+
+    @Override
+    public void showRegisterUsernameEmpty() {
+        Logger.d("showRegisterUsernameEmpty");
+        ToastUtils.showShort(R.string.login_username_empty);
+    }
+
+    @Override
+    public void showRegisterPasswordEmpty() {
+        Logger.d("showRegisterPasswordEmpty");
+        ToastUtils.showShort(R.string.login_password_empty);
+    }
+
+    @Override
+    public void showRegisterRepasswordEmpty() {
+        Logger.d("showRegisterRepasswordEmpty");
+        ToastUtils.showShort(R.string.register_repassword_empty);
+
+    }
+    @Override
+    public void showRegisterPasswordRepasswordInconsistent() {
+        Logger.d("showRegisterPasswordRepasswordInconsistent");
+        ToastUtils.showShort(R.string.register_password_repassword_inconsistent);
     }
 
     @Override
     public void showRegisterSuccess(AccountData accountData) {
-        Toast.makeText(mActivity, R.string.register_ok, Toast.LENGTH_SHORT).show();
+        Logger.d("showRegisterSuccess");
+        ToastUtils.showShort(R.string.register_ok);
         mActivity.finish();
     }
 

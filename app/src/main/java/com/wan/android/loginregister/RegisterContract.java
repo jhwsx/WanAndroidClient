@@ -12,6 +12,11 @@ import com.wan.android.data.bean.CommonException;
 public interface RegisterContract {
     @NotProguard
     interface View extends BaseView<Presenter> {
+        void showNetworkError();
+        void showRegisterUsernameEmpty();
+        void showRegisterPasswordEmpty();
+        void showRegisterRepasswordEmpty();
+        void showRegisterPasswordRepasswordInconsistent();
         void showRegisterSuccess(AccountData accountData);
         void showRegisterFail(CommonException e);
         void showProgressBar();

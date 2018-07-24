@@ -8,7 +8,8 @@ public enum ErrorCodeMessageEnum {
 
     NULL_RESPONSE(-1001, "response cannot be null"),
     NULL_BODY(-1002, "body cannot be null"),
-    NULL_DATA(-1003, "no data");
+    NULL_DATA(-1003, "no data"),
+    SERVER_ERROR(-1004, "server error");
 
     private int mErrorCode;
     private String mErrorMsg;

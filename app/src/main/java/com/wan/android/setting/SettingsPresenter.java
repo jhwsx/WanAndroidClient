@@ -28,7 +28,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     }
     @Override
     public void checkVersion() {
-        if (!NetworkUtils.isConnected(Utils.getApp())) {
+        if (!NetworkUtils.isConnected()) {
             mSettingsView.showBadNetwork();
             return;
         }
