@@ -212,10 +212,10 @@ dependencies {
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
 
-    implementation 'skin.support:skin-support:3.1.0-beta1'                   // skin-support 基础控件支持
-    implementation 'skin.support:skin-support-design:3.1.0-beta1'            // skin-support-design material design 控件支持[可选]
-    implementation 'skin.support:skin-support-cardview:3.1.0-beta1'          // skin-support-cardview CardView 控件支持[可选]
-    implementation 'skin.support:skin-support-constraint-layout:3.1.0-beta1' // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+    implementation 'skin.support:skin-support:3.1.0-beta2'                   // skin-support 基础控件支持
+    implementation 'skin.support:skin-support-design:3.1.0-beta2'            // skin-support-design material design 控件支持[可选]
+    implementation 'skin.support:skin-support-cardview:3.1.0-beta2'          // skin-support-cardview CardView 控件支持[可选]
+    implementation 'skin.support:skin-support-constraint-layout:3.1.0-beta2' // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     implementation "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
     // v14 版本显然只是 v7.preference library的增量
