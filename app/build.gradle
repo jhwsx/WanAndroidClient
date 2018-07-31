@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'com.tencent.tinker.patch'
+apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'AndResGuard'
 
 android {
@@ -19,7 +20,10 @@ android {
         // Enable multidex support
         multiDexEnabled true
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -224,4 +228,7 @@ dependencies {
     implementation 'com.liulishuo.filedownloader:library:1.7.4'
 
     implementation 'com.orhanobut:logger:2.2.0'
+
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

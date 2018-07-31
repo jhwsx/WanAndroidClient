@@ -2,12 +2,10 @@ package com.wan.android.callback;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Toast;
 
 import com.kingja.loadsir.callback.Callback;
 import com.wan.android.R;
-
-
+import com.wan.android.util.ToastUtils;
 
 
 public class TimeoutCallback extends Callback {
@@ -19,7 +17,7 @@ public class TimeoutCallback extends Callback {
 
     @Override
     protected boolean onReloadEvent(Context context, View view) {
-        Toast.makeText(context.getApplicationContext(), R.string.loadsir_connection_overtime, Toast.LENGTH_SHORT).show();
+        ToastUtils.showShort(R.string.loadsir_connection_overtime);
         return false;
     }
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.R;
@@ -16,6 +17,7 @@ import com.wan.android.util.EdgeEffectUtils;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 /**
+ * 列表 Fragment 基类
  * @author wzc
  * @date 2018/3/10
  */
@@ -29,12 +31,9 @@ public abstract class BaseListFragment extends BaseFragment {
         // 获取RecyclerView布局
         View recyclerView = LayoutInflater.from(getContext()).inflate(R.layout.recycler_view, null);
         // 获取LoadService,把RecyclerView添加进去
-        mLoadService = LoadSir.getDefault().register(recyclerView, new com.kingja.loadsir.callback.Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                mLoadService.showCallback(LoadingCallback.class);
-                swipeRefresh();
-            }
+        mLoadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
+            mLoadService.showCallback(LoadingCallback.class);
+            swipeRefresh();
         });
 
         // 把状态管理页面添加到根布局中

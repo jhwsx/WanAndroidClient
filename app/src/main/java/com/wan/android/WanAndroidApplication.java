@@ -27,6 +27,7 @@ import skin.support.app.SkinCardViewInflater;
 import skin.support.constraint.app.SkinConstraintViewInflater;
 
 /**
+ * 自定义 Application
  * @author wzc
  * @date 2018/2/11
  */
@@ -44,6 +45,26 @@ public class WanAndroidApplication extends Application {
 
         CrashHandler.getInstance().init(this);
 
+        initLoaderSir();
+
+        initUmeng();
+
+        initSkinSupport();
+
+        initFileDownloader();
+
+        initLogger();
+    }
+
+    private void initUmeng() {
+        UmengUtils.initUmengAnalytics(this);
+        // 友盟+设置组件化的Log开关
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        // 友盟+设置日志加密
+        UMConfigure.setEncryptEnabled(!BuildConfig.DEBUG);
+    }
+
+    private void initLoaderSir() {
         LoadSir.beginBuilder()
                 .addCallback(new ErrorCallback())
                 .addCallback(new EmptyCallback())
@@ -52,13 +73,9 @@ public class WanAndroidApplication extends Application {
                 .addCallback(new CustomCallback())
                 .setDefaultCallback(LoadingCallback.class)
                 .commit();
+    }
 
-        UmengUtils.initUmengAnalytics(this);
-        // 友盟+设置组件化的Log开关
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
-        // 友盟+设置日志加密
-        UMConfigure.setEncryptEnabled(!BuildConfig.DEBUG);
-
+    private void initSkinSupport() {
         if (ProcessUtils.isMainProcess(this)) {
             SkinCompatManager.withoutActivity(this)                         // 基础控件换肤初始化
 //                .addInflater(new SkinMaterialViewInflater())            // material design 控件换肤初始化[可选]
@@ -70,10 +87,14 @@ public class WanAndroidApplication extends Application {
                     .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
                     .loadSkin();
         }
+    }
 
+    private void initFileDownloader() {
         FileDownloadLog.NEED_LOG = BuildConfig.DEBUG;
         FileDownloader.setup(this);
+    }
 
+    private void initLogger() {
         if (BuildConfig.DEBUG) {
             Logger.addLogAdapter(new AndroidLogAdapter());
         }

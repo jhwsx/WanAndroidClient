@@ -24,7 +24,10 @@ public class CommonListAdapter extends BaseQuickAdapter<ArticleDatas,BaseViewHol
         super(layoutResId, data);
 
     }
+    public CommonListAdapter(@LayoutRes int layoutResId) {
+        super(layoutResId);
 
+    }
     @Override
     protected void convert(BaseViewHolder helper, ArticleDatas item) {
         // title

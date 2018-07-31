@@ -3,19 +3,17 @@ package com.wan.android;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.wan.android.base.BaseActivity;
 import com.wan.android.constant.DefaultConstants;
 import com.wan.android.data.event.NavigationEvent;
@@ -26,11 +24,12 @@ import com.wan.android.home.HomeFragment;
 import com.wan.android.my.MyFragment;
 import com.wan.android.navigate.NavigationFragment;
 import com.wan.android.project.ProjectFragment;
+import com.wan.android.search.SearchActivity;
 import com.wan.android.setting.SettingsActivity;
 import com.wan.android.tree.TreeFragment;
 import com.wan.android.util.BottomNavigationViewHelper;
 import com.wan.android.util.EdgeEffectUtils;
-import com.youth.banner.Banner;
+import com.wan.android.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,6 +38,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindDimen;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 主页面
  *
@@ -46,15 +49,16 @@ import java.util.List;
  * @date 2018/3/10
  */
 public class MainActivity extends BaseActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private Banner banner;
-    private Toolbar mToolbar;
-    private ViewPager mViewPager;
-    private BottomNavigationView mBottomNavigationView;
+    @BindView(R.id.viewpager_activity_main)
+    ViewPager mViewPager;
+    @BindView(R.id.bottom_navigation_view_activity_main)
+    BottomNavigationView mBottomNavigationView;
+    @BindView(R.id.toolbar_activity_main)
+    Toolbar mToolbar;
+    @BindDimen(R.dimen.elevation_value)
+    int mElevationValue;
     private MenuItem menuItem;
-    private List<Fragment> mFragments = new ArrayList<>();
-//    private List<BasePresenter> mPresenterList = new ArrayList<>();
-
+    private List<Fragment> mFragmentList = new ArrayList<>();
     public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
         context.startActivity(starter);
@@ -63,40 +67,34 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
-        ViewCompat.setElevation(mToolbar, getResources().getDimensionPixelSize(R.dimen.elevation_value));
+        ButterKnife.bind(this);
+        ViewCompat.setElevation(mToolbar, mElevationValue);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(R.string.app_name);
         EventBus.getDefault().register(this);
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
         EdgeEffectUtils.setViewPagerEdgeEffect(mViewPager);
-        mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view_activity_main);
         BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.tab_home:
-                        mViewPager.setCurrentItem(0);
-                        break;
-                    case R.id.tab_tree:
-                        mViewPager.setCurrentItem(1);
-                        break;
-                    case R.id.tab_navigation:
-                        mViewPager.setCurrentItem(2);
-                        break;
-                    case R.id.tab_project:
-                        mViewPager.setCurrentItem(3);
-                        break;
-                    case R.id.tab_my:
-                        mViewPager.setCurrentItem(4);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
+        mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.tab_home:
+                    mViewPager.setCurrentItem(0);
+                    break;
+                case R.id.tab_tree:
+                    mViewPager.setCurrentItem(1);
+                    break;
+                case R.id.tab_navigation:
+                    mViewPager.setCurrentItem(2);
+                    break;
+                case R.id.tab_project:
+                    mViewPager.setCurrentItem(3);
+                    break;
+                case R.id.tab_my:
+                    mViewPager.setCurrentItem(4);
+                    break;
+                default:
+                    break;
             }
+            return false;
         });
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 
@@ -113,33 +111,20 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        HomeFragment homeFragment = new HomeFragment();
-        mFragments.add(homeFragment);
-        // Create the presenter
-        // fixme
-//        mPresenterList.add(new HomePresenter( homeFragment));
-        TreeFragment treeFragment = new TreeFragment();
-        mFragments.add(treeFragment);
-        // fixme
-//        mPresenterList.add(new TreePresenter(treeFragment));
-        NavigationFragment navigationFragment = new NavigationFragment();
-        mFragments.add(navigationFragment);
-
-        ProjectFragment projectFragment = ProjectFragment.newInstance();
-        mFragments.add(projectFragment);
-        // fixme
-//        mPresenterList.add(new NavigationPresenter(navigationFragment));
-        MyFragment myFragment = new MyFragment();
-        mFragments.add(myFragment);
+        mFragmentList.add(new HomeFragment());
+        mFragmentList.add(new TreeFragment());
+        mFragmentList.add(new NavigationFragment());
+        mFragmentList.add(ProjectFragment.newInstance());
+        mFragmentList.add(new MyFragment());
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {
-                return mFragments.size();
+                return mFragmentList.size();
             }
 
             @Override
             public Fragment getItem(int position) {
-                return mFragments.get(position);
+                return mFragmentList.get(position);
             }
         };
 
@@ -158,7 +143,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                com.wan.android.search.SearchActivity .start(mContext);
+                SearchActivity.start(mContext);
                 return true;
             case R.id.action_hot:
                 FriendActivity.start(mContext);
@@ -188,7 +173,7 @@ public class MainActivity extends BaseActivity {
             if ((System.currentTimeMillis() - mExitTime) > DefaultConstants.ONE_CLICK_TIME_LIMIT) {
                 //大于2000ms则认为是误操作，使用Toast进行提示
                 String string = String.format(getString(R.string.main_exit_text), getString(R.string.app_name));
-                Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+                ToastUtils.showShort(string);
                 //并记录下本次点击“返回键”的时刻，以便下次进行判断
                 mExitTime = System.currentTimeMillis();
             } else {
@@ -202,10 +187,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(NightModeEvent nightModeEvent) {
-        if (BuildConfig.DEBUG) {
-            Log.d(TAG, "receive nightModeEvent");
-        }
+    public void nightModeEvent(NightModeEvent nightModeEvent) {
+        Logger.d("nightModeEvent");
         EdgeEffectUtils.setViewPagerEdgeEffect(mViewPager);
     }
     @Subscribe(threadMode = ThreadMode.MAIN)

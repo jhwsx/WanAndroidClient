@@ -4,9 +4,11 @@ buildscript {
     repositories {
         jcenter()
         google()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.13'
         // TinkerPatch 插件
 //        classpath ('com.tencent.tinker:tinker-patch-gradle-plugin:1.9.1')
