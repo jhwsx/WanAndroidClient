@@ -1,109 +1,34 @@
 package com.wan.android;
 
 import android.app.Application;
-import android.content.Context;
-import android.support.multidex.MultiDex;
 
-import com.kingja.loadsir.core.LoadSir;
-import com.liulishuo.filedownloader.FileDownloader;
-import com.liulishuo.filedownloader.util.FileDownloadLog;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.DiskLogAdapter;
-import com.orhanobut.logger.Logger;
-import com.umeng.commonsdk.UMConfigure;
-import com.wan.android.callback.CustomCallback;
-import com.wan.android.callback.EmptyCallback;
-import com.wan.android.callback.ErrorCallback;
-import com.wan.android.callback.LoadingCallback;
-import com.wan.android.callback.TimeoutCallback;
-import com.wan.android.skin.SkinMaterialViewInflater2;
-import com.wan.android.skin.SkinRecyclerViewInflater;
-import com.wan.android.util.CrashHandler;
-import com.wan.android.util.ProcessUtils;
-import com.wan.android.util.UmengUtils;
+import com.wan.android.di.component.ApplicationComponent;
+import com.wan.android.di.component.DaggerApplicationComponent;
+import com.wan.android.di.module.ApplicationModule;
 
-import skin.support.SkinCompatManager;
-import skin.support.app.SkinCardViewInflater;
-import skin.support.constraint.app.SkinConstraintViewInflater;
+import timber.log.Timber;
 
 /**
- * 自定义 Application
  * @author wzc
- * @date 2018/2/11
+ * @date 2018/8/2
  */
 public class WanAndroidApplication extends Application {
-    private static Context sContext;
 
-    public static Context getContext() {
-        return sContext;
-    }
+    private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = this;
 
-        CrashHandler.getInstance().init(this);
+        Timber.plant(new Timber.DebugTree());
 
-        initLoaderSir();
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this)).build();
 
-        initUmeng();
-
-        initSkinSupport();
-
-        initFileDownloader();
-
-        initLogger();
+        mApplicationComponent.inject(this);
     }
 
-    private void initUmeng() {
-        UmengUtils.initUmengAnalytics(this);
-        // 友盟+设置组件化的Log开关
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
-        // 友盟+设置日志加密
-        UMConfigure.setEncryptEnabled(!BuildConfig.DEBUG);
-    }
-
-    private void initLoaderSir() {
-        LoadSir.beginBuilder()
-                .addCallback(new ErrorCallback())
-                .addCallback(new EmptyCallback())
-                .addCallback(new LoadingCallback())
-                .addCallback(new TimeoutCallback())
-                .addCallback(new CustomCallback())
-                .setDefaultCallback(LoadingCallback.class)
-                .commit();
-    }
-
-    private void initSkinSupport() {
-        if (ProcessUtils.isMainProcess(this)) {
-            SkinCompatManager.withoutActivity(this)                         // 基础控件换肤初始化
-//                .addInflater(new SkinMaterialViewInflater())            // material design 控件换肤初始化[可选]
-                    .addInflater(new SkinMaterialViewInflater2())            // material design 控件换肤初始化[可选]
-                    .addInflater(new SkinConstraintViewInflater())          // ConstraintLayout 控件换肤初始化[可选]
-                    .addInflater(new SkinCardViewInflater())                // CardView v7 控件换肤初始化[可选]
-                    .addInflater(new SkinRecyclerViewInflater())                // RecyclerView v7 控件换肤初始化[可选]
-                    .setSkinStatusBarColorEnable(false)                     // 关闭状态栏换肤，默认打开[可选]
-                    .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
-                    .loadSkin();
-        }
-    }
-
-    private void initFileDownloader() {
-        FileDownloadLog.NEED_LOG = BuildConfig.DEBUG;
-        FileDownloader.setup(this);
-    }
-
-    private void initLogger() {
-        if (BuildConfig.DEBUG) {
-            Logger.addLogAdapter(new AndroidLogAdapter());
-        }
-        Logger.addLogAdapter(new DiskLogAdapter());
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
+    public ApplicationComponent getComponent() {
+        return mApplicationComponent;
     }
 }

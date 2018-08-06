@@ -4,35 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/constraintlayout_fragment_navigation"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <view
-        android:id="@+id/verticaltablayout"
-        class="com.wan.android.skin.VerticalTabLayoutCompat"
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_0"
-        android:background="@color/colorPrimary"
-        app:indicator_color="@color/color_73"
-        app:indicator_gravity="fill"
-        app:tab_height="@dimen/dp_48"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_8"
-        app:tab_mode="scrollable"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="NavigationFragment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <view
-        android:id="@+id/verticalviewpager"
-        class="com.wan.android.skin.VerticalViewPagerCompat"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_0"
-        android:background="@color/color_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/verticaltablayout"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>

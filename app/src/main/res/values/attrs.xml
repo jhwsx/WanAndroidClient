@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="MyItemView">
-        <attr name="android:src"/>
-        <attr name="android:text"/>
-        <attr name="is_show_switch" format="boolean"/>
-    </declare-styleable>
-</resources>

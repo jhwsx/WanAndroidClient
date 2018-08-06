@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_main"
+            style="@style/Toolbar"
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/white"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/main_content"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation_view_main"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@color/color_background"
+        android:layout_height="wrap_content"
+        app:itemIconTint="@color/selector_bottom_navigation_view"
+        app:itemTextColor="@color/selector_bottom_navigation_view"
+        app:menu="@menu/menu_bottom_navigation_view"/>
+</android.support.design.widget.CoordinatorLayout>

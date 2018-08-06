@@ -1,0 +1,35 @@
+package com.wan.android.ui.login;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
+
+import com.wan.android.ui.base.BaseSingleFragmentActivity;
+
+/**
+ * 注册页面
+ * @author wzc
+ * @date 2018/3/27
+ */
+public class RegisterActivity extends BaseSingleFragmentActivity {
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, RegisterActivity.class);
+        context.startActivity(starter);
+    }
+
+    @Override
+    protected void inject() {
+        getActivityComponent().inject(RegisterActivity.this);
+    }
+
+    @Override
+    protected Fragment createFragment() {
+        return RegisterFragment.newInstance();
+    }
+
+    @Override
+    protected void setUp() {
+        // do nothing
+    }
+}

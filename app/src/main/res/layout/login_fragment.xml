@@ -13,14 +13,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible"/>
     <!--登录的布局-->
     <ScrollView
         android:id="@+id/login_form"
@@ -35,9 +27,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextLabel"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/name"
@@ -55,9 +45,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextLabel"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/password"
@@ -95,7 +83,7 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/newuser_register"
-                android:textColor="@color/colorPrimary1"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/dp_14"/>
         </LinearLayout>
     </ScrollView>

@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/tab_home"
+        android:id="@+id/main_bottom_nav_home"
         android:title="@string/home"
-        android:icon="@drawable/ic_main_home"/>
+        android:icon="@drawable/main_bottom_nav_home"/>
 
     <item
-        android:id="@+id/tab_tree"
+        android:id="@+id/main_bottom_nav_tree"
         android:title="@string/tree"
-        android:icon="@drawable/ic_main_tree"/>
+        android:icon="@drawable/main_bottom_nav_tree"/>
 
     <item
-        android:id="@+id/tab_navigation"
+        android:id="@+id/main_bottom_nav_navigation"
         android:title="@string/navigation"
-        android:icon="@drawable/ic_main_navigation"/>
+        android:icon="@drawable/main_bottom_nav_navigation"/>
 
     <item
-        android:id="@+id/tab_project"
+        android:id="@+id/main_bottom_nav_project"
         android:title="@string/project"
-        android:icon="@drawable/ic_main_project"/>
-
-    <item
-        android:icon="@drawable/ic_main_my"
-        android:id="@+id/tab_my"
-        android:title="@string/my"/>
+        android:icon="@drawable/main_bottom_nav_project"/>
 
 </menu>

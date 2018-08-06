@@ -12,14 +12,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="@dimen/activity_vertical_margin">
-    <!-- register progress -->
-    <ProgressBar
-        android:id="@+id/register_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible"/>
 
     <ScrollView
         android:id="@+id/register_form"
@@ -34,9 +26,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextLabel"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/name"
@@ -54,9 +44,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextLabel"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/password"
@@ -77,9 +65,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextLabel"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/repassword"

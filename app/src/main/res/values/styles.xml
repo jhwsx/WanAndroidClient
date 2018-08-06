@@ -6,8 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="styleLoadingLayout">@style/LoadingLayoutStyle</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -20,56 +19,57 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
-    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@android:color/white</item>
-        <item name="tabIndicatorHeight">2dp</item>
-        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
-        <item name="tabSelectedTextColor">@android:color/white</item>
-    </style>
-
-    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
-        <item name="textAllCaps">true</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    
-    <style name="DialogSoftInput" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="Toolbar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="Toolbar1" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="TextStyle">
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="TextStyle.Heading" parent="TextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Toolbar.TitleText" parent="TextStyle.Heading">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="AppTab" parent="Widget.Design.TabLayout">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="tabTextAppearance">@style/AppTab.TextAppearance</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabTextColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTab.TextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LogoutDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowSoftInputMode">stateVisible|adjustPan</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <!--修改 Switch 打开的颜色 https://stackoverflow.com/questions/11253512/change-on-color-of-a-switch-->
-    <style name="MySwitch" parent="Theme.AppCompat.Light">
-        <!-- active thumb & track color (30% transparency) -->
-        <item name="colorControlActivated">@color/colorPrimary1_night</item>
-    </style>
-
-    <style name="MyToolbarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColor">@color/color_3e</item>
-        <item name="android:colorBackground">@color/color_background</item>
-    </style>
-
-    <style name="TextAppearence.App.TextInputLayout" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/color_3e</item>
-        <item name="android:textColorLink">@color/colorPrimary1</item>
-        <item name="android:textColorHighlight">@color/colorPrimary1</item>
-        <item name="colorControlNormal">@color/color_3e</item>
-    </style>
 
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/colorPrimary1</item>
-        <!--下划线没有获取焦点，也就是默认的颜色-->
-        <item name="colorControlNormal">@color/color_3e</item>
-        <!--点击时下划线的颜色-->
-        <item name="colorControlActivated">@color/colorPrimary1</item>
+    <style name="LoadingLayoutStyle" parent="LoadingLayout.Style">
     </style>
 </resources>
