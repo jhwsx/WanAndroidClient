@@ -3,7 +3,10 @@ package com.wan.android.data.network;
 import com.wan.android.data.network.api.ApiCall;
 import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
+import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,7 +29,7 @@ public class AppApiHelper implements ApiHelper {
 
     @Override
     public Observable<CommonResponse<ArticleData>> getHomeList(int page) {
-        return mApiCall.getHomeFeed(page);
+        return mApiCall.getHomeList(page);
     }
 
     @Override
@@ -37,5 +40,10 @@ public class AppApiHelper implements ApiHelper {
     @Override
     public Observable<CommonResponse<AccountData>> register(String username, String password, String repassword) {
         return mApiCall.register(username, password, repassword);
+    }
+
+    @Override
+    public Observable<CommonResponse<List<BannerData>>> getBanner() {
+        return mApiCall.getBanner();
     }
 }

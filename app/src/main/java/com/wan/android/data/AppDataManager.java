@@ -3,8 +3,11 @@ package com.wan.android.data;
 import com.wan.android.data.network.ApiHelper;
 import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
+import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.pref.PreferencesHelper;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,6 +41,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<CommonResponse<AccountData>> register(String username, String password, String repassword) {
         return mApiHelper.register(username, password, repassword);
+    }
+
+    @Override
+    public Observable<CommonResponse<List<BannerData>>> getBanner() {
+        return mApiHelper.getBanner();
     }
 
     @Override

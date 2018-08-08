@@ -30,7 +30,7 @@ public class LoginPresenter<V extends LoginContract.View> extends BasePresenter<
 
     @Override
     public void login(String username, String password) {
-        if (checkNetwork()) {
+        if (!isNetworkConnected()) {
             return;
         }
         if (username == null || username.isEmpty()) {

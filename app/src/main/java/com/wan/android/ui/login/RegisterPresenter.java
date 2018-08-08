@@ -30,7 +30,7 @@ public class RegisterPresenter<V extends RegisterContract.View> extends BasePres
 
     @Override
     public void register(String username, String password, String repassword) {
-        if (checkNetwork()) {
+        if (!isNetworkConnected()) {
             return;
         }
         if (username == null || username.isEmpty()) {

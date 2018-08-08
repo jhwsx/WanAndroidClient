@@ -19,7 +19,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        // 使用BRVAH需要
         maven { url "https://jitpack.io" }
     }
 }
@@ -55,4 +54,7 @@ ext {
     adapterrxjavaVersion = '2.4.0'
     okHttpVersion = '3.5.0'
     persistentCookieJarVersion = 'v1.0.1'
+    bannerVersion = '1.4.10'
+    flexibledividerVersion = '1.4.0'
+    glideVersion = '3.8.0'
 }

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wan.android.ui.view.MultiSwipeRefreshLayout
-    android:id="@+id/multi_swipe_refresh_layout"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh_layout"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</com.wan.android.ui.view.MultiSwipeRefreshLayout>
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/recycle_item"/>
+</android.support.v4.widget.SwipeRefreshLayout>

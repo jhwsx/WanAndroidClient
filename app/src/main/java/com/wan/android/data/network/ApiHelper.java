@@ -2,7 +2,10 @@ package com.wan.android.data.network;
 
 import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
+import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -34,4 +37,10 @@ public interface ApiHelper {
      * @return  AccountData 账户数据
      */
     Observable<CommonResponse<AccountData>> register(String username, String password, final String repassword);
+
+    /**
+     * 获取轮播图
+     * @return BannerData 集合
+     */
+    Observable<CommonResponse<List<BannerData>>> getBanner();
 }

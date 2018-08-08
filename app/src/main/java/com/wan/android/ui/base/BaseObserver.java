@@ -1,5 +1,9 @@
 package com.wan.android.ui.base;
 
+import com.wan.android.R;
+
+import java.net.UnknownHostException;
+
 import io.reactivex.observers.ResourceObserver;
 
 /**
@@ -23,7 +27,11 @@ public class BaseObserver<T> extends ResourceObserver<T> {
         if (mView == null) {
             return;
         }
-        mView.onError(e.getMessage());
+        if (e instanceof UnknownHostException) {
+            mView.onError(R.string.error_msg_network_error);
+        } else {
+            mView.onError(e.getMessage());
+        }
         mView.hideLoading();
     }
 

@@ -4,8 +4,10 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.wan.android.BuildConfig;
 import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
+import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -32,7 +34,7 @@ public interface ApiCall {
      * @return ArticleData 一页列表数据
      */
     @GET("/article/list/{page}/json")
-    Observable<CommonResponse<ArticleData>> getHomeFeed(
+    Observable<CommonResponse<ArticleData>> getHomeList(
             @Path("page") int page
     );
 
@@ -63,6 +65,10 @@ public interface ApiCall {
             @Field("password") String password,
             @Field("repassword") String repassword
     );
+
+    @GET("/banner/json")
+    Observable<CommonResponse<List<BannerData>>> getBanner();
+
 
     class Factory {
 

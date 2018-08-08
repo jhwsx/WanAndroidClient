@@ -78,11 +78,11 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     }
 
-    protected boolean checkNetwork() {
+    protected boolean isNetworkConnected() {
         if (!getMvpView().isNetworkConnected()) {
             getMvpView().onError(R.string.error_msg_network_error);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

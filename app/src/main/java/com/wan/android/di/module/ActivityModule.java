@@ -2,19 +2,22 @@ package com.wan.android.di.module;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 
 import com.wan.android.R;
 import com.wan.android.di.ActivityContext;
 import com.wan.android.di.PerActivity;
 import com.wan.android.ui.adapter.CommonListAdapter;
+import com.wan.android.ui.home.HomeContract;
+import com.wan.android.ui.home.HomePresenter;
 import com.wan.android.ui.login.LoginContract;
 import com.wan.android.ui.login.LoginPresenter;
 import com.wan.android.ui.login.RegisterContract;
 import com.wan.android.ui.login.RegisterPresenter;
 import com.wan.android.ui.main.MainContract;
 import com.wan.android.ui.main.MainPresenter;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import dagger.Module;
 import dagger.Provides;
@@ -54,10 +57,18 @@ public class ActivityModule {
     }
 
     @Provides
-    LinearLayoutManager provideLinearLayoutManager(AppCompatActivity activity) {
+    LayoutInflater provideLayoutInflater(Activity activity) {
+        return LayoutInflater.from(activity);
+    }
+    @Provides
+    LinearLayoutManager provideLinearLayoutManager(Activity activity) {
         return new LinearLayoutManager(activity);
     }
-
+    @Provides
+    HorizontalDividerItemDecoration provideHorizontalDividerItemDecoration(Activity activity) {
+        return new HorizontalDividerItemDecoration.Builder(activity)
+                .colorResId(R.color.color_ef).sizeResId(R.dimen.px_1).build();
+    }
     @Provides
     @PerActivity
     MainContract.Presenter<MainContract.View> provideMainPresenter(
@@ -75,6 +86,12 @@ public class ActivityModule {
     @Provides
     RegisterContract.Presenter<RegisterContract.View> provideRegisterPresenter(
             RegisterPresenter<RegisterContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    HomeContract.Presenter<HomeContract.View> provideHomePresenter(
+            HomePresenter<HomeContract.View> presenter) {
         return presenter;
     }
 }

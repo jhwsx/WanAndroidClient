@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -28,11 +29,16 @@ import com.wan.android.ui.navigation.NavigationFragment;
 import com.wan.android.ui.project.ProjectFragment;
 import com.wan.android.ui.tree.TreeFragment;
 import com.wan.android.util.BottomNavigationViewHelper;
+import com.wan.android.util.constant.AppConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * 主页
@@ -67,48 +73,84 @@ public class MainActivity extends BaseActivity
     BottomNavigationView mBottomNavigationView;
     @Inject
     MainContract.Presenter<MainContract.View> mPresenter;
-
+    private List<Fragment> mFragmentList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
         setContentView(R.layout.main_activity);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this));
         mPresenter.onAttach(MainActivity.this);
-
+        initFragmentList();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fl_main_container, HomeFragment.newInstance())
+                    .add(R.id.fl_main_container, mFragmentList.get(0))
                     .commit();
         }
         setUp();
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Timber.d("onStart");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Timber.d("onRestart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Timber.d("onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Timber.d("onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Timber.d("onStop");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Timber.d("onSaveInstanceState");
+    }
+
+    @Override
+    protected void onDestroy() {
+        Timber.d("onDestroy");
+        mPresenter.onDetach();
+        super.onDestroy();
+    }
+    @Override
     protected void setUp() {
-        BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.main_bottom_nav_home:
-                                switchFragment(0);
-                                break;
-                            case R.id.main_bottom_nav_tree:
-                                switchFragment(1);
-                                break;
-                            case R.id.main_bottom_nav_navigation:
-                                switchFragment(2);
-                                break;
-                            case R.id.main_bottom_nav_project:
-                                switchFragment(3);
-                                break;
-                            default:
-                        }
-                        return true;
-                    }
-                });
+
+        setSupportActionBar(mToolbar);
+        initBottomNavigationView();
+        initDrawer();
+        setUpNavMenu();
+        mPresenter.onNavMenuCreated();
+    }
+
+    private void initFragmentList() {
+        mFragmentList.add(HomeFragment.newInstance());
+        mFragmentList.add(TreeFragment.newInstance());
+        mFragmentList.add(NavigationFragment.newInstance());
+        mFragmentList.add(ProjectFragment.newInstance());
+    }
+
+    private void initDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
@@ -117,20 +159,38 @@ public class MainActivity extends BaseActivity
                 R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        setUpNavMenu();
-        mPresenter.onNavMenuCreated();
+    }
+
+    private void initBottomNavigationView() {
+        BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.main_bottom_nav_home:
+                                switchFragment(AppConstants.TYPE_HOME_FRAGMENT);
+                                break;
+                            case R.id.main_bottom_nav_tree:
+                                switchFragment(AppConstants.TYPE_TREE_FRAGMENT);
+                                break;
+                            case R.id.main_bottom_nav_navigation:
+                                switchFragment(AppConstants.TYPE_NAVIGATION_FRAGMENT);
+                                break;
+                            case R.id.main_bottom_nav_project:
+                                switchFragment(AppConstants.TYPE_PROJECT_FRAGMENT);
+                                break;
+                            default:
+                        }
+                        return true;
+                    }
+                });
     }
 
     private void setUpNavMenu() {
         mHeaderLayout = mNavigationView.getHeaderView(0);
         mTvUsername = mHeaderLayout.findViewById(R.id.tv_main_header_nav_username);
         mNavigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPresenter.onDetach();
-        super.onDestroy();
     }
 
     @Override
@@ -210,25 +270,27 @@ public class MainActivity extends BaseActivity
             startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), REQUEST_CODE_LOGIN);
         }
     }
-
+    private int mLastPosition;
     private void switchFragment(int position) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        switch (position) {
-            case 0:
-                fragmentTransaction.replace(R.id.fl_main_container, HomeFragment.newInstance());
-                break;
-            case 1:
-                fragmentTransaction.replace(R.id.fl_main_container, TreeFragment.newInstance());
-                break;
-            case 2:
-                fragmentTransaction.replace(R.id.fl_main_container, NavigationFragment.newInstance());
-                break;
-            case 3:
-                fragmentTransaction.replace(R.id.fl_main_container, ProjectFragment.newInstance());
-                break;
-            default:
-                fragmentTransaction.replace(R.id.fl_main_container, HomeFragment.newInstance());
+        Fragment targetFragment = mFragmentList.get(position);
+        Fragment lastFragment = mFragmentList.get(mLastPosition);
+        if (position == mLastPosition) {
+            // 为同一个位置, 不用切换
+            return;
         }
+        mLastPosition = position;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        // 隐藏上一个 Fragment
+        fragmentTransaction.hide(lastFragment);
+        // 判断目标 Fragment 是否已经添加
+        if (!targetFragment.isAdded()) {
+            // 没有添加, 先添加
+            fragmentTransaction.add(R.id.fl_main_container, targetFragment);
+        } else {
+            // 已经添加, 就显示
+            fragmentTransaction.show(targetFragment);
+        }
+        // 提交事务
         fragmentTransaction.commit();
     }
 

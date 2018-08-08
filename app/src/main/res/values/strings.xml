@@ -71,7 +71,7 @@
     <string name="time">时间：</string>
     <string name="author">作者：</string>
     <string name="boss_something_is_wrong">出错了.</string>
-    <string name="oh_no_timeout">超时了</string>
+    <string name="network_error">网络出错了！</string>
     <string name="please_login_first">请先登录</string>
     <string name="collect_successfully">收藏成功</string>
     <string name="collect_failed">收藏失败</string>
