@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -42,10 +42,15 @@ android {
         debug {
             debuggable true
             minifyEnabled false
+            resValue("string", "PORT_NUMBER", "8888")
             signingConfig signingConfigs.debug
         }
     }
 }
+greendao {
+    schemaVersion 1
+}
+
 
 dependencies {
     // android support libraries
@@ -96,6 +101,12 @@ dependencies {
     implementation "com.yqritc:recyclerview-flexibledivider:$rootProject.flexibledividerVersion"
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
     implementation 'com.github.githubwing:ByeBurger:1.2.3'
+
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+
+    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.debugdbVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

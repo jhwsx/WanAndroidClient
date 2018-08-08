@@ -1,7 +1,14 @@
 package com.wan.android.data.network.model;
 
+import com.google.gson.annotations.Expose;
+
+import org.greenrobot.greendao.annotation.Convert;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 文章列表条目数据类
@@ -9,8 +16,11 @@ import java.util.ArrayList;
  * @author wzc
  * @date 2018/3/12
  */
+@Entity
 public class ArticleDatas implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    private Long id;
     private String apkLink;
     private String author;
     private Integer chapterId;
@@ -20,7 +30,6 @@ public class ArticleDatas implements Serializable {
     private String desc;
     private String envelopePic;
     private Boolean fresh;
-    private Integer id;
     private String link;
     private String niceDate;
     private String origin;
@@ -28,12 +37,49 @@ public class ArticleDatas implements Serializable {
     private Long publishTime;
     private Integer superChapterId;
     private String superChapterName;
-    private ArrayList<TagsBean> tags;
+    @Convert(columnType = String.class, converter = TagsBeanConverter.class)
+    private List<TagsBean> tags;
     private int userId;
     private String title;
     private Integer type;
     private Integer visible;
     private Integer zan;
+
+    @Generated(hash = 619487330)
+    public ArticleDatas(Long id, String apkLink, String author, Integer chapterId,
+            String chapterName, Boolean collect, Integer courseId, String desc,
+            String envelopePic, Boolean fresh, String link, String niceDate,
+            String origin, String projectLink, Long publishTime,
+            Integer superChapterId, String superChapterName, List<TagsBean> tags,
+            int userId, String title, Integer type, Integer visible, Integer zan) {
+        this.id = id;
+        this.apkLink = apkLink;
+        this.author = author;
+        this.chapterId = chapterId;
+        this.chapterName = chapterName;
+        this.collect = collect;
+        this.courseId = courseId;
+        this.desc = desc;
+        this.envelopePic = envelopePic;
+        this.fresh = fresh;
+        this.link = link;
+        this.niceDate = niceDate;
+        this.origin = origin;
+        this.projectLink = projectLink;
+        this.publishTime = publishTime;
+        this.superChapterId = superChapterId;
+        this.superChapterName = superChapterName;
+        this.tags = tags;
+        this.userId = userId;
+        this.title = title;
+        this.type = type;
+        this.visible = visible;
+        this.zan = zan;
+    }
+
+    @Generated(hash = 348759666)
+    public ArticleDatas() {
+    }
 
     public String getApkLink() {
         return apkLink;
@@ -107,14 +153,6 @@ public class ArticleDatas implements Serializable {
         this.fresh = fresh;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getLink() {
         return link;
     }
@@ -171,11 +209,11 @@ public class ArticleDatas implements Serializable {
         this.superChapterName = superChapterName;
     }
 
-    public ArrayList<TagsBean> getTags() {
+    public List<TagsBean> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<TagsBean> tags) {
+    public void setTags(List<TagsBean> tags) {
         this.tags = tags;
     }
 
@@ -219,13 +257,35 @@ public class ArticleDatas implements Serializable {
         this.userId = userId;
     }
 
+    public Boolean getCollect() {
+        return this.collect;
+    }
+
+    public Boolean getFresh() {
+        return this.fresh;
+    }
+
+    public void setVisible(Integer visible) {
+        this.visible = visible;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
     public static class TagsBean implements Serializable {
         /**
          * name : 项目
          * url : /project/list/1?cid=294
          */
-
+        private static final long serialVersionUID = 2L;
+        @Expose
         private String name;
+        @Expose
         private String url;
 
         public String getName() {

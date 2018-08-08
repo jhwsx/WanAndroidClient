@@ -16,7 +16,7 @@ import timber.log.Timber;
  * @author wzc
  * @date 2018/8/2
  */
-public class WanAndroidApplication extends Application {
+public class App extends Application {
 
     private ApplicationComponent mApplicationComponent;
 

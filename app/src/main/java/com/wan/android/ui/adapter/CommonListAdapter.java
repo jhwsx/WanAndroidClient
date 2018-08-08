@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wan.android.R;
 import com.wan.android.data.network.model.ArticleDatas;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wzc
@@ -33,7 +33,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ArticleDatas,BaseViewHol
         // authorName
         helper.setText(R.id.tv_home_item_view_author, item.getAuthor());
         // tag 存在 可以点击
-        ArrayList<ArticleDatas.TagsBean> tags = item.getTags();
+        List<ArticleDatas.TagsBean> tags = item.getTags();
         if (!tags.isEmpty() && tags.get(0) != null) {
             helper.getView(R.id.tv_home_item_view_tag).setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_home_item_view_tag, tags.get(0).getName());

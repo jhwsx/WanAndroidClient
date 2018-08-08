@@ -12,7 +12,7 @@ import dagger.Provides;
  * @author wzc
  * @date 2018/8/3
  */
-@Module(includes = {ApiHelperModule.class, PreferencesHelperModule.class})
+@Module(includes = {ApiHelperModule.class, PreferencesHelperModule.class, DbHelperModule.class})
 public class DataManagerModule {
     @Provides
     @Singleton

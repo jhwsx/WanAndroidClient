@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.wan.android.WanAndroidApplication;
+import com.wan.android.App;
 import com.wan.android.data.DataManager;
 import com.wan.android.di.ApplicationContext;
 import com.wan.android.di.module.ApplicationModule;
@@ -21,7 +21,7 @@ import dagger.Component;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    void inject(WanAndroidApplication app);
+    void inject(App app);
 
     @ApplicationContext
     Context context();

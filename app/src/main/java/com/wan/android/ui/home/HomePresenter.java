@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.wan.android.data.DataManager;
 import com.wan.android.data.network.model.ArticleData;
+import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.di.ApplicationContext;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 首页 Presenter
@@ -39,7 +41,30 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
     public void swipeRefresh(boolean isBannerLoaded) {
         mCurrPage = 0;
         if (!isNetworkConnected()) {
-            getMvpView().showSwipeRefreshFail();
+            // 获取数据库中的文章列表数据
+            getCompositeDisposable().add(getDataManager().getDbHomeArticles()
+                    .compose(RxUtils.<List<ArticleDatas>>rxSchedulerHelper())
+                    .subscribe(new Consumer<List<ArticleDatas>>() {
+                        @Override
+                        public void accept(List<ArticleDatas> articleDatas) throws Exception {
+                            if (articleDatas == null || articleDatas.isEmpty()) {
+                                getMvpView().showSwipeRefreshFail();
+                            } else {
+                                getMvpView().showSwipeRefreshSuccess(articleDatas);
+                            }
+                        }
+                    }));
+            // 获取数据库中的 banner 数据
+            getCompositeDisposable().add(getDataManager().getDbBanner()
+                    .compose(RxUtils.<List<BannerData>>rxSchedulerHelper())
+                    .subscribe(new Consumer<List<BannerData>>() {
+                        @Override
+                        public void accept(List<BannerData> data) throws Exception {
+                            if (data != null && !data.isEmpty()) {
+                                getMvpView().showBannerSuccess(data);
+                            }
+                        }
+                    }));
             return;
         }
         getCompositeDisposable().add(getDataManager().getHomeList(mCurrPage)
@@ -49,6 +74,10 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
                     @Override
                     public void onNext(ArticleData articleData) {
                         super.onNext(articleData);
+                        // 存储文章列表数据到数据库
+                        getCompositeDisposable().add(getDataManager().saveHomeArticles2Db(articleData.getDatas())
+                                .compose(RxUtils.<Boolean>rxSchedulerHelper())
+                                .subscribe());
                         getMvpView().showSwipeRefreshSuccess(articleData.getDatas());
                     }
 
@@ -69,6 +98,10 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
                     @Override
                     public void onNext(List<BannerData> bannerData) {
                         super.onNext(bannerData);
+                        // 存储 banner 数据到数据库
+                        getCompositeDisposable().add(getDataManager().saveBanner2Db(bannerData)
+                                .compose(RxUtils.<Boolean>rxSchedulerHelper())
+                                .subscribe());
                         getMvpView().showBannerSuccess(bannerData);
                     }
 

@@ -13,8 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wan.android.App;
 import com.wan.android.R;
-import com.wan.android.WanAndroidApplication;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.di.component.DaggerActivityComponent;
 import com.wan.android.di.module.ActivityModule;
@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         super.onCreate(savedInstanceState);
         mActivityComponent = DaggerActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
-                .applicationComponent(((WanAndroidApplication) getApplication()).getComponent())
+                .applicationComponent(((App) getApplication()).getComponent())
                 .build();
     }
 

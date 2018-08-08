@@ -132,7 +132,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                 continue;
             }
             titles.add(element.getTitle());
-            imagePaths.add(element.getImagepath());
+            imagePaths.add(element.getImagePath());
         }
         mBanner.setBannerTitles(titles)
                 // 设置轮播图片(所有设置参数方法都放在此方法之前执行)

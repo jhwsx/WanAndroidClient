@@ -5,10 +5,11 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
-        
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -57,4 +58,5 @@ ext {
     bannerVersion = '1.4.10'
     flexibledividerVersion = '1.4.0'
     glideVersion = '3.8.0'
+    debugdbVersion = '1.0.4'
 }

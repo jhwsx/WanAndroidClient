@@ -1,5 +1,6 @@
 package com.wan.android.data;
 
+import com.wan.android.data.db.DbHelper;
 import com.wan.android.data.network.ApiHelper;
 import com.wan.android.data.pref.PreferencesHelper;
 
@@ -7,5 +8,5 @@ import com.wan.android.data.pref.PreferencesHelper;
  * @author wzc
  * @date 2018/8/2
  */
-public interface DataManager extends ApiHelper, PreferencesHelper{
+public interface DataManager extends ApiHelper, PreferencesHelper, DbHelper {
 }
