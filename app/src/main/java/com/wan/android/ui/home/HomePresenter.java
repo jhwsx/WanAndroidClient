@@ -74,10 +74,7 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
                     @Override
                     public void onNext(ArticleData articleData) {
                         super.onNext(articleData);
-                        // 存储文章列表数据到数据库
-                        getCompositeDisposable().add(getDataManager().saveHomeArticles2Db(articleData.getDatas())
-                                .compose(RxUtils.<Boolean>rxSchedulerHelper())
-                                .subscribe());
+                        saveHomeArticles2Db(articleData.getDatas());
                         getMvpView().showSwipeRefreshSuccess(articleData.getDatas());
                     }
 
@@ -130,6 +127,8 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
                             // 已经是最后一页
                             getMvpView().showLoadMoreEnd();
                         }
+
+                        saveHomeArticles2Db(articleData.getDatas());
                     }
 
                     @Override
@@ -138,6 +137,16 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
                         getMvpView().showLoadMoreFail();
                     }
                 }));
+    }
+
+    /**
+     * 存储文章列表数据到数据库
+     * @param data 数据集合
+     */
+    private void saveHomeArticles2Db(List<ArticleDatas> data) {
+        getCompositeDisposable().add(getDataManager().saveHomeArticles2Db(data)
+                .compose(RxUtils.<Boolean>rxSchedulerHelper())
+                .subscribe());
     }
 
 }

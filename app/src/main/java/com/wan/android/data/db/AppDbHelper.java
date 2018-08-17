@@ -1,6 +1,7 @@
 package com.wan.android.data.db;
 
 import com.wan.android.data.network.model.ArticleDatas;
+import com.wan.android.data.network.model.ArticleDatasDao;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.DaoMaster;
 import com.wan.android.data.network.model.DaoSession;
@@ -33,7 +34,12 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(new Callable<List<ArticleDatas>>() {
             @Override
             public List<ArticleDatas> call() throws Exception {
-                return mDaoSession.getArticleDatasDao().loadAll();
+                return mDaoSession.getArticleDatasDao()
+                        .queryBuilder()
+                        // 按 id 降序排列, 否则取出的缓存新的在下边, 旧的在上边
+                        .orderDesc(ArticleDatasDao.Properties.Id)
+                        .build()
+                        .list();
             }
         });
     }
