@@ -9,6 +9,7 @@ import com.wan.android.R;
 import com.wan.android.di.ActivityContext;
 import com.wan.android.di.PerActivity;
 import com.wan.android.ui.adapter.CommonListAdapter;
+import com.wan.android.ui.content.X5WebView;
 import com.wan.android.ui.home.HomeContract;
 import com.wan.android.ui.home.HomePresenter;
 import com.wan.android.ui.login.LoginContract;
@@ -93,5 +94,9 @@ public class ActivityModule {
     HomeContract.Presenter<HomeContract.View> provideHomePresenter(
             HomePresenter<HomeContract.View> presenter) {
         return presenter;
+    }
+    @Provides
+    X5WebView provideX5WebView(@ActivityContext Context context) {
+        return new X5WebView(context);
     }
 }

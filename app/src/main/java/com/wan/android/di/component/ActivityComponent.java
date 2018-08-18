@@ -2,6 +2,8 @@ package com.wan.android.di.component;
 
 import com.wan.android.di.PerActivity;
 import com.wan.android.di.module.ActivityModule;
+import com.wan.android.ui.content.ContentActivity;
+import com.wan.android.ui.content.ContentFragment;
 import com.wan.android.ui.home.HomeFragment;
 import com.wan.android.ui.login.LoginActivity;
 import com.wan.android.ui.login.LoginFragment;
@@ -29,4 +31,8 @@ public interface ActivityComponent {
     void inject(RegisterFragment fragment);
 
     void inject(HomeFragment fragment);
+
+    void inject(ContentActivity activity);
+
+    void inject(ContentFragment fragment);
 }

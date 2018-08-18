@@ -25,9 +25,10 @@ import butterknife.ButterKnife;
 public abstract class BaseSingleFragmentActivity extends BaseActivity {
 
     @BindView(R.id.toolbar_common)
-    Toolbar mToolbar;
+    protected Toolbar mToolbar;
     @BindDimen(R.dimen.dp_4)
     int dp4;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,8 @@ public abstract class BaseSingleFragmentActivity extends BaseActivity {
         inject();
         setUnBinder(ButterKnife.bind(this));
         ViewCompat.setElevation(mToolbar, dp4);
+        initTitle();
         setSupportActionBar(mToolbar);
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -49,6 +50,20 @@ public abstract class BaseSingleFragmentActivity extends BaseActivity {
                     .add(R.id.fragment_container_single_fragment, createFragment())
                     .commitAllowingStateLoss();
         }
+    }
+
+    /**
+     * Used for setting title of Activity
+     *
+     * <p>Notes:
+     * <ul>
+     * <li>This method do not need a mandatory implementation of subclass;</li>
+     * <li>If subclass does not override this method, make sure that <activity> android: label is set.</li>
+     * </ul>
+     * </p>
+     */
+    protected void initTitle() {
+
     }
 
     protected abstract void inject();

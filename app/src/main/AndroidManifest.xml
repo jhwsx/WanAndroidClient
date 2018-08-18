@@ -3,8 +3,24 @@
           package="com.wan.android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- 判断网络有无必须-->
+    <!-- 判断网络有无必须, X5WebView必须-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.READ_SETTINGS"/>
+    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -15,6 +31,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,16 +42,36 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".ui.login.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/login"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.login.RegisterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/register"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ui.content.ContentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!--     在AndroidManifest.xml中增加内核首次加载时优化Service声明；
+        该Service仅在TBS内核首次Dex加载时触发并执行dex2oat任务，任务完成后自动结束。  -->
+        <service
+            android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
+            android:label="dexopt"
+            android:process=":dexopt"/>
+        <service
+            android:name=".ui.content.X5InitService"
+            android:exported="false"/>
     </application>
 
 </manifest>

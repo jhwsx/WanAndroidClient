@@ -30,6 +30,6 @@ public class LoginActivity extends BaseSingleFragmentActivity {
 
     @Override
     protected void setUp() {
-
+        // do nothing
     }
 }

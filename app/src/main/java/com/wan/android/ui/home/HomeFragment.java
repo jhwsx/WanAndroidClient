@@ -16,9 +16,11 @@ import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.R;
 import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.BannerData;
+import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.adapter.CommonListAdapter;
 import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
 import com.wan.android.util.GlideImageLoader;
@@ -122,7 +124,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
 
     @Override
-    public void showBannerSuccess(List<BannerData> data) {
+    public void showBannerSuccess(final List<BannerData> data) {
         mIsBannerLoaded = true;
         List<String> titles = new ArrayList<String>();
         List<String> imagePaths = new ArrayList<String>();
@@ -141,7 +143,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                 .setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-
+                        BannerData bd = data.get(position);
+                        ContentData cd = new ContentData(bd.getId(), bd.getTitle(), bd.getUrl());
+                        ContentActivity.start(getActivity(), cd);
                     }
                 })
                 // 开始进行banner渲染（必须放到最后执行）
