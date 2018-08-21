@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.wan.android.R;
 import com.wan.android.ui.base.BaseSingleFragmentActivity;
 
 /**
@@ -31,5 +32,10 @@ public class LoginActivity extends BaseSingleFragmentActivity {
     @Override
     protected void setUp() {
         // do nothing
+    }
+
+    @Override
+    protected void initTitle() {
+        mTvTitle.setText(R.string.login);
     }
 }

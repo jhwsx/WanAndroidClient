@@ -1,5 +1,6 @@
 package com.wan.android.ui.content;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.base.BaseFragment;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,7 +24,7 @@ import butterknife.ButterKnife;
  * @author wzc
  * @date 2018/8/17
  */
-public class ContentFragment extends BaseFragment {
+public class ContentFragment extends BaseFragment implements X5WebView.OnTitleReceiveListener {
     private static final String ARGS_CONTENT_DATA = "com.wan.android.args_content_data";
     public static ContentFragment newInstance(ContentData data) {
         Bundle args = new Bundle();
@@ -32,9 +35,17 @@ public class ContentFragment extends BaseFragment {
     }
     @BindView(R.id.fl_content_container)
     FrameLayout mFlContainer;
-//    @Inject
+    @Inject
     X5WebView mX5WebView;
     private ContentData mContentData;
+
+    private OnTitleReceiveListener mListener;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnTitleReceiveListener) context;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +68,7 @@ public class ContentFragment extends BaseFragment {
 
     @Override
     protected void setUp(View view) {
-        if (mX5WebView != null) {
-            mX5WebView.destroy();
-        }
-        mX5WebView = new X5WebView(getActivity(), null);
+        mX5WebView.setOnTitleReceiveListener(this);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT);
@@ -101,4 +109,16 @@ public class ContentFragment extends BaseFragment {
         super.onDestroy();
 
     }
+
+    @Override
+    public void onTitleReceived(String title) {
+        if (mListener != null) {
+            mListener.onTitleReceived(title);
+        }
+    }
+
+    public interface OnTitleReceiveListener {
+        void onTitleReceived(String title);
+    }
+
 }

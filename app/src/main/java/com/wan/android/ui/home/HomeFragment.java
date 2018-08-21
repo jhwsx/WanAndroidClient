@@ -1,8 +1,10 @@
 package com.wan.android.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,7 +46,7 @@ import butterknife.ButterKnife;
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View,
         SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener {
+        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
     private LoadService mLoadService;
 
@@ -115,6 +117,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         mRecyclerView.addItemDecoration(mHorizontalDividerItemDecoration);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mAdapter.setOnItemClickListener(this);
         mAdapter.disableLoadMoreIfNotFullPage();
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -200,4 +203,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     public void onLoadMoreRequested() {
         mPresenter.loadMore();
     }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        List<ArticleDatas> data = adapter.getData();
+        ArticleDatas articleDatas = data.get(position);
+        ContentData contentData = new ContentData(articleDatas.getId(),
+                articleDatas.getTitle(), articleDatas.getLink());
+
+        View title = view.findViewById(R.id.tv_home_item_view_title);
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra(ContentActivity.EXTRA_CONTENT_DATA, contentData);
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(getActivity(), title, getString(R.string.shared_title));
+        getActivity().startActivity(intent, transitionActivityOptions.toBundle());
+    }
+
 }

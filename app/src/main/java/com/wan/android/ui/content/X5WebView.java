@@ -80,13 +80,31 @@ public class X5WebView extends WebView {
             }
 
         }
-    };
 
-    private WebViewClient mWebViewClient =  new WebViewClient(){
         @Override
-        public boolean shouldOverrideUrlLoading(WebView webView, String s) {
-            return super.shouldOverrideUrlLoading(webView, s);
+        public void onReceivedTitle(WebView webView, String s) {
+            super.onReceivedTitle(webView, s);
+            if (mOnTitleReceiveListener != null) {
+                mOnTitleReceiveListener.onTitleReceived(s);
+            }
+
         }
     };
 
+    private WebViewClient mWebViewClient = new WebViewClient(){
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView webView, String s) {
+            return false;
+        }
+    };
+
+    public interface OnTitleReceiveListener {
+        void onTitleReceived(String title);
+    }
+
+    public void setOnTitleReceiveListener(OnTitleReceiveListener listener) {
+        mOnTitleReceiveListener = listener;
+    }
+
+    private OnTitleReceiveListener mOnTitleReceiveListener;
 }
