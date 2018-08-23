@@ -4,6 +4,7 @@ import com.wan.android.data.network.api.ApiCall;
 import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.BannerData;
+import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 
@@ -56,5 +57,15 @@ public class AppApiHelper implements ApiHelper {
     @Override
     public Observable<CommonResponse<ArticleData>> search(int page, String k) {
         return mApiCall.search(page, k);
+    }
+
+    @Override
+    public Observable<CommonResponse<List<BranchData>>> getTree() {
+        return mApiCall.getTree();
+    }
+
+    @Override
+    public Observable<CommonResponse<ArticleData>> getLeafArticles(int page, int id) {
+        return mApiCall.getLeafArticles(page, id);
     }
 }

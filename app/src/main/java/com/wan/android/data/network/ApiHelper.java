@@ -3,6 +3,7 @@ package com.wan.android.data.network;
 import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.BannerData;
+import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 
@@ -64,4 +65,20 @@ public interface ApiHelper {
      * @return 搜索到的一页数据
      */
     Observable<CommonResponse<ArticleData>> search(int page, String k);
+
+    /**
+     * 体系数据
+     *
+     * @return 体系数据集合
+     */
+    Observable<CommonResponse<List<BranchData>>> getTree();
+
+    /**
+     * 知识体系下的文章
+     *
+     * @param page 页码
+     * @param id   分类的id
+     * @return ArticleData 一页列表数据
+     */
+    Observable<CommonResponse<ArticleData>> getLeafArticles(int page, int id);
 }

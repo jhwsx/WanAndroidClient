@@ -6,6 +6,7 @@ import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.BannerData;
+import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.SearchHistoryData;
@@ -62,6 +63,16 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<CommonResponse<ArticleData>> search(int page, String k) {
         return mApiHelper.search(page, k);
+    }
+
+    @Override
+    public Observable<CommonResponse<List<BranchData>>> getTree() {
+        return mApiHelper.getTree();
+    }
+
+    @Override
+    public Observable<CommonResponse<ArticleData>> getLeafArticles(int page, int id) {
+        return mApiHelper.getLeafArticles(page, id);
     }
 
     @Override

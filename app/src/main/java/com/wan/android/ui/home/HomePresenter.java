@@ -28,8 +28,6 @@ import io.reactivex.functions.Consumer;
 public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
         implements HomeContract.Presenter<V> {
     private int mCurrPage = 0;
-    private static final String BANNER_DATA = "banner_data";
-    private static final String HOME_LIST_DATA = "home_list_data";
 
     @Inject
     public HomePresenter(@ApplicationContext Context context, DataManager dataManager,
@@ -108,6 +106,9 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
 
     @Override
     public void loadMore() {
+        if (!isNetworkConnected()) {
+            return;
+        }
         mCurrPage++;
         getCompositeDisposable().add(getDataManager()
                 .getHomeList(mCurrPage)

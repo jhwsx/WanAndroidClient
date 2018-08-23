@@ -13,6 +13,9 @@ import com.wan.android.ui.main.MainActivity;
 import com.wan.android.ui.search.SearchActivity;
 import com.wan.android.ui.search.SearchFragment;
 import com.wan.android.ui.search.SearchResultFragment;
+import com.wan.android.ui.tree.BranchActivity;
+import com.wan.android.ui.tree.BranchFragment;
+import com.wan.android.ui.tree.TreeFragment;
 
 import dagger.Component;
 
@@ -35,6 +38,8 @@ public interface ActivityComponent {
 
     void inject(HomeFragment fragment);
 
+    void inject(TreeFragment fragment);
+
     void inject(ContentActivity activity);
 
     void inject(ContentFragment fragment);
@@ -44,4 +49,8 @@ public interface ActivityComponent {
     void inject(SearchFragment fragment);
 
     void inject(SearchResultFragment fragment);
+
+    void inject(BranchActivity activity);
+
+    void inject(BranchFragment fragment);
 }

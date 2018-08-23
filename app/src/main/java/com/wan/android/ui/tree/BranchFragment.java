@@ -1,4 +1,4 @@
-package com.wan.android.ui.home;
+package com.wan.android.ui.tree;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.R;
 import com.wan.android.data.network.model.ArticleDatas;
-import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.adapter.CommonListAdapter;
@@ -25,38 +24,33 @@ import com.wan.android.ui.base.BaseFragment;
 import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
-import com.wan.android.util.GlideImageLoader;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.listener.OnBannerListener;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
- * 首页 Fragment
+ * 知识体系下的文章 Fragment
  *
  * @author wzc
- * @date 2018/8/2
+ * @date 2018/8/23
  */
-public class HomeFragment extends BaseFragment implements HomeContract.View,
-        SwipeRefreshLayout.OnRefreshListener,
+public class BranchFragment extends BaseFragment
+        implements BranchContract.View,
+        BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
-        BaseQuickAdapter.OnItemClickListener {
+        SwipeRefreshLayout.OnRefreshListener {
+    private static final String ARGS_ID = "com.wan.android.args_id";
 
-    private LoadService mLoadService;
-
-    public static HomeFragment newInstance() {
-
+    public static BranchFragment newInstance(int id) {
         Bundle args = new Bundle();
-
-        HomeFragment fragment = new HomeFragment();
+        args.putInt(ARGS_ID, id);
+        BranchFragment fragment = new BranchFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,8 +60,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     @Inject
-    HomePresenter<HomeContract.View> mPresenter;
-    @Inject
     CommonListAdapter mAdapter;
     @Inject
     LayoutInflater mInflater;
@@ -75,14 +67,23 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     LinearLayoutManager mLinearLayoutManager;
     @Inject
     HorizontalDividerItemDecoration mHorizontalDividerItemDecoration;
-    private Banner mBanner;
+    @Inject
+    BranchContract.Presenter<BranchContract.View> mPresenter;
 
-    private boolean mIsBannerLoaded;
+    private LoadService mLoadService;
+    private int mId;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mId = getArguments().getInt(ARGS_ID);
+        }
+    }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ActivityComponent component = getActivityComponent();
         if (component != null) {
@@ -95,7 +96,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                     @Override
                     public void onReload(View v) {
                         mLoadService.showCallback(LoadingCallback.class);
-                        mPresenter.swipeRefresh(mIsBannerLoaded);
+                        mPresenter.swipeRefresh(mId);
                     }
                 });
         return mLoadService.getLoadLayout();
@@ -103,18 +104,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
     @Override
     protected void setUp(View view) {
-        View header = mInflater.inflate(R.layout.home_header_view, null);
-        mBanner = (Banner) header.findViewById(R.id.banner_fragment_main_header);
-        mBanner// 显示圆形指示器和标题（垂直显示）
-                .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
-                // 指示器居右
-                .setIndicatorGravity(BannerConfig.RIGHT)
-                // 设置图片加载器
-                .setImageLoader(new GlideImageLoader())
-                .isAutoPlay(true)
-                // 设置轮播图片间隔时间（单位毫秒，默认为2000）
-                .setDelayTime(2000);
-        mAdapter.addHeaderView(header);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         mRecyclerView.addItemDecoration(mHorizontalDividerItemDecoration);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -124,7 +113,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setEnableLoadMore(false);
-        mPresenter.swipeRefresh(mIsBannerLoaded);
+        mPresenter.swipeRefresh(mId);
     }
 
     @Override
@@ -134,52 +123,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mBanner != null) {
-            mBanner.startAutoPlay();
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mBanner != null) {
-            mBanner.stopAutoPlay();
-        }
-
-    }
-
-    @Override
-    public void showBannerSuccess(final List<BannerData> data) {
-        mIsBannerLoaded = true;
-        List<String> titles = new ArrayList<String>();
-        List<String> imagePaths = new ArrayList<String>();
-        for (int i = 0; i < data.size(); i++) {
-            BannerData element = data.get(i);
-            if (element == null) {
-                continue;
-            }
-            titles.add(element.getTitle());
-            imagePaths.add(element.getImagePath());
-        }
-        mBanner.setBannerTitles(titles)
-                // 设置轮播图片(所有设置参数方法都放在此方法之前执行)
-                .setImages(imagePaths)
-                // 设置点击事件，下标是从0开始
-                .setOnBannerListener(new OnBannerListener() {
-                    @Override
-                    public void OnBannerClick(int position) {
-                        BannerData bd = data.get(position);
-                        ContentData cd = new ContentData(bd.getId(), bd.getTitle(), bd.getUrl());
-                        ContentActivity.start(getActivity(), cd);
-                    }
-                })
-                // 开始进行banner渲染（必须放到最后执行）
-                .start();
-    }
-
-    @Override
     public void showSwipeRefreshSuccess(List<ArticleDatas> datas) {
+        Timber.d("showSwipeRefreshSuccess: size=%s", datas.size());
         mAdapter.setNewData(datas);
         mLoadService.showSuccess();
         mAdapter.setEnableLoadMore(true);
@@ -189,6 +134,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
     @Override
     public void showSwipeRefreshFail() {
+        Timber.d("showSwipeRefreshFail");
         mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.setEnableLoadMore(true);
         if (mAdapter.getData().isEmpty()) {
@@ -198,33 +144,26 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
     @Override
     public void showLoadMoreSuccess(List<ArticleDatas> datas) {
+        Timber.d("showLoadMoreSuccess: size=%s", datas.size());
         mAdapter.addData(datas);
     }
 
     @Override
     public void showLoadMoreFail() {
+        Timber.d("showLoadMoreFail");
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void showLoadMoreComplete() {
+        Timber.d("showLoadMoreComplete");
         mAdapter.loadMoreComplete();
     }
 
     @Override
     public void showLoadMoreEnd() {
+        Timber.d("showLoadMoreEnd");
         mAdapter.loadMoreEnd();
-    }
-
-    @Override
-    public void onRefresh() {
-        mAdapter.setEnableLoadMore(false);
-        mPresenter.swipeRefresh(mIsBannerLoaded);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mPresenter.loadMore();
     }
 
     @Override
@@ -238,8 +177,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         Intent intent = new Intent(getActivity(), ContentActivity.class);
         intent.putExtra(ContentActivity.EXTRA_CONTENT_DATA, contentData);
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(getActivity(), title, getString(R.string.shared_title));
+                .makeSceneTransitionAnimation(getBaseActivity(), title, getString(R.string.shared_title));
         getActivity().startActivity(intent, transitionActivityOptions.toBundle());
     }
 
+    @Override
+    public void onLoadMoreRequested() {
+        mPresenter.loadMore(mId);
+    }
+
+    @Override
+    public void onRefresh() {
+        mAdapter.setEnableLoadMore(false);
+        mPresenter.swipeRefresh(mId);
+    }
 }

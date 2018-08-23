@@ -9,6 +9,7 @@ import com.wan.android.R;
 import com.wan.android.di.ActivityContext;
 import com.wan.android.di.PerActivity;
 import com.wan.android.ui.adapter.CommonListAdapter;
+import com.wan.android.ui.adapter.TreeAdapter;
 import com.wan.android.ui.content.X5WebView;
 import com.wan.android.ui.home.HomeContract;
 import com.wan.android.ui.home.HomePresenter;
@@ -22,6 +23,10 @@ import com.wan.android.ui.search.SearchContract;
 import com.wan.android.ui.search.SearchPresenter;
 import com.wan.android.ui.search.SearchResultContract;
 import com.wan.android.ui.search.SearchResultPresenter;
+import com.wan.android.ui.tree.BranchContract;
+import com.wan.android.ui.tree.BranchPresenter;
+import com.wan.android.ui.tree.TreeContract;
+import com.wan.android.ui.tree.TreePresenter;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import dagger.Module;
@@ -59,6 +64,11 @@ public class ActivityModule {
     @Provides
     CommonListAdapter provideCommonListAdapter() {
         return new CommonListAdapter(R.layout.recycle_item);
+    }
+
+    @Provides
+    TreeAdapter provideTreeAdapter() {
+        return new TreeAdapter();
     }
 
     @Provides
@@ -114,6 +124,19 @@ public class ActivityModule {
             SearchResultPresenter<SearchResultContract.View> presenter) {
         return presenter;
     }
+
+    @Provides
+    TreeContract.Presenter<TreeContract.View> provideTreePresenter(
+            TreePresenter<TreeContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    BranchContract.Presenter<BranchContract.View> provideBranchPresenter(
+            BranchPresenter<BranchContract.View> presenter) {
+        return presenter;
+    }
+
     @Provides
     X5WebView provideX5WebView(@ActivityContext Context context) {
         return new X5WebView(context);
