@@ -3,7 +3,7 @@ package com.wan.android.data.network.model;
 
 import com.wan.android.di.NotProguard;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wzc
@@ -11,15 +11,15 @@ import java.util.ArrayList;
  */
 @NotProguard
 public class NavigationData {
-    private ArrayList<ArticleDatas> articles;
+    private List<ArticleDatas> articles;
     private int cid;
     private String name;
 
 
-    public void setArticles(ArrayList<ArticleDatas> articles) {
+    public void setArticles(List<ArticleDatas> articles) {
         this.articles = articles;
     }
-    public ArrayList<ArticleDatas> getArticles() {
+    public List<ArticleDatas> getArticles() {
         return articles;
     }
 

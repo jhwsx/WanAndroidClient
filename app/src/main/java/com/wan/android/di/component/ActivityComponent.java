@@ -10,6 +10,7 @@ import com.wan.android.ui.login.LoginFragment;
 import com.wan.android.ui.login.RegisterActivity;
 import com.wan.android.ui.login.RegisterFragment;
 import com.wan.android.ui.main.MainActivity;
+import com.wan.android.ui.navigation.NavigationFragment;
 import com.wan.android.ui.search.SearchActivity;
 import com.wan.android.ui.search.SearchFragment;
 import com.wan.android.ui.search.SearchResultFragment;
@@ -39,6 +40,8 @@ public interface ActivityComponent {
     void inject(HomeFragment fragment);
 
     void inject(TreeFragment fragment);
+
+    void inject(NavigationFragment fragment);
 
     void inject(ContentActivity activity);
 

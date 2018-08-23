@@ -19,6 +19,8 @@ import com.wan.android.ui.login.RegisterContract;
 import com.wan.android.ui.login.RegisterPresenter;
 import com.wan.android.ui.main.MainContract;
 import com.wan.android.ui.main.MainPresenter;
+import com.wan.android.ui.navigation.NavigationContract;
+import com.wan.android.ui.navigation.NavigationPresenter;
 import com.wan.android.ui.search.SearchContract;
 import com.wan.android.ui.search.SearchPresenter;
 import com.wan.android.ui.search.SearchResultContract;
@@ -134,6 +136,12 @@ public class ActivityModule {
     @Provides
     BranchContract.Presenter<BranchContract.View> provideBranchPresenter(
             BranchPresenter<BranchContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    NavigationContract.Presenter<NavigationContract.View> provideNavigationPresenter(
+            NavigationPresenter<NavigationContract.View> presenter) {
         return presenter;
     }
 

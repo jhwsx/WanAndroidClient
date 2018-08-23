@@ -6,6 +6,7 @@ import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
+import com.wan.android.data.network.model.NavigationData;
 
 import java.util.List;
 
@@ -81,4 +82,11 @@ public interface ApiHelper {
      * @return ArticleData 一页列表数据
      */
     Observable<CommonResponse<ArticleData>> getLeafArticles(int page, int id);
+
+    /**
+     * 导航
+     *
+     * @return 导航数据
+     */
+    Observable<CommonResponse<List<NavigationData>>> getNavigation();
 }

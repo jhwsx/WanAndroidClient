@@ -9,6 +9,7 @@ import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
+import com.wan.android.data.network.model.NavigationData;
 import com.wan.android.data.network.model.SearchHistoryData;
 import com.wan.android.data.pref.PreferencesHelper;
 
@@ -73,6 +74,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<CommonResponse<ArticleData>> getLeafArticles(int page, int id) {
         return mApiHelper.getLeafArticles(page, id);
+    }
+
+    @Override
+    public Observable<CommonResponse<List<NavigationData>>> getNavigation() {
+        return mApiHelper.getNavigation();
     }
 
     @Override

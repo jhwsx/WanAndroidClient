@@ -8,6 +8,7 @@ import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
+import com.wan.android.data.network.model.NavigationData;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -111,14 +112,23 @@ public interface ApiCall {
 
     /**
      * 知识体系下的文章
+     *
      * @param page 页码
-     * @param id 分类的id
+     * @param id   分类的id
      * @return ArticleData 一页列表数据
      */
     @GET("/article/list/{page}/json")
     Observable<CommonResponse<ArticleData>> getLeafArticles(
             @Path("page") int page,
             @Query("cid") int id);
+
+    /**
+     * 导航
+     *
+     * @return 导航数据
+     */
+    @GET("/navi/json")
+    Observable<CommonResponse<List<NavigationData>>> getNavigation();
 
     class Factory {
 
