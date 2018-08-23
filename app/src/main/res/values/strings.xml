@@ -64,6 +64,7 @@
     <string name="confirm_password">确认密码</string>
     <string name="username">用户名</string>
     <string name="search_history">历史搜索</string>
+    <string name="search_hot">热门搜索</string>
     <string name="search">搜索</string>
     <string name="settings">设置</string>
     <string name="unlogined">去登录</string>
@@ -146,4 +147,5 @@
     <string name="error_msg_data_null">数据不存在</string>
 
     <string name="shared_title">shared_title</string>
+    <string name="search_no_match">没有匹配的搜索结果</string>
 </resources>

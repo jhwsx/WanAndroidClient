@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_background"
+              android:fitsSystemWindows="true"
+              android:clipToPadding="false"
+              android:orientation="vertical">
+    <ScrollView
+        android:id="@+id/scrollview_activity_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_8">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_hot"
+                android:textColor="@color/color_3e"
+                android:textSize="@dimen/dp_14"/>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/id_activity_search_flowlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                app:max_select="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_history"
+                android:textColor="@color/color_3e"
+                android:textSize="@dimen/dp_14"/>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/id_activity_search_history_flowlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                app:max_select="1"/>
+            <TextView
+                android:id="@+id/tv_search_no_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_73"
+                android:textSize="@dimen/dp_14"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/no_search_history"/>
+
+            <Button
+                android:id="@+id/btn_search_clear_history"
+                style="?android:textAppearanceSmall"
+                android:background="@drawable/shape_btn_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/clear_search_history"
+                android:textSize="@dimen/dp_14"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/recycle_item"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

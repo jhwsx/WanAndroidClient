@@ -18,6 +18,10 @@ import com.wan.android.ui.login.RegisterContract;
 import com.wan.android.ui.login.RegisterPresenter;
 import com.wan.android.ui.main.MainContract;
 import com.wan.android.ui.main.MainPresenter;
+import com.wan.android.ui.search.SearchContract;
+import com.wan.android.ui.search.SearchPresenter;
+import com.wan.android.ui.search.SearchResultContract;
+import com.wan.android.ui.search.SearchResultPresenter;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import dagger.Module;
@@ -61,15 +65,18 @@ public class ActivityModule {
     LayoutInflater provideLayoutInflater(Activity activity) {
         return LayoutInflater.from(activity);
     }
+
     @Provides
     LinearLayoutManager provideLinearLayoutManager(Activity activity) {
         return new LinearLayoutManager(activity);
     }
+
     @Provides
     HorizontalDividerItemDecoration provideHorizontalDividerItemDecoration(Activity activity) {
         return new HorizontalDividerItemDecoration.Builder(activity)
                 .colorResId(R.color.color_ef).sizeResId(R.dimen.px_1).build();
     }
+
     @Provides
     @PerActivity
     MainContract.Presenter<MainContract.View> provideMainPresenter(
@@ -93,6 +100,18 @@ public class ActivityModule {
     @Provides
     HomeContract.Presenter<HomeContract.View> provideHomePresenter(
             HomePresenter<HomeContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    SearchContract.Presenter<SearchContract.View> provideSearchPresenter(
+            SearchPresenter<SearchContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    SearchResultContract.Presenter<SearchResultContract.View> provideSearchResultPresenter(
+            SearchResultPresenter<SearchResultContract.View> presenter) {
         return presenter;
     }
     @Provides

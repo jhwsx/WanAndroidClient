@@ -27,6 +27,7 @@ import com.wan.android.ui.login.LoginActivity;
 import com.wan.android.ui.login.LoginFragment;
 import com.wan.android.ui.navigation.NavigationFragment;
 import com.wan.android.ui.project.ProjectFragment;
+import com.wan.android.ui.search.SearchActivity;
 import com.wan.android.ui.tree.TreeFragment;
 import com.wan.android.util.BottomNavigationViewHelper;
 import com.wan.android.util.constant.AppConstants;
@@ -205,14 +206,15 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_main_search) {
+            SearchActivity.start(MainActivity.this);
             return true;
         }
         return super.onOptionsItemSelected(item);

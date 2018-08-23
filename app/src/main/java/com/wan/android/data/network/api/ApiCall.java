@@ -6,6 +6,7 @@ import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
+import com.wan.android.data.network.model.HotkeyData;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -66,9 +67,31 @@ public interface ApiCall {
             @Field("repassword") String repassword
     );
 
+    /**
+     * 获取轮播图
+     * @return 轮播图数据集合
+     */
     @GET("/banner/json")
     Observable<CommonResponse<List<BannerData>>> getBanner();
 
+    /**
+     * 搜索热词
+     * @return 热词数据集合
+     */
+    @GET("/hotkey/json")
+    Observable<CommonResponse<List<HotkeyData>>> getHotkey();
+
+    /**
+     * 搜索
+     * @param page 页码
+     * @param k 搜索关键词 注意：支持多个关键词，用空格隔开
+     * @return 搜索到的一页数据
+     */
+    @FormUrlEncoded
+    @POST("/article/query/{page}/json")
+    Observable<CommonResponse<ArticleData>> search(
+            @Path("page") int page,
+            @Field("k") String k);
 
     class Factory {
 

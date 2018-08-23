@@ -19,4 +19,6 @@ public class AppConstants {
     public static final int TYPE_NAVIGATION_FRAGMENT = 2;
     public static final int TYPE_PROJECT_FRAGMENT = 3;
 
+    public static final String EMPTY_STRING = "";
+
 }

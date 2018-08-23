@@ -75,6 +75,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         subscribeLoginEvent();
     }
 
+    @Override
+    public void onDestroyView() {
+        mPresenter.onDetach();
+        super.onDestroyView();
+    }
+
     private void subscribeLoginEvent() {
         mPresenter.addRxBindingSubscribe(RxView.clicks(mBtnLogin)
         .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)

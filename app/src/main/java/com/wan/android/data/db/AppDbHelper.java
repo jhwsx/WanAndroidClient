@@ -5,6 +5,8 @@ import com.wan.android.data.network.model.ArticleDatasDao;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.DaoMaster;
 import com.wan.android.data.network.model.DaoSession;
+import com.wan.android.data.network.model.SearchHistoryData;
+import com.wan.android.data.network.model.SearchHistoryDataDao;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -72,6 +74,44 @@ public class AppDbHelper implements DbHelper {
             @Override
             public Boolean call() throws Exception {
                 mDaoSession.getBannerDataDao().insertOrReplaceInTx(data);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> saveSearchHistory2Db(final SearchHistoryData data) {
+        return Observable.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                List<SearchHistoryData> list = mDaoSession.getSearchHistoryDataDao().queryBuilder()
+                        .where(SearchHistoryDataDao.Properties.Key.eq(data.getKey()))
+                        .build()
+                        .list();
+                if (list.isEmpty()) {
+                    mDaoSession.getSearchHistoryDataDao().insertOrReplace(data);
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<SearchHistoryData>> getDbSearchHistory() {
+        return Observable.fromCallable(new Callable<List<SearchHistoryData>>() {
+            @Override
+            public List<SearchHistoryData> call() throws Exception {
+                return mDaoSession.getSearchHistoryDataDao().loadAll();
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteDbSearchHistory() {
+        return Observable.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                mDaoSession.getSearchHistoryDataDao().deleteAll();
                 return true;
             }
         });

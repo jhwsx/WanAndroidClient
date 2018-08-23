@@ -41,6 +41,7 @@ import butterknife.ButterKnife;
 
 /**
  * 首页 Fragment
+ *
  * @author wzc
  * @date 2018/8/2
  */
@@ -125,6 +126,27 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         mPresenter.swipeRefresh(mIsBannerLoaded);
     }
 
+    @Override
+    public void onDestroyView() {
+        mPresenter.onDetach();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBanner != null) {
+            mBanner.startAutoPlay();
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mBanner != null) {
+            mBanner.stopAutoPlay();
+        }
+
+    }
 
     @Override
     public void showBannerSuccess(final List<BannerData> data) {

@@ -36,12 +36,12 @@ public class X5InitService extends IntentService {
         QbSdk.initTbsSettings(map);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
-            public void run() {
-                if (!QbSdk.isTbsCoreInited()) {
-                    QbSdk.preInit(context, null);
-                }
+        public void run() {
+            if (!QbSdk.isTbsCoreInited()) {
+                QbSdk.preInit(context, null);
             }
-        });
+        }
+    });
 
         QbSdk.PreInitCallback callback = new QbSdk.PreInitCallback() {
             @Override

@@ -68,6 +68,12 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
         subscribeRegisterEvent();
     }
 
+    @Override
+    public void onDestroyView() {
+        mPresenter.onDetach();
+        super.onDestroyView();
+    }
+
     private void subscribeRegisterEvent() {
         mPresenter.addRxBindingSubscribe(RxView.clicks(mBtnRegister)
         .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)

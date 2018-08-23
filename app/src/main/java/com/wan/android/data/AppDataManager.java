@@ -7,6 +7,8 @@ import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.CommonResponse;
+import com.wan.android.data.network.model.HotkeyData;
+import com.wan.android.data.network.model.SearchHistoryData;
 import com.wan.android.data.pref.PreferencesHelper;
 
 import java.util.List;
@@ -53,6 +55,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<CommonResponse<List<HotkeyData>>> getHotkey() {
+        return mApiHelper.getHotkey();
+    }
+
+    @Override
+    public Observable<CommonResponse<ArticleData>> search(int page, String k) {
+        return mApiHelper.search(page, k);
+    }
+
+    @Override
     public String getUsername() {
         return mPreferencesHelper.getUsername();
     }
@@ -90,5 +102,20 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<Boolean> saveBanner2Db(List<BannerData> data) {
         return mDbHelper.saveBanner2Db(data);
+    }
+
+    @Override
+    public Observable<Boolean> saveSearchHistory2Db(SearchHistoryData data) {
+        return mDbHelper.saveSearchHistory2Db(data);
+    }
+
+    @Override
+    public Observable<List<SearchHistoryData>> getDbSearchHistory() {
+        return mDbHelper.getDbSearchHistory();
+    }
+
+    @Override
+    public Observable<Boolean> deleteDbSearchHistory() {
+        return mDbHelper.deleteDbSearchHistory();
     }
 }

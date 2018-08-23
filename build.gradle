@@ -59,4 +59,5 @@ ext {
     flexibledividerVersion = '1.4.0'
     glideVersion = '3.8.0'
     debugdbVersion = '1.0.4'
+    flowlayoutVersion = '1.1.2'
 }

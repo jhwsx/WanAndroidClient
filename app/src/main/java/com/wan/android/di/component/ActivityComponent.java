@@ -10,6 +10,9 @@ import com.wan.android.ui.login.LoginFragment;
 import com.wan.android.ui.login.RegisterActivity;
 import com.wan.android.ui.login.RegisterFragment;
 import com.wan.android.ui.main.MainActivity;
+import com.wan.android.ui.search.SearchActivity;
+import com.wan.android.ui.search.SearchFragment;
+import com.wan.android.ui.search.SearchResultFragment;
 
 import dagger.Component;
 
@@ -35,4 +38,10 @@ public interface ActivityComponent {
     void inject(ContentActivity activity);
 
     void inject(ContentFragment fragment);
+
+    void inject(SearchActivity activity);
+
+    void inject(SearchFragment fragment);
+
+    void inject(SearchResultFragment fragment);
 }

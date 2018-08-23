@@ -112,4 +112,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1325_43613_sharewithdownload_withoutGame_obfs_20180807_151115.jar')
+    implementation "com.hyman:flowlayout-lib:$rootProject.flowlayoutVersion"
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

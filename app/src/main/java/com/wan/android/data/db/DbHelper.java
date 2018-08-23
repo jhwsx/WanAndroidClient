@@ -2,6 +2,7 @@ package com.wan.android.data.db;
 
 import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.BannerData;
+import com.wan.android.data.network.model.SearchHistoryData;
 
 import java.util.List;
 
@@ -19,4 +20,10 @@ public interface DbHelper {
     Observable<List<BannerData>> getDbBanner();
 
     Observable<Boolean> saveBanner2Db(List<BannerData> data);
+
+    Observable<Boolean> saveSearchHistory2Db(SearchHistoryData data);
+
+    Observable<List<SearchHistoryData>> getDbSearchHistory();
+
+    Observable<Boolean> deleteDbSearchHistory();
 }
