@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wan.android.R;
+import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.NavigationData;
+import com.wan.android.data.network.model.NavigationRightData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.base.BaseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,11 +24,17 @@ import timber.log.Timber;
 
 /**
  * 导航 Fragment
+ *
  * @author wzc
  * @date 2018/8/3
  */
 public class NavigationFragment extends BaseFragment
         implements NavigationContract.View {
+
+    private NavigationLeftFragment mNavigationLeftFragment;
+    private NavigationRightFragment mNavigationRightFragment;
+    private List<NavigationRightData> mRightData;
+
     public static NavigationFragment newInstance() {
         Bundle args = new Bundle();
         NavigationFragment fragment = new NavigationFragment();
@@ -52,6 +61,23 @@ public class NavigationFragment extends BaseFragment
 
     @Override
     protected void setUp(View view) {
+        mNavigationLeftFragment = (NavigationLeftFragment) getChildFragmentManager()
+                .findFragmentById(R.id.fl_navigation_left_container);
+        if (mNavigationLeftFragment == null) {
+            mNavigationLeftFragment = NavigationLeftFragment.newInstance();
+            getChildFragmentManager().beginTransaction()
+                    .add(R.id.fl_navigation_left_container, mNavigationLeftFragment)
+                    .commit();
+        }
+
+        mNavigationRightFragment = (NavigationRightFragment) getChildFragmentManager()
+                .findFragmentById(R.id.fl_navigation_right_container);
+        if (mNavigationRightFragment == null) {
+            mNavigationRightFragment = NavigationRightFragment.newInstance();
+            getChildFragmentManager().beginTransaction()
+                    .add(R.id.fl_navigation_right_container, mNavigationRightFragment)
+                    .commit();
+        }
         mPresenter.getNavigation();
     }
 
@@ -61,8 +87,48 @@ public class NavigationFragment extends BaseFragment
         super.onDestroyView();
     }
 
+    private List<NavigationData> mNavigationData;
+
     @Override
     public void showGetNavigationSuccess(List<NavigationData> data) {
         Timber.d("showGetNavigationSuccess: size=%s", data.size());
+        mNavigationData = data;
+        List<String> titles = new ArrayList<>();
+        mRightData = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            NavigationData navigationData = data.get(i);
+            titles.add(navigationData.getName());
+            NavigationRightData navigationRightData
+                    = new NavigationRightData(true, navigationData.getName(),
+                    null, i, NavigationRightData.TYPE_TITLE);
+            mRightData.add(navigationRightData);
+            for (ArticleDatas articleDatas : navigationData.getArticles()) {
+                mRightData.add(new NavigationRightData(false, navigationData.getName(),
+                        articleDatas, i, NavigationRightData.TYPE_CONTENT));
+            }
+        }
+        mNavigationLeftFragment.setData(titles);
+        mNavigationRightFragment.setData(mRightData);
+    }
+
+    /**
+     * 左侧联动右侧
+     * @param position
+     */
+    public void onNavigationLeftItemClicked(int position) {
+        int scrollToPosition = 0;
+        for (int i = 0; i < position; i++) {
+            scrollToPosition += mNavigationData.get(i).getArticles().size();
+        }
+        scrollToPosition += position;
+        mNavigationRightFragment.smoothScrollToPosition(scrollToPosition);
+    }
+
+    /**
+     * 右侧联动左侧
+     * @param groupId
+     */
+    public void onNavigationRightHeaderGroupIdChanged(int groupId) {
+        mNavigationLeftFragment.setCheckedPosition(groupId);
     }
 }
