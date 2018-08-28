@@ -11,6 +11,8 @@ import com.wan.android.ui.login.RegisterActivity;
 import com.wan.android.ui.login.RegisterFragment;
 import com.wan.android.ui.main.MainActivity;
 import com.wan.android.ui.navigation.NavigationFragment;
+import com.wan.android.ui.project.ProjectChildFragment;
+import com.wan.android.ui.project.ProjectFragment;
 import com.wan.android.ui.search.SearchActivity;
 import com.wan.android.ui.search.SearchFragment;
 import com.wan.android.ui.search.SearchResultFragment;
@@ -42,6 +44,10 @@ public interface ActivityComponent {
     void inject(TreeFragment fragment);
 
     void inject(NavigationFragment fragment);
+
+    void inject(ProjectFragment fragment);
+
+    void inject(ProjectChildFragment fragment);
 
     void inject(ContentActivity activity);
 

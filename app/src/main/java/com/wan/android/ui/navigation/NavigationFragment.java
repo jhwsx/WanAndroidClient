@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.R;
 import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.NavigationData;
 import com.wan.android.data.network.model.NavigationRightData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.loadcallback.LoadingCallback;
+import com.wan.android.ui.loadcallback.NetworkErrorCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,7 @@ public class NavigationFragment extends BaseFragment
     private NavigationLeftFragment mNavigationLeftFragment;
     private NavigationRightFragment mNavigationRightFragment;
     private List<NavigationRightData> mRightData;
+    private LoadService mLoadService;
 
     public static NavigationFragment newInstance() {
         Bundle args = new Bundle();
@@ -56,7 +61,15 @@ public class NavigationFragment extends BaseFragment
             setUnBinder(ButterKnife.bind(this, view));
             mPresenter.onAttach(this);
         }
-        return view;
+        mLoadService = LoadSir.getDefault().register(view,
+                new com.kingja.loadsir.callback.Callback.OnReloadListener() {
+            @Override
+            public void onReload(View v) {
+                mLoadService.showCallback(LoadingCallback.class);
+                mPresenter.getNavigation();
+            }
+        });
+        return mLoadService.getLoadLayout();
     }
 
     @Override
@@ -92,6 +105,7 @@ public class NavigationFragment extends BaseFragment
     @Override
     public void showGetNavigationSuccess(List<NavigationData> data) {
         Timber.d("showGetNavigationSuccess: size=%s", data.size());
+        mLoadService.showSuccess();
         mNavigationData = data;
         List<String> titles = new ArrayList<>();
         mRightData = new ArrayList<>();
@@ -109,6 +123,12 @@ public class NavigationFragment extends BaseFragment
         }
         mNavigationLeftFragment.setData(titles);
         mNavigationRightFragment.setData(mRightData);
+    }
+
+
+    @Override
+    public void showGetNavigationFail() {
+        mLoadService.showCallback(NetworkErrorCallback.class);
     }
 
     /**

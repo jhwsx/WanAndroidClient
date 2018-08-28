@@ -7,6 +7,7 @@ import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.NavigationData;
+import com.wan.android.data.network.model.ProjectData;
 
 import java.util.List;
 
@@ -89,4 +90,20 @@ public interface ApiHelper {
      * @return 导航数据
      */
     Observable<CommonResponse<List<NavigationData>>> getNavigation();
+
+    /**
+     * 项目
+     *
+     * @return 项目数据
+     */
+    Observable<CommonResponse<List<ProjectData>>> getProject();
+
+    /**
+     * 项目列表数据
+     *
+     * @param page 页码, 从 1 开始
+     * @param cid  分类的id
+     * @return 一页列表数据
+     */
+    Observable<CommonResponse<ArticleData>> getProjectList(int page, int cid);
 }

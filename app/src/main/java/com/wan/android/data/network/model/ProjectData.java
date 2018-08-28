@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author wzc
  * @date 2018/7/20
  */
-public class ProjectTreeBranchData implements Serializable{
+public class ProjectData implements Serializable{
 
     private Integer courseId;
     private Integer id;

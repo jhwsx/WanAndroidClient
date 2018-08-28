@@ -8,6 +8,7 @@ import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.NavigationData;
+import com.wan.android.data.network.model.ProjectData;
 
 import java.util.List;
 
@@ -73,5 +74,15 @@ public class AppApiHelper implements ApiHelper {
     @Override
     public Observable<CommonResponse<List<NavigationData>>> getNavigation() {
         return mApiCall.getNavigation();
+    }
+
+    @Override
+    public Observable<CommonResponse<List<ProjectData>>> getProject() {
+        return mApiCall.getProject();
+    }
+
+    @Override
+    public Observable<CommonResponse<ArticleData>> getProjectList(int page, int cid) {
+        return mApiCall.getProjectList(page, cid);
     }
 }

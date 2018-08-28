@@ -9,6 +9,7 @@ import com.wan.android.R;
 import com.wan.android.di.ActivityContext;
 import com.wan.android.di.PerActivity;
 import com.wan.android.ui.adapter.CommonListAdapter;
+import com.wan.android.ui.adapter.ProjectAdapter;
 import com.wan.android.ui.adapter.TreeAdapter;
 import com.wan.android.ui.content.X5WebView;
 import com.wan.android.ui.home.HomeContract;
@@ -21,6 +22,10 @@ import com.wan.android.ui.main.MainContract;
 import com.wan.android.ui.main.MainPresenter;
 import com.wan.android.ui.navigation.NavigationContract;
 import com.wan.android.ui.navigation.NavigationPresenter;
+import com.wan.android.ui.project.ProjectChildContract;
+import com.wan.android.ui.project.ProjectChildPresenter;
+import com.wan.android.ui.project.ProjectContract;
+import com.wan.android.ui.project.ProjectPresenter;
 import com.wan.android.ui.search.SearchContract;
 import com.wan.android.ui.search.SearchPresenter;
 import com.wan.android.ui.search.SearchResultContract;
@@ -71,6 +76,11 @@ public class ActivityModule {
     @Provides
     TreeAdapter provideTreeAdapter() {
         return new TreeAdapter();
+    }
+
+    @Provides
+    ProjectAdapter provideProjectAdapter() {
+        return new ProjectAdapter();
     }
 
     @Provides
@@ -142,6 +152,18 @@ public class ActivityModule {
     @Provides
     NavigationContract.Presenter<NavigationContract.View> provideNavigationPresenter(
             NavigationPresenter<NavigationContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    ProjectContract.Presenter<ProjectContract.View> provideProjectPresenter(
+            ProjectPresenter<ProjectContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    ProjectChildContract.Presenter<ProjectChildContract.View> provideProjectChildPresenter(
+            ProjectChildPresenter<ProjectChildContract.View> presenter) {
         return presenter;
     }
 

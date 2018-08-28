@@ -36,7 +36,5 @@ public interface MvpPresenter<V extends MvpView> {
 
     void addRxBindingSubscribe(Disposable disposable);
 
-    void handleApiError(Throwable throwable);
 
-    void setUserAsLoggedOut();
 }

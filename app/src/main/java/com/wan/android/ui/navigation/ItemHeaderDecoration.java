@@ -2,6 +2,7 @@ package com.wan.android.ui.navigation;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,10 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
     private OnNavigationRightGroupIdChangeListener mOnNavigationRightGroupIdChangeListener;
     public ItemHeaderDecoration(Context context, List<NavigationRightData> data) {
         mData = data;
-        mTitleHeight = context.getResources().getDimensionPixelSize(R.dimen.dp_48);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.dp_16));
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        mTitleHeight = (int) (fontMetrics.bottom - fontMetrics.top + 2 * context.getResources().getDimensionPixelSize(R.dimen.dp_8));
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -61,7 +65,7 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
         Timber.d("onDrawOver offset=%s, itemView.getHeight()=%s, itemView.getTop()=%s, mTitleHeight=%s",
                 offset, itemView.getHeight(), itemView.getTop(), mTitleHeight);
         if (canFindNewTag(firstVisibleItemPosition) && firstVisibleItemSpanSize == 1) {
-            if (itemView.getHeight() + itemView.getTop() + bottomMargin < mTitleHeight) {
+            if (offset < 0) {
                 canvas.save();
                 isTranslate = true;
                 canvas.translate(0, offset);

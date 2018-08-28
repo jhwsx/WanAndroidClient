@@ -10,6 +10,7 @@ import com.wan.android.data.network.model.BranchData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.NavigationData;
+import com.wan.android.data.network.model.ProjectData;
 import com.wan.android.data.network.model.SearchHistoryData;
 import com.wan.android.data.pref.PreferencesHelper;
 
@@ -29,6 +30,7 @@ public class AppDataManager implements DataManager {
     private final ApiHelper mApiHelper;
     private final PreferencesHelper mPreferencesHelper;
     private final DbHelper mDbHelper;
+
     @Inject
     public AppDataManager(ApiHelper apiHelper, DbHelper dbHeleper, PreferencesHelper preferencesHelper) {
         mApiHelper = apiHelper;
@@ -79,6 +81,16 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<CommonResponse<List<NavigationData>>> getNavigation() {
         return mApiHelper.getNavigation();
+    }
+
+    @Override
+    public Observable<CommonResponse<List<ProjectData>>> getProject() {
+        return mApiHelper.getProject();
+    }
+
+    @Override
+    public Observable<CommonResponse<ArticleData>> getProjectList(int page, int cid) {
+        return mApiHelper.getProjectList(page, cid);
     }
 
     @Override

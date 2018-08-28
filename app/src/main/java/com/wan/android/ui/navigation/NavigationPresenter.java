@@ -39,6 +39,12 @@ public class NavigationPresenter<V extends NavigationContract.View> extends Base
                         super.onNext(data);
                         getMvpView().showGetNavigationSuccess(data);
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        getMvpView().showGetNavigationFail();
+                    }
                 }));
     }
 }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/color_background"
+    app:cardCornerRadius="@dimen/dp_0">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_8">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25"/>
+
+        <ImageView
+            android:id="@+id/iv_recycle_project_item"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="w,9:16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/guideline"
+            app:srcCompat="@drawable/project_itemdefault_bg"/>
+
+        <TextView
+            android:id="@+id/tv_recycle_project_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_3e"
+            android:textSize="@dimen/dp_16"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/dp_8"
+            app:layout_constraintLeft_toRightOf="@id/iv_recycle_project_item"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="项目标题项目标题项目标题项目标题项目标题项目标题项目标题项目标题项目标题项目标题"/>
+
+        <TextView
+            android:id="@+id/tv_recycle_project_item_desc"
+            app:layout_constraintLeft_toRightOf="@id/iv_recycle_project_item"
+            android:layout_marginLeft="@dimen/dp_8"
+            tools:text="项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:maxLines="2"
+            android:layout_marginTop="@dimen/dp_8"
+            app:layout_constraintTop_toBottomOf="@id/tv_recycle_project_item_title"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"/>
+
+        <TextView
+            android:id="@+id/tv_recycle_project_item_author_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:text="@string/author"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"
+            app:layout_constraintLeft_toRightOf="@+id/iv_recycle_project_item"
+            app:layout_constraintBottom_toTopOf="@+id/tv_recycle_project_item_date"/>
+
+        <TextView
+            android:id="@+id/tv_recycle_project_item_author"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dp_14"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_recycle_project_item_author_text"
+            app:layout_constraintLeft_toRightOf="@id/tv_recycle_project_item_author_text"
+            tools:text="志超"/>
+        <TextView
+            android:id="@+id/tv_recycle_project_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:textColor="@color/color_73"
+            android:textSize="@dimen/dp_14"
+            android:layout_marginLeft="@dimen/dp_8"
+            app:layout_constraintLeft_toRightOf="@id/iv_recycle_project_item"
+            app:layout_constraintBottom_toBottomOf="@id/iv_recycle_project_item"/>
+
+        <TextView
+            android:id="@+id/tv_recycle_project_item_nice_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dp_14"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_recycle_project_item_date"
+            app:layout_constraintLeft_toRightOf="@id/tv_recycle_project_item_date"
+            tools:text="3小时前"/>
+
+        <ImageView
+            android:id="@+id/iv_recycle_project_item_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:srcCompat="@drawable/ic_favorite_empty"/>
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

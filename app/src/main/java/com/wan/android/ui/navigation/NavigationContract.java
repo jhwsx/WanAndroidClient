@@ -12,8 +12,12 @@ import java.util.List;
  */
 public interface NavigationContract {
     interface View extends MvpView {
+
         void showGetNavigationSuccess(List<NavigationData> data);
+
+        void showGetNavigationFail();
     }
+
     interface Presenter<V extends View> extends MvpPresenter<V> {
         /**
          * 导航

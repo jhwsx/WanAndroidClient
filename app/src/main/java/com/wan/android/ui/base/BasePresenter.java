@@ -68,15 +68,6 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     public Context getApplicationContext() {
         return mContext;
     }
-    @Override
-    public void handleApiError(Throwable throwable) {
-
-    }
-
-    @Override
-    public void setUserAsLoggedOut() {
-
-    }
 
     protected boolean isNetworkConnected() {
         if (!getMvpView().isNetworkConnected()) {
