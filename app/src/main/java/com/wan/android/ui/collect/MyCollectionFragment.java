@@ -1,4 +1,4 @@
-package com.wan.android.ui.tree;
+package com.wan.android.ui.collect;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,20 +9,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.R;
-import com.wan.android.data.network.model.ArticleDatas;
+import com.wan.android.data.network.model.CollectDatas;
 import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
-import com.wan.android.ui.adapter.CommonListAdapter;
+import com.wan.android.ui.adapter.CollectAdapter;
 import com.wan.android.ui.base.BaseFragment;
 import com.wan.android.ui.content.ContentActivity;
+import com.wan.android.ui.loadcallback.EmptyCallback;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
 import com.wan.android.ui.login.LoginActivity;
@@ -34,36 +37,26 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
- * 知识体系下的文章 Fragment
+ * 我的收藏 Fragment
  *
  * @author wzc
- * @date 2018/8/23
+ * @date 2018/8/28
  */
-public class BranchFragment extends BaseFragment
-        implements BranchContract.View,
-        BaseQuickAdapter.OnItemClickListener,
-        BaseQuickAdapter.RequestLoadMoreListener,
+public class MyCollectionFragment extends BaseFragment
+        implements MyCollectionContract.View,
         SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.RequestLoadMoreListener,
+        BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.OnItemChildClickListener {
-    private static final String ARGS_ID = "com.wan.android.args_id";
-
-    public static BranchFragment newInstance(int id) {
-        Bundle args = new Bundle();
-        args.putInt(ARGS_ID, id);
-        BranchFragment fragment = new BranchFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     @Inject
-    CommonListAdapter mAdapter;
+    CollectAdapter mAdapter;
     @Inject
     LayoutInflater mInflater;
     @Inject
@@ -71,22 +64,26 @@ public class BranchFragment extends BaseFragment
     @Inject
     HorizontalDividerItemDecoration mHorizontalDividerItemDecoration;
     @Inject
-    BranchContract.Presenter<BranchContract.View> mPresenter;
-
+    MyCollectionPresenter<MyCollectionContract.View> mPresenter;
+    public static final int REQUEST_ADD_COLLECT_CODE = 0x1;
     private LoadService mLoadService;
-    private int mId;
+    public static MyCollectionFragment newInstance() {
+        Bundle args = new Bundle();
+        MyCollectionFragment fragment = new MyCollectionFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mId = getArguments().getInt(ARGS_ID);
-        }
+        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ActivityComponent component = getActivityComponent();
         if (component != null) {
@@ -99,7 +96,7 @@ public class BranchFragment extends BaseFragment
                     @Override
                     public void onReload(View v) {
                         mLoadService.showCallback(LoadingCallback.class);
-                        mPresenter.swipeRefresh(mId);
+                        mPresenter.swipeRefresh();
                     }
                 });
         return mLoadService.getLoadLayout();
@@ -117,7 +114,7 @@ public class BranchFragment extends BaseFragment
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setEnableLoadMore(false);
-        mPresenter.swipeRefresh(mId);
+        mPresenter.swipeRefresh();
     }
 
     @Override
@@ -127,8 +124,7 @@ public class BranchFragment extends BaseFragment
     }
 
     @Override
-    public void showSwipeRefreshSuccess(List<ArticleDatas> datas) {
-        Timber.d("showSwipeRefreshSuccess: size=%s", datas.size());
+    public void showSwipeRefreshSuccess(List<CollectDatas> datas) {
         mAdapter.setNewData(datas);
         mLoadService.showSuccess();
         mAdapter.setEnableLoadMore(true);
@@ -138,7 +134,6 @@ public class BranchFragment extends BaseFragment
 
     @Override
     public void showSwipeRefreshFail() {
-        Timber.d("showSwipeRefreshFail");
         mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.setEnableLoadMore(true);
         if (mAdapter.getData().isEmpty()) {
@@ -147,73 +142,51 @@ public class BranchFragment extends BaseFragment
     }
 
     @Override
-    public void showLoadMoreSuccess(List<ArticleDatas> datas) {
-        Timber.d("showLoadMoreSuccess: size=%s", datas.size());
+    public void showSwipeRefreshNoData() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mLoadService.showCallback(EmptyCallback.class);
+    }
+
+    @Override
+    public void showLoadMoreSuccess(List<CollectDatas> datas) {
         mAdapter.addData(datas);
     }
 
     @Override
     public void showLoadMoreFail() {
-        Timber.d("showLoadMoreFail");
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void showLoadMoreComplete() {
-        Timber.d("showLoadMoreComplete");
         mAdapter.loadMoreComplete();
     }
 
     @Override
     public void showLoadMoreEnd() {
-        Timber.d("showLoadMoreEnd");
         mAdapter.loadMoreEnd();
     }
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        List<ArticleDatas> data = adapter.getData();
-        ArticleDatas articleDatas = data.get(position);
-        ContentData contentData = new ContentData(articleDatas.getId(),
-                articleDatas.getTitle(), articleDatas.getLink(), articleDatas.isCollect());
-
-        View title = view.findViewById(R.id.tv_home_item_view_title);
-        Intent intent = new Intent(getActivity(), ContentActivity.class);
-        intent.putExtra(ContentActivity.EXTRA_CONTENT_DATA, contentData);
-        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(getBaseActivity(), title, getString(R.string.shared_title));
-        getActivity().startActivity(intent, transitionActivityOptions.toBundle());
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mPresenter.loadMore(mId);
+    public void showUncollectMyCollectionArticleSuccess() {
+        showMessage(R.string.uncollect_successfully);
+        mAdapter.remove(mClickCollectPosition);
     }
 
     @Override
     public void onRefresh() {
         mAdapter.setEnableLoadMore(false);
-        mPresenter.swipeRefresh(mId);
+        mPresenter.swipeRefresh();
     }
 
     @Override
-    public void showCollectInSiteArticleSuccess() {
-        showMessage(R.string.collect_successfully);
-        setCollectState(true);
+    public void onLoadMoreRequested() {
+        mPresenter.loadMore();
     }
 
-    @Override
-    public void showUncollectArticleListArticleSuccess() {
-        showMessage(R.string.uncollect_successfully);
-        setCollectState(false);
-    }
-
-    private int mClickCollectPositoin;
-    private ImageView mIvCollect;
-
+    private int mClickCollectPosition;
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
         if (view.getId() == R.id.iv_home_item_view_collect) {
             boolean isLogin = mPresenter.getLoginStaus();
             if (!isLogin) {
@@ -221,27 +194,54 @@ public class BranchFragment extends BaseFragment
                 LoginActivity.start(getBaseActivity());
                 return;
             }
-            mClickCollectPositoin = position;
-            mIvCollect = (ImageView) view;
-            ArticleDatas articleDatas = (ArticleDatas) adapter.getData().get(position);
-            int id = (int) articleDatas.getId().longValue();
-            if (getCollectState()) {
-                mPresenter.uncollectArticleListArticle(id);
-            } else {
-                mPresenter.collectInSiteArticle(id);
-            }
-
+            mClickCollectPosition = position;
+            CollectDatas articleDatas = (CollectDatas) adapter.getData().get(position);
+            int id = articleDatas.getId();
+            mPresenter.uncollectMyCollectionArticle(id, articleDatas.getOriginid());
         }
     }
 
-    private boolean getCollectState() {
-        ArticleDatas articleDatas = mAdapter.getData().get(mClickCollectPositoin);
-        return articleDatas.isCollect();
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        List<CollectDatas> data = adapter.getData();
+        CollectDatas articleDatas = data.get(position);
+        Long id = Long.valueOf(articleDatas.getId());
+        ContentData contentData = new ContentData(id,
+                articleDatas.getTitle(), articleDatas.getLink(), true);
+        View title = view.findViewById(R.id.tv_home_item_view_title);
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra(ContentActivity.EXTRA_CONTENT_DATA, contentData);
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(getActivity(), title, getString(R.string.shared_title));
+        getActivity().startActivity(intent, transitionActivityOptions.toBundle());
     }
 
-    private void setCollectState(boolean isCollect) {
-        ArticleDatas articleDatas = mAdapter.getData().get(mClickCollectPositoin);
-        articleDatas.setCollect(isCollect);
-        mIvCollect.setImageResource(isCollect ? R.drawable.ic_favorite : R.drawable.ic_favorite_empty);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_collect, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_collect_add) {
+            AddCollectArticleDialog dialog = new AddCollectArticleDialog();
+            dialog.setTargetFragment(MyCollectionFragment.this, REQUEST_ADD_COLLECT_CODE);
+            dialog.show(getFragmentManager(), AddCollectArticleDialog.class.getSimpleName());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_ADD_COLLECT_CODE) {
+            return;
+        }
+        CollectDatas datas = (CollectDatas) data.getSerializableExtra(
+                AddCollectArticleDialog.RESPONSE_ADD_COLLECT_DATA);
+        mAdapter.addData(0, datas);
+        mAdapter.notifyItemInserted(0);
     }
 }

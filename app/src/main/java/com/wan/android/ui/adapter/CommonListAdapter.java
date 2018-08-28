@@ -34,7 +34,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ArticleDatas,BaseViewHol
         helper.setText(R.id.tv_home_item_view_author, item.getAuthor());
         // tag 存在 可以点击
         List<ArticleDatas.TagsBean> tags = item.getTags();
-        if (!tags.isEmpty() && tags.get(0) != null) {
+        if (tags != null && !tags.isEmpty() && tags.get(0) != null) {
             helper.getView(R.id.tv_home_item_view_tag).setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_home_item_view_tag, tags.get(0).getName());
             helper.addOnClickListener(R.id.tv_home_item_view_tag);

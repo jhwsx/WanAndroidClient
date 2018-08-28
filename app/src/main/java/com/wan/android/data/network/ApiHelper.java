@@ -4,6 +4,8 @@ import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.BranchData;
+import com.wan.android.data.network.model.CollectData;
+import com.wan.android.data.network.model.CollectDatas;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.NavigationData;
@@ -106,4 +108,48 @@ public interface ApiHelper {
      * @return 一页列表数据
      */
     Observable<CommonResponse<ArticleData>> getProjectList(int page, int cid);
+
+    /**
+     * 收藏文章列表
+     *
+     * @param page 页码：拼接在链接中，从0开始。
+     * @return 一页列表数据
+     */
+    Observable<CommonResponse<CollectData>> getMyCollection(int page);
+
+    /**
+     * 收藏站内文章
+     *
+     * @param id 文章id，拼接在链接中
+     * @return 字符串, 无实际意义
+     */
+    Observable<CommonResponse<String>> collectInSiteArticle(int id);
+
+    /**
+     * 收藏站外文章
+     *
+     * @param title  文章标题
+     * @param author 文章作者
+     * @param link   文章链接
+     * @return 字符串, 无实际意义
+     */
+    Observable<CommonResponse<CollectDatas>> collectOutOfSiteArticle(String title,
+                                                                     String author, String link);
+
+    /**
+     * 取消收藏文章列表的文章
+     *
+     * @param id 文章 id
+     * @return 字符串, 无实际意义
+     */
+    Observable<CommonResponse<String>> uncollectArticleListArticle(int id);
+
+    /**
+     * 取消收藏我的收藏页面（该页面包含自己录入的内容）的文章
+     *
+     * @param id       文章 id
+     * @param originId 列表页下发，无则为-1
+     * @return 字符串, 无实际意义
+     */
+    Observable<CommonResponse<String>> uncollectMyCollectionArticle(int id, int originId);
 }

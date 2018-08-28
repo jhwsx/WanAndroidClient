@@ -10,11 +10,13 @@ public class ContentData implements Serializable {
     private Long id;
     private String title;
     private String url;
+    private Boolean isCollect;
 
-    public ContentData(Long id, String title, String url) {
+    public ContentData(Long id, String title, String url,Boolean isCollect) {
         this.id = id;
         this.title = title;
         this.url = url;
+        this.isCollect = isCollect;
     }
 
     public Long getId() {
@@ -41,12 +43,21 @@ public class ContentData implements Serializable {
         this.url = url;
     }
 
+    public Boolean getCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(Boolean collect) {
+        isCollect = collect;
+    }
+
     @Override
     public String toString() {
         return "ContentData{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", url='" + url + '\'' +
+                ", isCollect=" + isCollect +
                 '}';
     }
 }

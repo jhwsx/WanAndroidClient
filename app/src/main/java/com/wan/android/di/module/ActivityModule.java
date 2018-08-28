@@ -8,9 +8,16 @@ import android.view.LayoutInflater;
 import com.wan.android.R;
 import com.wan.android.di.ActivityContext;
 import com.wan.android.di.PerActivity;
+import com.wan.android.ui.adapter.CollectAdapter;
 import com.wan.android.ui.adapter.CommonListAdapter;
 import com.wan.android.ui.adapter.ProjectAdapter;
 import com.wan.android.ui.adapter.TreeAdapter;
+import com.wan.android.ui.collect.AddCollectContract;
+import com.wan.android.ui.collect.AddCollectPresenter;
+import com.wan.android.ui.collect.MyCollectionContract;
+import com.wan.android.ui.collect.MyCollectionPresenter;
+import com.wan.android.ui.content.ContentContract;
+import com.wan.android.ui.content.ContentPresenter;
 import com.wan.android.ui.content.X5WebView;
 import com.wan.android.ui.home.HomeContract;
 import com.wan.android.ui.home.HomePresenter;
@@ -71,6 +78,11 @@ public class ActivityModule {
     @Provides
     CommonListAdapter provideCommonListAdapter() {
         return new CommonListAdapter(R.layout.recycle_item);
+    }
+
+    @Provides
+    CollectAdapter provideCollectAdapter() {
+        return new CollectAdapter();
     }
 
     @Provides
@@ -164,6 +176,24 @@ public class ActivityModule {
     @Provides
     ProjectChildContract.Presenter<ProjectChildContract.View> provideProjectChildPresenter(
             ProjectChildPresenter<ProjectChildContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    ContentContract.Presenter<ContentContract.View> provideContentPresenter(
+            ContentPresenter<ContentContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    MyCollectionContract.Presenter<MyCollectionContract.View> provideMyCollectionPresenter(
+            MyCollectionPresenter<MyCollectionContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    AddCollectContract.Presenter<AddCollectContract.View> provideAddCollectPresenter(
+            AddCollectPresenter<AddCollectContract.View> presenter) {
         return presenter;
     }
 

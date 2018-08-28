@@ -31,6 +31,10 @@ public interface ProjectChildContract {
          * 上拉加载更多结束
          */
         void showLoadMoreEnd();
+
+        void showCollectInSiteArticleSuccess();
+
+        void showUncollectArticleListArticleSuccess();
     }
 
     interface Presenter<V extends View> extends MvpPresenter<V> {
@@ -45,6 +49,12 @@ public interface ProjectChildContract {
          * @param cid  分类的id
          */
         void loadMore(int cid);
+
+        void collectInSiteArticle(int id);
+
+        void uncollectArticleListArticle(int id);
+
+        boolean getLoginStaus();
     }
 
 }

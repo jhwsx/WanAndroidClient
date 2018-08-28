@@ -3,13 +3,15 @@ package com.wan.android.data.network.model;
 
 import com.wan.android.di.NotProguard;
 
+import java.io.Serializable;
+
 /**
  * 收藏列表条目类
  * @author wzc
  * @date 2018/3/12
  */
 @NotProguard
-public class CollectDatas {
+public class CollectDatas implements Serializable{
 
         private String author;
         private int chapterId;

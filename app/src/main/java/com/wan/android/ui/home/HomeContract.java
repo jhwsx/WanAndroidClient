@@ -35,6 +35,10 @@ public interface HomeContract {
          * 上拉加载更多结束
          */
         void showLoadMoreEnd();
+
+        void showCollectInSiteArticleSuccess();
+
+        void showUncollectArticleListArticleSuccess();
     }
 
 
@@ -43,6 +47,12 @@ public interface HomeContract {
         void swipeRefresh(boolean isBannerLoaded);
 
         void loadMore();
+
+        void collectInSiteArticle(int id);
+
+        void uncollectArticleListArticle(int id);
+
+        boolean getLoginStaus();
     }
 }
 

@@ -3,7 +3,9 @@ package com.wan.android.ui.content;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
 
+import com.wan.android.R;
 import com.wan.android.data.network.model.ContentData;
 import com.wan.android.ui.base.BaseSingleFragmentActivity;
 
@@ -63,5 +65,11 @@ public class ContentActivity extends BaseSingleFragmentActivity
     @Override
     public void onTitleReceived(String title) {
         mTvTitle.setText(title);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_content, menu);
+        return true;
     }
 }

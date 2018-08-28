@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kingja.loadsir.core.LoadService;
@@ -25,6 +26,7 @@ import com.wan.android.ui.base.BaseFragment;
 import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
+import com.wan.android.ui.login.LoginActivity;
 import com.wan.android.util.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -48,7 +50,8 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment implements HomeContract.View,
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener,
-        BaseQuickAdapter.OnItemClickListener {
+        BaseQuickAdapter.OnItemClickListener,
+        BaseQuickAdapter.OnItemChildClickListener {
 
     private LoadService mLoadService;
 
@@ -120,6 +123,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemChildClickListener(this);
         mAdapter.disableLoadMoreIfNotFullPage();
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -170,7 +174,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                     @Override
                     public void OnBannerClick(int position) {
                         BannerData bd = data.get(position);
-                        ContentData cd = new ContentData(bd.getId(), bd.getTitle(), bd.getUrl());
+                        ContentData cd = new ContentData(bd.getId(), bd.getTitle(), bd.getUrl(),null);
                         ContentActivity.start(getActivity(), cd);
                     }
                 })
@@ -232,7 +236,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         List<ArticleDatas> data = adapter.getData();
         ArticleDatas articleDatas = data.get(position);
         ContentData contentData = new ContentData(articleDatas.getId(),
-                articleDatas.getTitle(), articleDatas.getLink());
+                articleDatas.getTitle(), articleDatas.getLink(),articleDatas.isCollect());
 
         View title = view.findViewById(R.id.tv_home_item_view_title);
         Intent intent = new Intent(getActivity(), ContentActivity.class);
@@ -242,4 +246,51 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         getActivity().startActivity(intent, transitionActivityOptions.toBundle());
     }
 
+    @Override
+    public void showCollectInSiteArticleSuccess() {
+        showMessage(R.string.collect_successfully);
+        setCollectState(true);
+    }
+
+    @Override
+    public void showUncollectArticleListArticleSuccess() {
+        showMessage(R.string.uncollect_successfully);
+        setCollectState(false);
+    }
+
+    private int mClickCollectPositoin;
+    private ImageView mIvCollect;
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+        if (view.getId() == R.id.iv_home_item_view_collect) {
+            boolean isLogin = mPresenter.getLoginStaus();
+            if (!isLogin) {
+                onError(R.string.login_first);
+                LoginActivity.start(getBaseActivity());
+                return;
+            }
+            mClickCollectPositoin = position;
+            mIvCollect = (ImageView) view;
+            ArticleDatas articleDatas = (ArticleDatas) adapter.getData().get(position);
+            int id = (int) articleDatas.getId().longValue();
+            if (getCollectState()) {
+                mPresenter.uncollectArticleListArticle(id);
+            } else {
+                mPresenter.collectInSiteArticle(id);
+            }
+
+        }
+    }
+
+    private boolean getCollectState() {
+        ArticleDatas articleDatas = mAdapter.getData().get(mClickCollectPositoin);
+        return articleDatas.isCollect();
+    }
+
+    private void setCollectState(boolean isCollect) {
+        ArticleDatas articleDatas = mAdapter.getData().get(mClickCollectPositoin);
+        articleDatas.setCollect(isCollect);
+        mIvCollect.setImageResource(isCollect ? R.drawable.ic_favorite : R.drawable.ic_favorite_empty);
+    }
 }

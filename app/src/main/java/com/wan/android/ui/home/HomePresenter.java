@@ -140,6 +140,39 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
                 }));
     }
 
+    @Override
+    public void collectInSiteArticle(int id) {
+        getCompositeDisposable().add(getDataManager().collectInSiteArticle(id)
+                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<String>(getMvpView()) {
+                    @Override
+                    public void onNext(String s) {
+                        super.onNext(s);
+                        getMvpView().showCollectInSiteArticleSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void uncollectArticleListArticle(int id) {
+        getCompositeDisposable().add(getDataManager().uncollectArticleListArticle(id)
+                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<String>(getMvpView()) {
+                    @Override
+                    public void onNext(String s) {
+                        super.onNext(s);
+                        getMvpView().showUncollectArticleListArticleSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public boolean getLoginStaus() {
+        return getDataManager().getLoginStatus();
+    }
+
     /**
      * 存储文章列表数据到数据库
      * @param data 数据集合

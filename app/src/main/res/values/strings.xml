@@ -31,6 +31,7 @@
     </string>
     <string name="tree">知识体系</string>
     <string name="collect">收藏</string>
+    <string name="uncollect">取消收藏</string>
     <string name="my">我的</string>
     <string name="fu_net">常用网站</string>
     <string name="text_v">V%s</string>

@@ -2,6 +2,9 @@ package com.wan.android.di.component;
 
 import com.wan.android.di.PerActivity;
 import com.wan.android.di.module.ActivityModule;
+import com.wan.android.ui.collect.AddCollectArticleDialog;
+import com.wan.android.ui.collect.MyCollectionFragment;
+import com.wan.android.ui.collect.MyCollectionActivity;
 import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.content.ContentFragment;
 import com.wan.android.ui.home.HomeFragment;
@@ -62,4 +65,10 @@ public interface ActivityComponent {
     void inject(BranchActivity activity);
 
     void inject(BranchFragment fragment);
+
+    void inject(MyCollectionActivity activity);
+
+    void inject(MyCollectionFragment fragment);
+
+    void inject(AddCollectArticleDialog fragment);
 }

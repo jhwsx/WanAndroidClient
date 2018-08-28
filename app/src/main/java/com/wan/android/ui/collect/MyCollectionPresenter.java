@@ -1,9 +1,9 @@
-package com.wan.android.ui.project;
+package com.wan.android.ui.collect;
 
 import android.content.Context;
 
 import com.wan.android.data.DataManager;
-import com.wan.android.data.network.model.ArticleData;
+import com.wan.android.data.network.model.CollectData;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.di.ApplicationContext;
 import com.wan.android.ui.base.BaseObserver;
@@ -16,57 +16,59 @@ import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * @author wzc
- * @date 2018/8/27
+ * @date 2018/8/28
  */
-public class ProjectChildPresenter<V extends ProjectChildContract.View> extends BasePresenter<V>
-        implements ProjectChildContract.Presenter<V> {
+public class MyCollectionPresenter<V extends MyCollectionContract.View> extends BasePresenter<V>
+        implements MyCollectionContract.Presenter<V> {
+    private int mCurrPage = 0;
     @Inject
-    public ProjectChildPresenter(@ApplicationContext Context context, DataManager dataManager,
+    public MyCollectionPresenter(@ApplicationContext Context context, DataManager dataManager,
                                  CompositeDisposable compositeDisposable) {
         super(context, dataManager, compositeDisposable);
     }
-    private int mCurrPage = 1;
+
     @Override
-    public void swipeRefresh(int id) {
-        mCurrPage = 1;
+    public void swipeRefresh() {
+        mCurrPage = 0;
         if (!isNetworkConnected()) {
+            getMvpView().showSwipeRefreshFail();
             return;
         }
-        getCompositeDisposable().add(getDataManager().getProjectList(mCurrPage, id)
-                .compose(RxUtils.<CommonResponse<ArticleData>>rxSchedulerHelper())
-                .compose(RxUtils.<ArticleData>handleResult(getApplicationContext(), getMvpView()))
-                .subscribeWith(new BaseObserver<ArticleData>(getMvpView()) {
+        getCompositeDisposable().add(getDataManager().getMyCollection(mCurrPage)
+                .compose(RxUtils.<CommonResponse<CollectData>>rxSchedulerHelper())
+                .compose(RxUtils.<CollectData>handleResult(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<CollectData>(getMvpView()) {
                     @Override
-                    public void onNext(ArticleData articleData) {
+                    public void onNext(CollectData articleData) {
                         super.onNext(articleData);
                         if (articleData.getDatas().isEmpty()) {
                             getMvpView().showSwipeRefreshNoData();
                         } else {
                             getMvpView().showSwipeRefreshSuccess(articleData.getDatas());
                         }
-
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         getMvpView().showSwipeRefreshFail();
                     }
                 }));
+
     }
 
     @Override
-    public void loadMore(int id) {
+    public void loadMore() {
         if (!isNetworkConnected()) {
             return;
         }
         mCurrPage++;
-        getCompositeDisposable().add(getDataManager()
-                .getProjectList(mCurrPage, id)
-                .compose(RxUtils.<CommonResponse<ArticleData>>rxSchedulerHelper())
-                .compose(RxUtils.<ArticleData>handleResult(getApplicationContext(), getMvpView()))
-                .subscribeWith(new BaseObserver<ArticleData>(getMvpView()) {
+        getCompositeDisposable().add(getDataManager().getMyCollection(mCurrPage)
+                .compose(RxUtils.<CommonResponse<CollectData>>rxSchedulerHelper())
+                .compose(RxUtils.<CollectData>handleResult(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<CollectData>(getMvpView()) {
                     @Override
-                    public void onNext(ArticleData articleData) {
+                    public void onNext(CollectData articleData) {
                         super.onNext(articleData);
                         getMvpView().showLoadMoreSuccess(articleData.getDatas());
 
@@ -86,38 +88,26 @@ public class ProjectChildPresenter<V extends ProjectChildContract.View> extends 
                         getMvpView().showLoadMoreFail();
                     }
                 }));
-    }
 
-    @Override
-    public void collectInSiteArticle(int id) {
-        getCompositeDisposable().add(getDataManager().collectInSiteArticle(id)
-                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
-                .subscribeWith(new BaseObserver<String>(getMvpView()) {
-                    @Override
-                    public void onNext(String s) {
-                        super.onNext(s);
-                        getMvpView().showCollectInSiteArticleSuccess();
-                    }
-                }));
-    }
-
-    @Override
-    public void uncollectArticleListArticle(int id) {
-        getCompositeDisposable().add(getDataManager().uncollectArticleListArticle(id)
-                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
-                .subscribeWith(new BaseObserver<String>(getMvpView()) {
-                    @Override
-                    public void onNext(String s) {
-                        super.onNext(s);
-                        getMvpView().showUncollectArticleListArticleSuccess();
-                    }
-                }));
     }
 
     @Override
     public boolean getLoginStaus() {
         return getDataManager().getLoginStatus();
+    }
+
+    @Override
+    public void uncollectMyCollectionArticle(int id, int originId) {
+        getCompositeDisposable().add(getDataManager().uncollectMyCollectionArticle(id, originId)
+                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<String>(getMvpView()) {
+                    @Override
+                    public void onNext(String s) {
+                        super.onNext(s);
+                        getMvpView().showUncollectMyCollectionArticleSuccess();
+                    }
+
+                }));
     }
 }

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kingja.loadsir.core.LoadService;
@@ -25,6 +26,7 @@ import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.loadcallback.EmptyCallback;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
+import com.wan.android.ui.login.LoginActivity;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
@@ -43,7 +45,8 @@ public class ProjectChildFragment extends BaseFragment
         implements ProjectChildContract.View,
         BaseQuickAdapter.RequestLoadMoreListener,
         BaseQuickAdapter.OnItemClickListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.OnItemChildClickListener {
     private static final String ARGS_ID = "com.wan.android.args_project_id";
     private LoadService mLoadService;
 
@@ -54,6 +57,7 @@ public class ProjectChildFragment extends BaseFragment
         fragment.setArguments(args);
         return fragment;
     }
+
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -69,6 +73,7 @@ public class ProjectChildFragment extends BaseFragment
     @Inject
     ProjectChildContract.Presenter<ProjectChildContract.View> mPresenter;
     private int mId;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,7 @@ public class ProjectChildFragment extends BaseFragment
             mId = getArguments().getInt(ARGS_ID);
         }
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -89,12 +95,12 @@ public class ProjectChildFragment extends BaseFragment
         }
         mLoadService = LoadSir.getDefault().register(view,
                 new com.kingja.loadsir.callback.Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                mLoadService.showCallback(LoadingCallback.class);
-                mPresenter.swipeRefresh(mId);
-            }
-        });
+                    @Override
+                    public void onReload(View v) {
+                        mLoadService.showCallback(LoadingCallback.class);
+                        mPresenter.swipeRefresh(mId);
+                    }
+                });
         return mLoadService.getLoadLayout();
     }
 
@@ -105,6 +111,7 @@ public class ProjectChildFragment extends BaseFragment
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemChildClickListener(this);
         mAdapter.disableLoadMoreIfNotFullPage();
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -174,7 +181,7 @@ public class ProjectChildFragment extends BaseFragment
         List<ArticleDatas> data = adapter.getData();
         ArticleDatas articleDatas = data.get(position);
         ContentData contentData = new ContentData(articleDatas.getId(),
-                articleDatas.getTitle(), articleDatas.getLink());
+                articleDatas.getTitle(), articleDatas.getLink(), articleDatas.isCollect());
 
         View title = view.findViewById(R.id.tv_recycle_project_item_title);
         Intent intent = new Intent(getActivity(), ContentActivity.class);
@@ -193,5 +200,54 @@ public class ProjectChildFragment extends BaseFragment
     public void onRefresh() {
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh(mId);
+    }
+
+    @Override
+    public void showCollectInSiteArticleSuccess() {
+        showMessage(R.string.collect_successfully);
+        setCollectState(true);
+    }
+
+    @Override
+    public void showUncollectArticleListArticleSuccess() {
+        showMessage(R.string.uncollect_successfully);
+        setCollectState(false);
+    }
+
+    private int mClickCollectPositoin;
+    private ImageView mIvCollect;
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+        if (view.getId() == R.id.iv_recycle_project_item_collect) {
+            boolean isLogin = mPresenter.getLoginStaus();
+            if (!isLogin) {
+                onError(R.string.login_first);
+                LoginActivity.start(getBaseActivity());
+                return;
+            }
+            mClickCollectPositoin = position;
+            mIvCollect = (ImageView) view;
+            ArticleDatas articleDatas = (ArticleDatas) adapter.getData().get(position);
+            int id = (int) articleDatas.getId().longValue();
+            if (getCollectState()) {
+                mPresenter.uncollectArticleListArticle(id);
+            } else {
+                mPresenter.collectInSiteArticle(id);
+            }
+
+        }
+    }
+
+    private boolean getCollectState() {
+        ArticleDatas articleDatas = mAdapter.getData().get(mClickCollectPositoin);
+        return articleDatas.isCollect();
+    }
+
+    private void setCollectState(boolean isCollect) {
+        ArticleDatas articleDatas = mAdapter.getData().get(mClickCollectPositoin);
+        articleDatas.setCollect(isCollect);
+        mIvCollect.setImageResource(isCollect ? R.drawable.ic_favorite : R.drawable.ic_favorite_empty);
     }
 }

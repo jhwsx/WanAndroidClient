@@ -21,6 +21,8 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/dp_16"
             android:ellipsize="end"
             android:textColor="@color/white"
             android:transitionName="@string/shared_title"/>

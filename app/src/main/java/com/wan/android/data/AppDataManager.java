@@ -7,6 +7,8 @@ import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.BranchData;
+import com.wan.android.data.network.model.CollectData;
+import com.wan.android.data.network.model.CollectDatas;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.NavigationData;
@@ -91,6 +93,32 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<CommonResponse<ArticleData>> getProjectList(int page, int cid) {
         return mApiHelper.getProjectList(page, cid);
+    }
+
+    @Override
+    public Observable<CommonResponse<CollectData>> getMyCollection(int page) {
+        return mApiHelper.getMyCollection(page);
+    }
+
+    @Override
+    public Observable<CommonResponse<String>> collectInSiteArticle(int id) {
+        return mApiHelper.collectInSiteArticle(id);
+    }
+
+    @Override
+    public Observable<CommonResponse<CollectDatas>> collectOutOfSiteArticle(String title,
+                                                                            String author, String link) {
+        return mApiHelper.collectOutOfSiteArticle(title, author, link);
+    }
+
+    @Override
+    public Observable<CommonResponse<String>> uncollectArticleListArticle(int id) {
+        return mApiHelper.uncollectArticleListArticle(id);
+    }
+
+    @Override
+    public Observable<CommonResponse<String>> uncollectMyCollectionArticle(int id, int originId) {
+        return mApiHelper.uncollectMyCollectionArticle(id, originId);
     }
 
     @Override

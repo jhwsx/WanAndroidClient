@@ -83,4 +83,38 @@ public class BranchPresenter<V extends BranchContract.View> extends BasePresente
                     }
                 }));
     }
+
+    @Override
+    public void collectInSiteArticle(int id) {
+        getCompositeDisposable().add(getDataManager().collectInSiteArticle(id)
+                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<String>(getMvpView()) {
+                    @Override
+                    public void onNext(String s) {
+                        super.onNext(s);
+                        getMvpView().showCollectInSiteArticleSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void uncollectArticleListArticle(int id) {
+        getCompositeDisposable().add(getDataManager().uncollectArticleListArticle(id)
+                .compose(RxUtils.<CommonResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult2(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<String>(getMvpView()) {
+                    @Override
+                    public void onNext(String s) {
+                        super.onNext(s);
+                        getMvpView().showUncollectArticleListArticleSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public boolean getLoginStaus() {
+        return getDataManager().getLoginStatus();
+    }
+
 }

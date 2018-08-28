@@ -6,6 +6,7 @@ import com.wan.android.R;
 import com.wan.android.data.network.model.ApiException;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.ui.base.MvpView;
+import com.wan.android.util.constant.AppConstants;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -64,10 +65,50 @@ public class RxUtils {
         };
     }
 
+    public static <T> ObservableTransformer<CommonResponse<T>,T> handleResult2(final Context context,
+                                                                              final MvpView view) {
+        return new ObservableTransformer<CommonResponse<T>, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<CommonResponse<T>> response) {
+                return response.flatMap(new Function<CommonResponse<T>, ObservableSource<T>>() {
+                    @Override
+                    public ObservableSource<T> apply(CommonResponse<T> res) throws Exception {
+
+                        if (view != null && !view.isNetworkConnected()) {
+                            return Observable.error(new ApiException(context.getString(R.string.error_msg_network_error)));
+                        }
+                        if (res == null) {
+                            return Observable.error(new ApiException(context.getString(R.string.error_msg_response_null)));
+                        }
+                        if (res.getErrorcode() != 0) {
+                            return Observable.error(new ApiException(res.getErrormsg()));
+                        }
+
+                        return createData(AppConstants.EMPTY_STRING);
+                    }
+                });
+            }
+        };
+    }
+
     private static <T> Observable<T> createData(final T t) {
         return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
             public void subscribe(ObservableEmitter<T> emitter) throws Exception {
+                try {
+                    emitter.onNext(t);
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    private static  Observable createData(final String t) {
+        return Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 try {
                     emitter.onNext(t);
                     emitter.onComplete();

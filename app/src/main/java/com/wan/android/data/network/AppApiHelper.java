@@ -5,6 +5,8 @@ import com.wan.android.data.network.model.AccountData;
 import com.wan.android.data.network.model.ArticleData;
 import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.BranchData;
+import com.wan.android.data.network.model.CollectData;
+import com.wan.android.data.network.model.CollectDatas;
 import com.wan.android.data.network.model.CommonResponse;
 import com.wan.android.data.network.model.HotkeyData;
 import com.wan.android.data.network.model.NavigationData;
@@ -84,5 +86,31 @@ public class AppApiHelper implements ApiHelper {
     @Override
     public Observable<CommonResponse<ArticleData>> getProjectList(int page, int cid) {
         return mApiCall.getProjectList(page, cid);
+    }
+
+    @Override
+    public Observable<CommonResponse<CollectData>> getMyCollection(int page) {
+        return mApiCall.getMyCollection(page);
+    }
+
+    @Override
+    public Observable<CommonResponse<String>> collectInSiteArticle(int id) {
+        return mApiCall.collectInSiteArticle(id);
+    }
+
+    @Override
+    public Observable<CommonResponse<CollectDatas>> collectOutOfSiteArticle(
+            String title, String author, String link) {
+        return mApiCall.collectOutOfSiteArticle(title, author, link);
+    }
+
+    @Override
+    public Observable<CommonResponse<String>> uncollectArticleListArticle(int id) {
+        return mApiCall.uncollectArticleListArticle(id);
+    }
+
+    @Override
+    public Observable<CommonResponse<String>> uncollectMyCollectionArticle(int id, int originId) {
+        return mApiCall.uncollectMyCollectionArticle(id, originId);
     }
 }

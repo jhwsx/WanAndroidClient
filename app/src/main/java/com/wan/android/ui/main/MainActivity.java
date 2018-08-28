@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.wan.android.R;
 import com.wan.android.ui.base.BaseActivity;
+import com.wan.android.ui.collect.MyCollectionActivity;
 import com.wan.android.ui.home.HomeFragment;
 import com.wan.android.ui.login.LoginActivity;
 import com.wan.android.ui.login.LoginFragment;
@@ -229,6 +230,9 @@ public class MainActivity extends BaseActivity
                 FragmentManager fm = getSupportFragmentManager();
                 LogoutDialog logoutDialog = new LogoutDialog();
                 logoutDialog.show(fm, LogoutDialog.class.getSimpleName());
+                break;
+            case R.id.nav_my_collect:
+                MyCollectionActivity.start(MainActivity.this);
                 break;
             default:
                 break;

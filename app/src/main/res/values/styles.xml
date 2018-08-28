@@ -38,7 +38,8 @@
     </style>
     <style name="Toolbar.TitleText" parent="TextStyle.Heading">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">@dimen/dp_16</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTab" parent="Widget.Design.TabLayout">
