@@ -29,6 +29,7 @@ import com.wan.android.ui.login.LoginFragment;
 import com.wan.android.ui.navigation.NavigationFragment;
 import com.wan.android.ui.project.ProjectFragment;
 import com.wan.android.ui.search.SearchActivity;
+import com.wan.android.ui.setting.SettingsActivity;
 import com.wan.android.ui.tree.TreeFragment;
 import com.wan.android.util.BottomNavigationViewHelper;
 import com.wan.android.util.constant.AppConstants;
@@ -233,6 +234,9 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_my_collect:
                 MyCollectionActivity.start(MainActivity.this);
+                break;
+            case R.id.nav_settings:
+                SettingsActivity.start(MainActivity.this);
                 break;
             default:
                 break;

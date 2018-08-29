@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.wan.android.ui.setting.MyPreference
+        android:key="@string/key_score"
+        android:title="@string/score"/>
+    <com.wan.android.ui.setting.MyPreference
+        android:key="@string/key_share_apk"
+        android:title="@string/share_apk"/>
+    <com.wan.android.ui.setting.MyPreferenceCategory
+        android:title="@string/feedback">
+        <com.wan.android.ui.setting.MyPreference
+            android:key="@string/key_service_feedback"
+            android:title="@string/service_feedback"/>
+        <com.wan.android.ui.setting.MyPreference
+            android:key="@string/key_tucao_feedback"
+            android:title="@string/tucao"/>
+    </com.wan.android.ui.setting.MyPreferenceCategory>
+
+    <com.wan.android.ui.setting.MyPreference
+        android:key="@string/key_check_update"
+        android:title="@string/check_update"/>
+    <com.wan.android.ui.setting.MyPreference
+        android:key="@string/key_about"
+        android:title="@string/about"/>
+</android.support.v7.preference.PreferenceScreen>
