@@ -3,6 +3,7 @@ package com.wan.android.ui.content;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.Menu;
 
 import com.wan.android.R;
@@ -56,10 +57,11 @@ public class ContentActivity extends BaseSingleFragmentActivity
     }
 
     @Override
-    public void onBackPressed() {
-        if (!mContentFragment.goBack()) {
-            super.onBackPressed();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mContentFragment.handleKeyEvent(keyCode, event)) {
+            return false;
         }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -12,8 +12,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+            abiFilters "armeabi", "armeabi-v7a", "x86", 'x86_64', 'arm64-v8a'
         }
+        manifestPlaceholders = [UMENG_APPKEY        : "5aeaeedba40fa36a6e00019d",
+                                UMENG_MESSAGE_SECRET: "9526d39c9c3778bed2c4ac93e55b41f5",
+                                UMENG_CHANNEL       : "kuan",
+        ]
     }
     signingConfigs { // signingConfigs 是一个闭包
         release {
@@ -96,10 +100,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rxbindingVersion"
-
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     // PersistentCookieJar
     implementation "com.github.franmontiel:PersistentCookieJar:$rootProject.persistentCookieJarVersion"
-    implementation('com.airbnb.android:lottie:2.5.4') {
+    implementation("com.airbnb.android:lottie:$rootProject.lottieVersion") {
         exclude group: 'com.android.support'
     }
     implementation "com.youth.banner:banner:$rootProject.bannerVersion"
@@ -112,7 +116,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1325_43613_sharewithdownload_withoutGame_obfs_20180807_151115.jar')
     implementation "com.hyman:flowlayout-lib:$rootProject.flowlayoutVersion"
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation "org.greenrobot:eventbus:$rootProject.eventbusVersion"
+
+    implementation "com.tencent.bugly:crashreport_upgrade:$rootProject.buglyCrashReportUpgradeVersion"
+    implementation "com.tencent.bugly:nativecrashreport:$rootProject.buglyNativeCrashReportVersion"
+
+    implementation 'com.just.agentweb:agentweb:4.0.2'
+
+    implementation 'com.umeng.sdk:common:1.5.3'
+    implementation 'com.umeng.sdk:analytics:7.5.3'
 }

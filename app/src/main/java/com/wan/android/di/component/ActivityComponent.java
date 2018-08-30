@@ -19,6 +19,11 @@ import com.wan.android.ui.project.ProjectFragment;
 import com.wan.android.ui.search.SearchActivity;
 import com.wan.android.ui.search.SearchFragment;
 import com.wan.android.ui.search.SearchResultFragment;
+import com.wan.android.ui.setting.RoastActivity;
+import com.wan.android.ui.setting.RoastFragment;
+import com.wan.android.ui.setting.SettingsActivity;
+import com.wan.android.ui.setting.SettingsFragment;
+import com.wan.android.ui.splash.SplashActivity;
 import com.wan.android.ui.tree.BranchActivity;
 import com.wan.android.ui.tree.BranchFragment;
 import com.wan.android.ui.tree.TreeFragment;
@@ -32,6 +37,9 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
+
+    void inject(SplashActivity activity);
+
     void inject(MainActivity activity);
 
     void inject(LoginActivity activity);
@@ -71,4 +79,12 @@ public interface ActivityComponent {
     void inject(MyCollectionFragment fragment);
 
     void inject(AddCollectArticleDialog fragment);
+
+    void inject(SettingsActivity activity);
+
+    void inject(SettingsFragment fragment);
+
+    void inject(RoastActivity activity);
+
+    void inject(RoastFragment fragment);
 }

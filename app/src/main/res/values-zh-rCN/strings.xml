@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">玩Android</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="some_error">出错了！</string>
+    <string name="share">分享</string>
+    <string name="fine_no_data">没有数据</string>
+    <string name="click_me_to_retry">点击重试！</string>
+    <string name="loading">正在加载中……</string>
+
+    <string name="action_sign_in_short">Sign in</string>
+
+    <string name="tree">知识体系</string>
+    <string name="collect">收藏</string>
+    <string name="uncollect">取消收藏</string>
+    <string name="my">我的</string>
+    <string name="fu_net">常用网站</string>
+    <string name="text_v">V%s</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="about_content"><![CDATA[
+        <h2>网站内容</h2>
+        <p>\t\t本网站每天新增20~30篇优质文章，并加入到现有分类中，力求整理出一份优质而又详尽的知识体系，闲暇时间不妨上来学习下知识；除此以外，并为大家提供平时开发过程中常用的工具以及常用的网址导航。</p>
+        <p>\t\t当然这只是我们目前的功能，未来我们将提供更多更加便捷的功能…</p>
+        <p>\t\t如果您有任何好的建议：</p>
+            <br/>\t\t\t\t关于网站排版
+            <br/>\t\t\t\t关于新增常用网址以及工具
+            <br/>\t\t\t\t未来你希望增加的功能等
+        <p>\t\t可以在 <a href="https://github.com/hongyangAndroid/wanandroid" target="_blank">https://github.com/hongyangAndroid/xueandroid</a> 项目中以issue的形式提出，我将及时跟进。</p>
+        <p>\t\t如果您希望长期关注本站，可以加入我们的QQ群：<b>591683946</b></p>
+        <h2>源码位置</h2>
+        <p>\t\t本软件开源，如果你发现任何错误，不要犹豫，马上点击<a href="https://github.com/jhwsx/WanAndroidClient" target="_blank">GitHub</a>，在上面发起<b>issue</b>或者提交<b>pull request</b>。</p>
+    ]]></string>
+    <string name="my_collection">我的收藏</string>
+    <string name="my_website">我的网站</string>
+    <string name="open_with_system_browser">用系统浏览器打开</string>
+    <string name="about">关于</string>
+    <string name="main_exit_text">再按一次退出%s</string>
+    <string name="login">登录</string>
+    <string name="login_ok">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="newuser_register">新用户注册</string>
+    <string name="password">密码</string>
+    <string name="register">注册</string>
+    <string name="register_ok">注册成功</string>
+    <string name="register_fail">注册失败</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="username">用户名</string>
+    <string name="search_history">历史搜索</string>
+    <string name="search_hot">热门搜索</string>
+    <string name="search">搜索</string>
+    <string name="settings">设置</string>
+    <string name="unlogined">去登录</string>
+    <string name="category">类别：</string>
+    <string name="time">时间：</string>
+    <string name="author">作者：</string>
+    <string name="network_error">网络出错了！</string>
+    <string name="please_login_first">请先登录</string>
+    <string name="collect_successfully">收藏成功</string>
+    <string name="collect_failed">收藏失败</string>
+    <string name="add_collect_successfully">添加收藏成功</string>
+    <string name="add_collect_failed">添加收藏失败</string>
+    <string name="uncollect_successfully">取消收藏成功</string>
+    <string name="uncollect_failed">取消收藏失败</string>
+    <string name="add_collection">添加收藏</string>
+    <string name="new_collection">新增收藏</string>
+    <string name="clear_search_history">清除搜索历史</string>
+    <string name="no_search_history">没有历史搜索</string>
+    <string name="logout">退出登录</string>
+    <string name="logout_question">退出登录？</string>
+    <string name="logout_success">退出登录成功</string>
+    <string name="title">标题</string>
+    <string name="authors">作者</string>
+    <string name="link">链接地址</string>
+    <string name="home">首页</string>
+    <string name="navigation">导航</string>
+    <string name="project">项目</string>
+    <string name="hot">常用</string>
+    <string name="search_hint">支持多个关键词，用空格隔开</string>
+    <string name="title_cannot_be_null">标题不可以为空</string>
+    <string name="link_cannot_be_null">链接不可以为空</string>
+    <string name="login_first">请先登录</string>
+    <string name="loadsir_connection_overtime">联网超时</string>
+    <string name="load_more_fail">加载更多失败</string>
+    <string name="swipe_refresh_fail">下拉刷新失败</string>
+    <string name="response_cannot_be_null">response cannot be null</string>
+    <string name="nihgt_mode">夜间模式</string>
+    <string name="feedback">反馈</string>
+    <string name="service_feedback">客服反馈</string>
+    <string name="tucao">吐个槽</string>
+    <string name="score">评分</string>
+    <string name="share_apk">分享应用</string>
+    <string name="key_score">key_score</string>
+    <string name="key_service_feedback">key_service_feedback</string>
+    <string name="key_tucao_feedback">key_tucao_feedback</string>
+    <string name="key_check_update">key_check_update</string>
+    <string name="key_about">key_about</string>
+    <string name="key_logout">key_logout</string>
+    <string name="key_share_apk">key_share_apk</string>
+
+    <string name="login_username_empty">用户名不可以为空</string>
+    <string name="login_password_empty">密码不可以为空</string>
+    <string name="register_repassword_empty">确认密码不可以为空</string>
+    <string name="register_password_repassword_inconsistent">密码与确认密码不一致</string>
+    <string name="title_activity_login1">Sign in</string>
+
+
+    <string name="error_msg_network_error">请检查网络</string>
+    <string name="error_msg_response_null">没有响应</string>
+    <string name="error_msg_data_null">数据不存在</string>
+
+    <string name="shared_title">shared_title</string>
+    <string name="search_no_match">没有匹配的搜索结果</string>
+</resources>

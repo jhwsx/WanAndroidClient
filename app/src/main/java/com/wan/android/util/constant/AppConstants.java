@@ -21,4 +21,8 @@ public class AppConstants {
 
     public static final String EMPTY_STRING = "";
 
+    public static final String BUGLY_APPID = "1f0a6511f5";
+
+    public static final String URL_TUCAO = "http://support.qq.com/product/30318";
+
 }

@@ -46,4 +46,9 @@ public class MainPresenter<V extends MainContract.View> extends BasePresenter<V>
         getClearableCookieJar().clear();
         getMvpView().showLogoutSuccess();
     }
+
+    @Override
+    public boolean getLoginStatus() {
+        return getDataManager().getLoginStatus();
+    }
 }

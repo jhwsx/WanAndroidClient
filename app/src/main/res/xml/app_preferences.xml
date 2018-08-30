@@ -18,9 +18,6 @@
     </com.wan.android.ui.setting.MyPreferenceCategory>
 
     <com.wan.android.ui.setting.MyPreference
-        android:key="@string/key_check_update"
-        android:title="@string/check_update"/>
-    <com.wan.android.ui.setting.MyPreference
         android:key="@string/key_about"
         android:title="@string/about"/>
 </android.support.v7.preference.PreferenceScreen>

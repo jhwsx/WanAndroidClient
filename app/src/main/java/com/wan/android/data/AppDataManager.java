@@ -142,6 +142,26 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public String getRoastOpenid() {
+        return mPreferencesHelper.getRoastOpenid();
+    }
+
+    @Override
+    public void setRoastOpenid(String openid) {
+        mPreferencesHelper.setRoastOpenid(openid);
+    }
+
+    @Override
+    public int getRoastHeadPicId() {
+        return mPreferencesHelper.getRoastHeadPicId();
+    }
+
+    @Override
+    public void setRoastHeadPicId(int headPicId) {
+        mPreferencesHelper.setRoastHeadPicId(headPicId);
+    }
+
+    @Override
     public Observable<List<ArticleDatas>> getDbHomeArticles() {
         return mDbHelper.getDbHomeArticles();
     }

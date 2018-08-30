@@ -2,17 +2,15 @@ package com.wan.android;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 
 import com.kingja.loadsir.core.LoadSir;
 import com.wan.android.di.component.ApplicationComponent;
 import com.wan.android.di.component.DaggerApplicationComponent;
 import com.wan.android.di.module.ApplicationModule;
-import com.wan.android.ui.content.X5InitService;
 import com.wan.android.ui.loadcallback.EmptyCallback;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
+import com.wan.android.util.MyDebugTree;
 
 import timber.log.Timber;
 
@@ -24,15 +22,28 @@ public class App extends Application {
 
     private ApplicationComponent mApplicationComponent;
     private static Context sContext;
+    private static boolean sIsColdStart = false;
 
     public static Context getContext() {
         return sContext;
     }
+
+    public static boolean isColdStart() {
+        return sIsColdStart;
+    }
+
+    public static void setColdStart(boolean isColdStart) {
+        sIsColdStart = isColdStart;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        setColdStart(true);
         sContext = this;
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new MyDebugTree());
+        }
 
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this)).build();
@@ -41,8 +52,8 @@ public class App extends Application {
 
         initLoaderSir();
 
-        initX5WebView();
     }
+
 
     private void initLoaderSir() {
         LoadSir.beginBuilder()
@@ -51,15 +62,6 @@ public class App extends Application {
                 .addCallback(new LoadingCallback())
                 .setDefaultCallback(LoadingCallback.class)
                 .commit();
-    }
-
-    private void initX5WebView() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            Intent intent = new Intent(this, X5InitService.class);
-            startService(intent);
-        } else {
-            X5InitService.initX5WebView(this);
-        }
     }
 
     public ApplicationComponent getComponent() {

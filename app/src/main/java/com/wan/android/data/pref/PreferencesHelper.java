@@ -10,4 +10,10 @@ public interface PreferencesHelper {
 
     boolean getLoginStatus();
     void setLoginStatus(boolean isLogin);
+
+    String getRoastOpenid();
+    void setRoastOpenid(String openid);
+
+    int getRoastHeadPicId();
+    void setRoastHeadPicId(int headPicId);
 }

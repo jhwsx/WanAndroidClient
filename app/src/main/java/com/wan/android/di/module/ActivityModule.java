@@ -18,7 +18,6 @@ import com.wan.android.ui.collect.MyCollectionContract;
 import com.wan.android.ui.collect.MyCollectionPresenter;
 import com.wan.android.ui.content.ContentContract;
 import com.wan.android.ui.content.ContentPresenter;
-import com.wan.android.ui.content.X5WebView;
 import com.wan.android.ui.home.HomeContract;
 import com.wan.android.ui.home.HomePresenter;
 import com.wan.android.ui.login.LoginContract;
@@ -37,6 +36,10 @@ import com.wan.android.ui.search.SearchContract;
 import com.wan.android.ui.search.SearchPresenter;
 import com.wan.android.ui.search.SearchResultContract;
 import com.wan.android.ui.search.SearchResultPresenter;
+import com.wan.android.ui.setting.RoastContract;
+import com.wan.android.ui.setting.RoastPresenter;
+import com.wan.android.ui.setting.SettingsContract;
+import com.wan.android.ui.setting.SettingsPresenter;
 import com.wan.android.ui.tree.BranchContract;
 import com.wan.android.ui.tree.BranchPresenter;
 import com.wan.android.ui.tree.TreeContract;
@@ -198,7 +201,14 @@ public class ActivityModule {
     }
 
     @Provides
-    X5WebView provideX5WebView(@ActivityContext Context context) {
-        return new X5WebView(context);
+    SettingsContract.Presenter<SettingsContract.View> provideSettingsPresenter(
+            SettingsPresenter<SettingsContract.View> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    RoastContract.Presenter<RoastContract.View> provideRoastPresenter(
+            RoastPresenter<RoastContract.View> presenter) {
+        return presenter;
     }
 }

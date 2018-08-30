@@ -87,241 +87,141 @@
 
 # =========================通用配置 end  ================================
 
-# ------------------ Keep LineNumbers and properties ---------------- #
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
-# --------------------------------------------------------------------------
+-dontwarn javax.annotation.**
+-keep class javax.annotation.**
 
-# Addidional for x5.sdk classes for apps
-
--keep class com.tencent.smtt.export.external.**{
-    *;
+# com.wan.android.di.NotProguard start
+# keep annotated by NotProguard 不混淆被 NotProguard 修饰的类、属性和方法
+-keep @com.wan.android.di.NotProguard class * {*;}
+-keep class * {
+    @com.wan.android.di.NotProguard <fields>;
 }
-
--keep class com.tencent.tbs.video.interfaces.IUserStateChangedListener {
-	*;
+-keepclassmembers class * {
+    @com.wan.android.di.NotProguard <methods>;
 }
+# com.wan.android.di.NotProguard end
 
--keep class com.tencent.smtt.sdk.CacheManager {
-	public *;
+# com.wan.android.util.BottomNavigationViewHelper start
+-keepclassmembers class android.support.design.internal.BottomNavigationMenuView {
+    boolean mShiftingMode;
 }
+# com.wan.android.util.BottomNavigationViewHelper end
 
--keep class com.tencent.smtt.sdk.CookieManager {
-	public *;
+# okhttp start
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}
+# okhttp end
+
+# BRVAH start
+-keep class com.chad.library.adapter.** {*;}
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
+     <init>(...);
 }
+# BRVAH end
 
--keep class com.tencent.smtt.sdk.WebHistoryItem {
-	public *;
+# bugly start
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
+# bugly end
+
+# glide start
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
 }
+# glide end
 
--keep class com.tencent.smtt.sdk.WebViewDatabase {
-	public *;
-}
+# banner start
+-keep class com.youth.banner.** {*;}
+# banner end
 
--keep class com.tencent.smtt.sdk.WebBackForwardList {
-	public *;
-}
-
--keep public class com.tencent.smtt.sdk.WebView {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.WebView$HitTestResult {
-	public static final <fields>;
-	public java.lang.String getExtra();
-	public int getType();
-}
-
--keep public class com.tencent.smtt.sdk.WebView$WebViewTransport {
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.WebView$PictureListener {
-	public <fields>;
-	public <methods>;
-}
-
-
--keepattributes InnerClasses
-
--keep public enum com.tencent.smtt.sdk.WebSettings$** {
-    *;
-}
-
--keep public enum com.tencent.smtt.sdk.QbSdk$** {
-    *;
-}
-
--keep public class com.tencent.smtt.sdk.WebSettings {
-    public *;
-}
-
-
+# retrofit start
+# Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
--keep public class com.tencent.smtt.sdk.ValueCallback {
-	public <fields>;
-	public <methods>;
+# Retain service method parameters.
+-keepclassmembernames,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
 }
+# Ignore annotation used for build tooling.
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+# retrofit end
 
--keep public class com.tencent.smtt.sdk.WebViewClient {
-	public <fields>;
-	public <methods>;
-}
+# okio start
+-dontwarn okio.**
+# okio end
 
--keep public class com.tencent.smtt.sdk.DownloadListener {
-	public <fields>;
-	public <methods>;
-}
+# agentweb start
+-keep class com.just.agentweb.** {*;}
+-dontwarn com.just.agentweb.**
+# agentweb end
 
--keep public class com.tencent.smtt.sdk.WebChromeClient {
-	public <fields>;
-	public <methods>;
-}
+# loadsir start
+-dontwarn com.kingja.loadsir.**
+-keep class com.kingja.loadsir.** {*;}
+# loadsir end
 
--keep public class com.tencent.smtt.sdk.WebChromeClient$FileChooserParams {
-	public <fields>;
-	public <methods>;
-}
+# persistentCookieJar start
+-dontwarn com.franmontiel.persistentcookiejar.**
+-keep class com.franmontiel.persistentcookiejar.**
 
--keep class com.tencent.smtt.sdk.SystemWebChromeClient{
-	public *;
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
 }
-# 1. extension interfaces should be apparent
--keep public class com.tencent.smtt.export.external.extension.interfaces.* {
-	public protected *;
-}
+# persistentCookieJar end
 
-# 2. interfaces should be apparent
--keep public class com.tencent.smtt.export.external.interfaces.* {
-	public protected *;
-}
+# guava start
+-keep class com.google.common.base.Preconditions { *; }
+-dontwarn sun.misc.Unsafe
+-dontwarn com.google.common.collect.MinMaxPriorityQueue
+-dontwarn com.google.common.util.concurrent.FuturesGetChecked**
+-dontwarn javax.lang.model.element.Modifier
+-dontwarn afu.org.checkerframework.**
+-dontwarn org.checkerframework.**
+# guava end
 
--keep public class com.tencent.smtt.sdk.WebViewCallbackClient {
-	public protected *;
+# eventbus start
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
 }
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+# eventbus end
 
--keep public class com.tencent.smtt.sdk.WebStorage$QuotaUpdater {
-	public <fields>;
-	public <methods>;
+# u-app start
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
 }
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep public class com.wan.android.R$*{
+public static final int *;
+}
+# u-app end
 
--keep public class com.tencent.smtt.sdk.WebIconDatabase {
-	public <fields>;
-	public <methods>;
+# greendao start
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
 }
+-keep class **$Properties
 
--keep public class com.tencent.smtt.sdk.WebStorage {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.DownloadListener {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.QbSdk {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.QbSdk$PreInitCallback {
-	public <fields>;
-	public <methods>;
-}
--keep public class com.tencent.smtt.sdk.CookieSyncManager {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.Tbs* {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.utils.LogFileUtils {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.utils.TbsLog {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.utils.TbsLogClient {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.CookieSyncManager {
-	public <fields>;
-	public <methods>;
-}
-
-# Added for game demos
--keep public class com.tencent.smtt.sdk.TBSGamePlayer {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.TBSGamePlayerClient* {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.TBSGamePlayerClientExtension {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.TBSGamePlayerService* {
-	public <fields>;
-	public <methods>;
-}
-
--keep public class com.tencent.smtt.utils.Apn {
-	public <fields>;
-	public <methods>;
-}
--keep class com.tencent.smtt.** {
-	*;
-}
-# end
-
-
--keep public class com.tencent.smtt.export.external.extension.proxy.ProxyWebViewClientExtension {
-	public <fields>;
-	public <methods>;
-}
-
--keep class MTT.ThirdAppInfoNew {
-	*;
-}
-
--keep class com.tencent.mtt.MttTraceEvent {
-	*;
-}
-
-# Game related
--keep public class com.tencent.smtt.gamesdk.* {
-	public protected *;
-}
-
--keep public class com.tencent.smtt.sdk.TBSGameBooter {
-        public <fields>;
-        public <methods>;
-}
-
--keep public class com.tencent.smtt.sdk.TBSGameBaseActivity {
-	public protected *;
-}
-
--keep public class com.tencent.smtt.sdk.TBSGameBaseActivityProxy {
-	public protected *;
-}
-
--keep public class com.tencent.smtt.gamesdk.internal.TBSGameServiceClient {
-	public *;
-}
-#---------------------------------------------------------------------------
+# If you do not use SQLCipher:
+-dontwarn org.greenrobot.greendao.database.**
+# If you do not use Rx:
+-dontwarn rx.**
+-keep class freemarker.** { *; }
+-dontwarn freemarker.**
+# greendao end

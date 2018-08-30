@@ -8,13 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wan.android.R;
+import com.wan.android.data.network.model.ArticleDatas;
+import com.wan.android.data.network.model.ContentData;
 import com.wan.android.data.network.model.NavigationRightData;
 import com.wan.android.ui.adapter.NavigationRightAdapter;
 import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.content.ContentActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,9 @@ import butterknife.ButterKnife;
  * @author wzc
  * @date 2018/8/24
  */
-public class NavigationRightFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, OnNavigationRightGroupIdChangeListener {
+public class NavigationRightFragment extends BaseFragment
+        implements BaseQuickAdapter.OnItemClickListener,
+        OnNavigationRightGroupIdChangeListener {
 
     private NavigationRightAdapter mAdapter;
     private GridLayoutManager mManager;
@@ -107,7 +111,13 @@ public class NavigationRightFragment extends BaseFragment implements BaseQuickAd
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Toast.makeText(getActivity(), "position:" + position, Toast.LENGTH_SHORT).show();
+        List<NavigationRightData> data = mAdapter.getData();
+        NavigationRightData nrd = data.get(position);
+        if (!nrd.isTitle()) {
+            ArticleDatas ad = nrd.getArticleDatas();
+            ContentData cd = new ContentData(ad.getId(), ad.getTitle(), ad.getLink(), ad.isCollect());
+            ContentActivity.start(getBaseActivity(), cd);
+        }
     }
 
     @Override

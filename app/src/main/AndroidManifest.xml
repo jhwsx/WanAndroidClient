@@ -3,24 +3,19 @@
           package="com.wan.android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- 判断网络有无必须, X5WebView必须-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--X5WebView必须-->
+    <!--bugly必须,CrashHandler必须,dangerous-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--X5WebView必须-->
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <!--bugly必须,友盟统计必须-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!--X5WebView必须-->
+    <!--bugly必须,友盟统计必须,AgentWeb必须.判断网络有无必须-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--X5WebView必须-->
+    <!--bugly必须,友盟统计必须,dangerous-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!--X5WebView必须-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <!--X5WebView必须-->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <!--X5WebView必须-->
-    <uses-permission android:name="android.permission.READ_SETTINGS"/>
-    <!--X5WebView必须-->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <!--bugly必须-->
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <!--bugly必须-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -83,15 +78,51 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
-        <!--     在AndroidManifest.xml中增加内核首次加载时优化Service声明；
-        该Service仅在TBS内核首次Dex加载时触发并执行dex2oat任务，任务完成后自动结束。  -->
-        <service
-            android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
-            android:label="dexopt"
-            android:process=":dexopt"/>
-        <service
-            android:name=".ui.content.X5InitService"
-            android:exported="false"/>
+        <activity
+            android:name=".ui.setting.RoastActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".ui.setting.AboutActivity"
+                  android:label="@string/about"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
+        <!--[bugly start]-->
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent"/>
+        <!--如果您想兼容Android N或者以上的设备，必须要在AndroidManifest.xml文件中配置FileProvider来访问共享路径的文件。-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <!--[bugly end]-->
+
+        <!-- [友盟 推送及统计配置 start] -->
+        <!-- appkey作为应用在友盟的ID -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="${UMENG_APPKEY}"/>
+        <!-- 作为友盟的ID 的秘钥 -->
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="${UMENG_MESSAGE_SECRET}"/>
+        <!-- 推广渠道 -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL}"/>
+        <!-- [友盟 推送及统计配置 end] -->
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4"/>
     </application>
 
 </manifest>

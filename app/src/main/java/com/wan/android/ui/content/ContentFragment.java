@@ -8,15 +8,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-import com.tencent.smtt.sdk.CookieSyncManager;
+import com.just.agentweb.AgentWeb;
 import com.wan.android.R;
 import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
@@ -34,10 +38,10 @@ import butterknife.ButterKnife;
  * @date 2018/8/17
  */
 public class ContentFragment extends BaseFragment
-        implements X5WebView.OnTitleReceiveListener,
-        ContentContract.View {
+        implements ContentContract.View {
     private static final String ARGS_CONTENT_DATA = "com.wan.android.args_content_data";
     private MenuItem mCollectItem;
+    private AgentWeb mAgentWeb;
 
     public static ContentFragment newInstance(ContentData data) {
         Bundle args = new Bundle();
@@ -49,8 +53,6 @@ public class ContentFragment extends BaseFragment
 
     @BindView(R.id.fl_content_container)
     FrameLayout mFlContainer;
-    @Inject
-    X5WebView mX5WebView;
     private ContentData mContentData;
     @BindString(R.string.share)
     String mShareStr;
@@ -88,58 +90,46 @@ public class ContentFragment extends BaseFragment
 
     @Override
     protected void setUp(View view) {
-        mX5WebView.setOnTitleReceiveListener(this);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT);
-        mFlContainer.addView(mX5WebView, layoutParams);
-        mX5WebView.loadUrl(mContentData.getUrl());
-        CookieSyncManager.createInstance(getContext());
-        CookieSyncManager.getInstance().sync();
+
+        mAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(mFlContainer,
+                        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT))
+                .useDefaultIndicator()
+                .setWebViewClient(mWebViewClient)
+                .setWebChromeClient(mWebChromeClient)
+                .createAgentWeb()
+                .ready()
+                .go(mContentData.getUrl());
+
+
     }
 
-    @Override
-    public void onDestroyView() {
-        mPresenter.onDetach();
-        super.onDestroyView();
-    }
-
-    public boolean goBack() {
-        if (mX5WebView != null && mX5WebView.canGoBack()) {
-            mX5WebView.goBack();
+    public boolean handleKeyEvent(int keyCode, KeyEvent event) {
+        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mX5WebView.onPause();
+        mAgentWeb.getWebLifeCycle().onPause();
+
     }
 
     @Override
     public void onResume() {
+        mAgentWeb.getWebLifeCycle().onResume();
         super.onResume();
-        mX5WebView.onResume();
     }
 
     @Override
-    public void onDestroy() {
-        if (mX5WebView != null) {
-            mX5WebView.destroy();
-            mX5WebView = null;
-        }
-        super.onDestroy();
-
-    }
-
-    @Override
-    public void onTitleReceived(String title) {
-        if (mListener != null) {
-            mListener.onTitleReceived(title);
-        }
+    public void onDestroyView() {
+        mAgentWeb.getWebLifeCycle().onDestroy();
+        mPresenter.onDetach();
+        super.onDestroyView();
     }
 
     @Override
@@ -159,6 +149,17 @@ public class ContentFragment extends BaseFragment
         mCollectItem.setTitle(isCollect ? R.string.uncollect : R.string.collect);
 
     }
+
+    private WebViewClient mWebViewClient = new WebViewClient(){};
+    private WebChromeClient mWebChromeClient = new WebChromeClient(){
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+            if (mListener != null) {
+                mListener.onTitleReceived(title);
+            }
+        }
+    };
     public interface OnTitleReceiveListener {
         void onTitleReceived(String title);
     }

@@ -30,5 +30,7 @@ public interface MainContract {
          * 退出登录
          */
         void logout();
+
+        boolean getLoginStatus();
     }
 }
