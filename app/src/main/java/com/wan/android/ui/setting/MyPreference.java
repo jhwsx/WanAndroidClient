@@ -25,6 +25,6 @@ public class MyPreference extends Preference {
         super.onBindViewHolder(holder);
         View itemView = holder.itemView;
         TextView title = itemView.findViewById(android.R.id.title);
-        title.setTextColor(Utils.getApp().getResources().getColor( R.color.color_3e));
+        title.setTextColor(Utils.getApp().getResources().getColor(R.color.color_3e));
     }
 }

@@ -19,6 +19,7 @@ public class BottomNavigationViewHelper {
     private BottomNavigationViewHelper() {
         //no instance
     }
+
     public static void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {

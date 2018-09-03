@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 单页文章列表数据类
+ *
  * @author wzc
  * @date 2018/3/12
  */

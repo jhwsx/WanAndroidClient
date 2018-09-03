@@ -150,8 +150,9 @@ public class ContentFragment extends BaseFragment
 
     }
 
-    private WebViewClient mWebViewClient = new WebViewClient(){};
-    private WebChromeClient mWebChromeClient = new WebChromeClient(){
+    private WebViewClient mWebViewClient = new WebViewClient() {
+    };
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
@@ -160,6 +161,7 @@ public class ContentFragment extends BaseFragment
             }
         }
     };
+
     public interface OnTitleReceiveListener {
         void onTitleReceived(String title);
     }

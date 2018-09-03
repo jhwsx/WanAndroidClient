@@ -17,6 +17,7 @@ import com.wan.android.R;
  */
 public class LogoutDialog extends DialogFragment {
     private OnDialogPositiveBtnClickListener mListener;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -35,7 +36,7 @@ public class LogoutDialog extends DialogFragment {
             return super.onCreateDialog(savedInstanceState);
         }
         return new AlertDialog.Builder(getActivity())
-               .setTitle(R.string.logout_question)
+                .setTitle(R.string.logout_question)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

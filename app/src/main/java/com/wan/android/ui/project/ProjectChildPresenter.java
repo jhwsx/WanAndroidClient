@@ -25,7 +25,9 @@ public class ProjectChildPresenter<V extends ProjectChildContract.View> extends 
                                  CompositeDisposable compositeDisposable) {
         super(context, dataManager, compositeDisposable);
     }
+
     private int mCurrPage = 1;
+
     @Override
     public void swipeRefresh(int id) {
         mCurrPage = 1;
@@ -46,6 +48,7 @@ public class ProjectChildPresenter<V extends ProjectChildContract.View> extends 
                         }
 
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);

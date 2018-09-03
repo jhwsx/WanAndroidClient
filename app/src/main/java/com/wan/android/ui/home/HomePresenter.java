@@ -175,6 +175,7 @@ public class HomePresenter<V extends HomeContract.View> extends BasePresenter<V>
 
     /**
      * 存储文章列表数据到数据库
+     *
      * @param data 数据集合
      */
     private void saveHomeArticles2Db(List<ArticleDatas> data) {

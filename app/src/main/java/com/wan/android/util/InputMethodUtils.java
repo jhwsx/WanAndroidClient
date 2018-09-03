@@ -17,7 +17,6 @@ public class InputMethodUtils {
 
     /**
      * 显示软键盘
-     *
      */
     public static void showInputMethod(View view) {
         InputMethodManager imm = (InputMethodManager) Utils.getApp().getSystemService(Context.INPUT_METHOD_SERVICE);

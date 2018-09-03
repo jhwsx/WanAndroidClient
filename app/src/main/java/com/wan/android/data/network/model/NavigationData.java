@@ -19,6 +19,7 @@ public class NavigationData {
     public void setArticles(List<ArticleDatas> articles) {
         this.articles = articles;
     }
+
     public List<ArticleDatas> getArticles() {
         return articles;
     }
@@ -27,6 +28,7 @@ public class NavigationData {
     public void setCid(int cid) {
         this.cid = cid;
     }
+
     public int getCid() {
         return cid;
     }
@@ -35,6 +37,7 @@ public class NavigationData {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }

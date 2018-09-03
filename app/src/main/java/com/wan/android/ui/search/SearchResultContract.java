@@ -23,6 +23,7 @@ public interface SearchResultContract {
         void showLoadMoreSuccess(List<ArticleDatas> datas);
 
         void showLoadMoreFail();
+
         /**
          * 本次上拉加载更多完成
          */
@@ -37,12 +38,14 @@ public interface SearchResultContract {
     interface Presenter<V extends View> extends MvpPresenter<V> {
         /**
          * 下拉刷新搜索
+         *
          * @param k 搜索关键词
          */
         void swipeRefresh(String k);
 
         /**
          * 上拉加载搜索
+         *
          * @param k 搜索关键词
          */
         void loadMore(String k);

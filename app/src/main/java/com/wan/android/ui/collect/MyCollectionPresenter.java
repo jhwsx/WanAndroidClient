@@ -21,6 +21,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public class MyCollectionPresenter<V extends MyCollectionContract.View> extends BasePresenter<V>
         implements MyCollectionContract.Presenter<V> {
     private int mCurrPage = 0;
+
     @Inject
     public MyCollectionPresenter(@ApplicationContext Context context, DataManager dataManager,
                                  CompositeDisposable compositeDisposable) {

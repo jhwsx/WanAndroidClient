@@ -34,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     private Unbinder mUnBinder;
     private ActivityComponent mActivityComponent;
     private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +44,18 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
                 .build();
     }
 
+    @Override
+    protected void onDestroy() {
+
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+        }
+        super.onDestroy();
+    }
+
     /**
      * Get ActivityComponent, in order that Fragment can use it.
+     *
      * @return ActivityComponent
      */
     public ActivityComponent getActivityComponent() {
@@ -75,6 +86,11 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     }
 
     @Override
+    public void onError(@StringRes int resId) {
+        onError(getString(resId));
+    }
+
+    @Override
     public void onError(String message) {
         Timber.d("onError: %s", message);
         if (message != null) {
@@ -82,21 +98,6 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         } else {
             showSnackBar(getString(R.string.some_error));
         }
-    }
-
-    private void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                message, Snackbar.LENGTH_SHORT);
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView
-                .findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
-        snackbar.show();
-    }
-
-    @Override
-    public void onError(@StringRes int resId) {
-        onError(getString(resId));
     }
 
     @Override
@@ -114,6 +115,11 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     }
 
     @Override
+    public boolean isNetworkConnected() {
+        return NetworkUtils.isConnected(getApplicationContext());
+    }
+
+    @Override
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -123,19 +129,18 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         }
     }
 
-    @Override
-    public boolean isNetworkConnected() {
-        return NetworkUtils.isConnected(getApplicationContext());
+    private void showSnackBar(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+                message, Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView
+                .findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
+        snackbar.show();
     }
 
     public void setUnBinder(Unbinder unBinder) {
         mUnBinder = unBinder;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -145,12 +150,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     }
 
     @Override
-    protected void onDestroy() {
-
-        if (mUnBinder != null) {
-            mUnBinder.unbind();
-        }
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     protected abstract void setUp();

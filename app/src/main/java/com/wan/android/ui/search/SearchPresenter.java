@@ -33,15 +33,15 @@ public class SearchPresenter<V extends SearchContract.View> extends BasePresente
     @Override
     public void getHotkey() {
         getCompositeDisposable().add(getDataManager().getHotkey()
-        .compose(RxUtils.<CommonResponse<List<HotkeyData>>>rxSchedulerHelper())
-        .compose(RxUtils.<List<HotkeyData>>handleResult(getApplicationContext(), getMvpView()))
-        .subscribeWith(new BaseObserver<List<HotkeyData>>(getMvpView()){
-            @Override
-            public void onNext(List<HotkeyData> data) {
-                super.onNext(data);
-                getMvpView().showHotkeySuccess(data);
-            }
-        }));
+                .compose(RxUtils.<CommonResponse<List<HotkeyData>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<HotkeyData>>handleResult(getApplicationContext(), getMvpView()))
+                .subscribeWith(new BaseObserver<List<HotkeyData>>(getMvpView()) {
+                    @Override
+                    public void onNext(List<HotkeyData> data) {
+                        super.onNext(data);
+                        getMvpView().showHotkeySuccess(data);
+                    }
+                }));
     }
 
     @Override

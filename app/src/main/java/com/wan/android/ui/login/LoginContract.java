@@ -6,6 +6,7 @@ import com.wan.android.ui.base.MvpView;
 
 /**
  * 登录契约类
+ *
  * @author wzc
  * @date 2018/8/6
  */

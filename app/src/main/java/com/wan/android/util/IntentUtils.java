@@ -35,13 +35,9 @@ public final class IntentUtils {
     }
 
 
-
-
     private static Intent getIntent(final Intent intent, final boolean isNewTask) {
         return isNewTask ? intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) : intent;
     }
-
-
 
 
 }

@@ -36,8 +36,8 @@ public class RxUtils {
         };
     }
 
-    public static <T> ObservableTransformer<CommonResponse<T>,T> handleResult(final Context context,
-                                                                              final MvpView view) {
+    public static <T> ObservableTransformer<CommonResponse<T>, T> handleResult(final Context context,
+                                                                               final MvpView view) {
         return new ObservableTransformer<CommonResponse<T>, T>() {
             @Override
             public ObservableSource<T> apply(Observable<CommonResponse<T>> response) {
@@ -65,8 +65,8 @@ public class RxUtils {
         };
     }
 
-    public static <T> ObservableTransformer<CommonResponse<T>,T> handleResult2(final Context context,
-                                                                              final MvpView view) {
+    public static <T> ObservableTransformer<CommonResponse<T>, T> handleResult2(final Context context,
+                                                                                final MvpView view) {
         return new ObservableTransformer<CommonResponse<T>, T>() {
             @Override
             public ObservableSource<T> apply(Observable<CommonResponse<T>> response) {
@@ -105,7 +105,7 @@ public class RxUtils {
         });
     }
 
-    private static  Observable createData(final String t) {
+    private static Observable createData(final String t) {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {

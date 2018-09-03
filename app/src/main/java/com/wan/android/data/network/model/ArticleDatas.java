@@ -47,11 +47,11 @@ public class ArticleDatas implements Serializable {
 
     @Generated(hash = 619487330)
     public ArticleDatas(Long id, String apkLink, String author, Integer chapterId,
-            String chapterName, Boolean collect, Integer courseId, String desc,
-            String envelopePic, Boolean fresh, String link, String niceDate,
-            String origin, String projectLink, Long publishTime,
-            Integer superChapterId, String superChapterName, List<TagsBean> tags,
-            int userId, String title, Integer type, Integer visible, Integer zan) {
+                        String chapterName, Boolean collect, Integer courseId, String desc,
+                        String envelopePic, Boolean fresh, String link, String niceDate,
+                        String origin, String projectLink, Long publishTime,
+                        Integer superChapterId, String superChapterName, List<TagsBean> tags,
+                        int userId, String title, Integer type, Integer visible, Integer zan) {
         this.id = id;
         this.apkLink = apkLink;
         this.author = author;

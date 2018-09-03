@@ -156,14 +156,14 @@ public class SearchFragment extends BaseFragment implements SearchContract.View 
         mPresenter.getHotkey();
         mPresenter.getDbSearchHistory();
         mPresenter.addRxBindingSubscribe(RxView.clicks(mBtnClearHistory)
-        .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-        .subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) throws Exception {
-                Timber.d("clear search history");
-                mPresenter.deleteDbSearchHistory();
-            }
-        }));
+                .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        Timber.d("clear search history");
+                        mPresenter.deleteDbSearchHistory();
+                    }
+                }));
 
     }
 

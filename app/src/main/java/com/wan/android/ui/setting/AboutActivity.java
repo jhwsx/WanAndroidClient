@@ -16,6 +16,7 @@ import com.wan.android.util.AppUtils;
 
 /**
  * 关于
+ *
  * @author wzc
  * @date 2018/8/30
  */
@@ -25,6 +26,7 @@ public class AboutActivity extends BaseActivity {
         Intent starter = new Intent(context, AboutActivity.class);
         context.startActivity(starter);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

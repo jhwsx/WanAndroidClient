@@ -30,6 +30,7 @@ public interface SearchContract {
 
         /**
          * 保存搜索历史到数据库
+         *
          * @param data
          */
         void saveSearchHistory2Db(SearchHistoryData data);

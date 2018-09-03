@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * 注册 Presenter
+ *
  * @author wzc
  * @date 2018/8/6
  */
@@ -52,16 +53,16 @@ public class RegisterPresenter<V extends RegisterContract.View> extends BasePres
         getMvpView().hideKeyboard();
         getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
-        .register(username, password,repassword)
+                .register(username, password, repassword)
                 .compose(RxUtils.<CommonResponse<AccountData>>rxSchedulerHelper())
                 .compose(RxUtils.<AccountData>handleResult(getApplicationContext(), getMvpView()))
-        .subscribeWith(new BaseObserver<AccountData>(getMvpView()) {
-            @Override
-            public void onNext(AccountData accountData) {
-                super.onNext(accountData);
-                getMvpView().showRegisterSuccess(accountData);
-                getMvpView().hideLoading();
-            }
-        }));
+                .subscribeWith(new BaseObserver<AccountData>(getMvpView()) {
+                    @Override
+                    public void onNext(AccountData accountData) {
+                        super.onNext(accountData);
+                        getMvpView().showRegisterSuccess(accountData);
+                        getMvpView().hideLoading();
+                    }
+                }));
     }
 }

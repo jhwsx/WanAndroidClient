@@ -28,6 +28,7 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
     private int mTitleHeight;
     private static int sRecordedGroupId = 0;
     private OnNavigationRightGroupIdChangeListener mOnNavigationRightGroupIdChangeListener;
+
     public ItemHeaderDecoration(Context context, List<NavigationRightData> data) {
         mData = data;
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

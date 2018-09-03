@@ -13,6 +13,7 @@ import java.util.List;
 public interface ProjectContract {
     interface View extends MvpView {
         void showGetProjectSuccess(List<ProjectData> data);
+
         void showGetProjectFail();
     }
 

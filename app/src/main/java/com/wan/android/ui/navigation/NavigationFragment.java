@@ -63,12 +63,12 @@ public class NavigationFragment extends BaseFragment
         }
         mLoadService = LoadSir.getDefault().register(view,
                 new com.kingja.loadsir.callback.Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                mLoadService.showCallback(LoadingCallback.class);
-                mPresenter.getNavigation();
-            }
-        });
+                    @Override
+                    public void onReload(View v) {
+                        mLoadService.showCallback(LoadingCallback.class);
+                        mPresenter.getNavigation();
+                    }
+                });
         return mLoadService.getLoadLayout();
     }
 
@@ -133,6 +133,7 @@ public class NavigationFragment extends BaseFragment
 
     /**
      * 左侧联动右侧
+     *
      * @param position
      */
     public void onNavigationLeftItemClicked(int position) {
@@ -146,6 +147,7 @@ public class NavigationFragment extends BaseFragment
 
     /**
      * 右侧联动左侧
+     *
      * @param groupId
      */
     public void onNavigationRightHeaderGroupIdChanged(int groupId) {

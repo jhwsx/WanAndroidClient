@@ -12,7 +12,7 @@ public class ContentData implements Serializable {
     private String url;
     private Boolean isCollect;
 
-    public ContentData(Long id, String title, String url,Boolean isCollect) {
+    public ContentData(Long id, String title, String url, Boolean isCollect) {
         this.id = id;
         this.title = title;
         this.url = url;

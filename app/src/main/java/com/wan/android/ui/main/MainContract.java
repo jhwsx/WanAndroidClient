@@ -12,6 +12,7 @@ public interface MainContract {
     interface View extends MvpView {
         /**
          * 更新用户名
+         *
          * @param username 用户名
          */
         void updateUsername(String username);

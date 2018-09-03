@@ -4,6 +4,7 @@ import timber.log.Timber;
 
 /**
  * Timber 的 MyDebugTree
+ *
  * @author wzc
  * @date 2018/6/20
  */
@@ -16,6 +17,7 @@ public class MyDebugTree extends Timber.DebugTree {
         }
         super.log(priority, tag, message, t);
     }
+
     @Override
     protected String createStackElementTag(StackTraceElement element) {
         return super.createStackElementTag(element) + "(Line " + element.getLineNumber() + ")";

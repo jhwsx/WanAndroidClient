@@ -34,6 +34,7 @@ public class SplashActivity extends BaseActivity {
     private boolean mIsReadPhoneStatePermissionGranted = false;
     private boolean mIsWriteExternalStoragePermissionGranted = false;
     private int mCallbackCount = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

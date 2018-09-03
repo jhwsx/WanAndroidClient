@@ -27,6 +27,7 @@ import timber.log.Timber;
 
 /**
  * 注册 Fragment
+ *
  * @author wzc
  * @date 2018/8/6
  */
@@ -49,6 +50,7 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
     Button mBtnRegister;
     @Inject
     RegisterPresenter<RegisterContract.View> mPresenter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -76,17 +78,17 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
 
     private void subscribeRegisterEvent() {
         mPresenter.addRxBindingSubscribe(RxView.clicks(mBtnRegister)
-        .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-        .subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) throws Exception {
-                Timber.d("register");
-                String username = mEtName.getText().toString();
-                String password = mEtPassword.getText().toString();
-                String repassword = mEtRepassword.getText().toString();
-                mPresenter.register(username, password, repassword);
-            }
-        }));
+                .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        Timber.d("register");
+                        String username = mEtName.getText().toString();
+                        String password = mEtPassword.getText().toString();
+                        String repassword = mEtRepassword.getText().toString();
+                        mPresenter.register(username, password, repassword);
+                    }
+                }));
     }
 
     @Override

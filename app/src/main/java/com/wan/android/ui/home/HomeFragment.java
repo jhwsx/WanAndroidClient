@@ -144,6 +144,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
             mBanner.startAutoPlay();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -174,7 +175,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                     @Override
                     public void OnBannerClick(int position) {
                         BannerData bd = data.get(position);
-                        ContentData cd = new ContentData(bd.getId(), bd.getTitle(), bd.getUrl(),null);
+                        ContentData cd = new ContentData(bd.getId(), bd.getTitle(), bd.getUrl(), null);
                         ContentActivity.start(getActivity(), cd);
                     }
                 })
@@ -236,7 +237,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         List<ArticleDatas> data = adapter.getData();
         ArticleDatas articleDatas = data.get(position);
         ContentData contentData = new ContentData(articleDatas.getId(),
-                articleDatas.getTitle(), articleDatas.getLink(),articleDatas.isCollect());
+                articleDatas.getTitle(), articleDatas.getLink(), articleDatas.isCollect());
 
         View title = view.findViewById(R.id.tv_home_item_view_title);
         Intent intent = new Intent(getActivity(), ContentActivity.class);
@@ -260,6 +261,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
     private int mClickCollectPositoin;
     private ImageView mIvCollect;
+
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 

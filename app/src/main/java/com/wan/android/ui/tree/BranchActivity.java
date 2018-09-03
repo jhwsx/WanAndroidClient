@@ -24,11 +24,13 @@ import butterknife.ButterKnife;
 
 /**
  * 知识体系下的 分支 页面
+ *
  * @author wzc
  * @date 2018/8/23
  */
 public class BranchActivity extends BaseActivity {
     private static final String EXTRA_BRANCH_DATA = "com.wan.android.extra_branch_data";
+
     public static void start(Context context, BranchData data) {
         Intent starter = new Intent(context, BranchActivity.class);
         starter.putExtra(EXTRA_BRANCH_DATA, data);
@@ -43,6 +45,7 @@ public class BranchActivity extends BaseActivity {
     ViewPager mViewPager;
     private List<PageData> mPageData = new ArrayList<>();
     private BranchData mBranchData;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

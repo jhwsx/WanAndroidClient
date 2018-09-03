@@ -31,6 +31,7 @@ import timber.log.Timber;
 
 /**
  * 登录 Fragment
+ *
  * @author wzc
  * @date 2018/8/3
  */
@@ -83,16 +84,16 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     private void subscribeLoginEvent() {
         mPresenter.addRxBindingSubscribe(RxView.clicks(mBtnLogin)
-        .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-        .subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) throws Exception {
-                Timber.d("login");
-                String username = mEtName.getText().toString();
-                String password = mEtPwd.getText().toString();
-                mPresenter.login(username, password);
-            }
-        }));
+                .throttleFirst(AppConstants.CLICK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        Timber.d("login");
+                        String username = mEtName.getText().toString();
+                        String password = mEtPwd.getText().toString();
+                        mPresenter.login(username, password);
+                    }
+                }));
     }
 
     @OnClick(R.id.tv_register)
@@ -103,7 +104,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void showLoginSuccess(AccountData accountData) {
-        Timber.d("showLoginSuccess: %s",accountData.toString());
+        Timber.d("showLoginSuccess: %s", accountData.toString());
         showMessage(R.string.login_ok);
         mPresenter.setLoginStatus(true);
         mPresenter.setUserName(accountData.getUsername());

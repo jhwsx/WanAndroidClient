@@ -32,6 +32,7 @@ public abstract class BaseSingleFragmentActivity extends BaseActivity {
     int dp4;
     @BindView(R.id.tv_activity_content_title)
     protected TextView mTvTitle;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public abstract class BaseSingleFragmentActivity extends BaseActivity {
                     .commitAllowingStateLoss();
         }
     }
+
     private void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // We are not interested in defining a new Enter Transition. Instead we change default transition duration
@@ -63,9 +65,10 @@ public abstract class BaseSingleFragmentActivity extends BaseActivity {
         }
 
     }
+
     /**
      * Used for setting title of Activity
-     *
+     * <p>
      * <p>Notes:
      * <ul>
      * <li>This method do not need a mandatory implementation of subclass;</li>

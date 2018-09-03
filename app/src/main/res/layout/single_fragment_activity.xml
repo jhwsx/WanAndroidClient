@@ -14,6 +14,7 @@
         android:background="@color/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/Toolbar1">
+
         <TextView
             android:layout_gravity="start|center_vertical"
             android:id="@+id/tv_activity_content_title"

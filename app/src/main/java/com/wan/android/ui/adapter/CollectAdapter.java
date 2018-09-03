@@ -7,6 +7,7 @@ import com.wan.android.data.network.model.CollectDatas;
 
 /**
  * 收藏列表 Adapter
+ *
  * @author wzc
  * @date 2018/2/2
  */

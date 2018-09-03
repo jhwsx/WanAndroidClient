@@ -21,6 +21,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public class BranchPresenter<V extends BranchContract.View> extends BasePresenter<V>
         implements BranchContract.Presenter<V> {
     private int mCurrPage = 0;
+
     @Inject
     public BranchPresenter(@ApplicationContext Context context, DataManager dataManager,
                            CompositeDisposable compositeDisposable) {
@@ -42,6 +43,7 @@ public class BranchPresenter<V extends BranchContract.View> extends BasePresente
                         super.onNext(articleData);
                         getMvpView().showSwipeRefreshSuccess(articleData.getDatas());
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);

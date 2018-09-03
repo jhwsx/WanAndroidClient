@@ -25,6 +25,7 @@ import io.reactivex.disposables.Disposable;
 public interface MvpPresenter<V extends MvpView> {
     /**
      * Attach a specified mvpView with this Presenter
+     *
      * @param mvpView
      */
     void onAttach(V mvpView);

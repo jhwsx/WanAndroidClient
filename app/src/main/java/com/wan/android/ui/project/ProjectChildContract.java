@@ -22,6 +22,7 @@ public interface ProjectChildContract {
         void showLoadMoreSuccess(List<ArticleDatas> datas);
 
         void showLoadMoreFail();
+
         /**
          * 本次上拉加载更多完成
          */
@@ -40,13 +41,15 @@ public interface ProjectChildContract {
     interface Presenter<V extends View> extends MvpPresenter<V> {
         /**
          * 下拉刷新
-         * @param cid  分类的id
+         *
+         * @param cid 分类的id
          */
         void swipeRefresh(int cid);
 
         /**
          * 上拉加载
-         * @param cid  分类的id
+         *
+         * @param cid 分类的id
          */
         void loadMore(int cid);
 

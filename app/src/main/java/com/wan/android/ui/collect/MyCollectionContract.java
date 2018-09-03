@@ -22,6 +22,7 @@ public interface MyCollectionContract {
         void showLoadMoreSuccess(List<CollectDatas> datas);
 
         void showLoadMoreFail();
+
         /**
          * 本次上拉加载更多完成
          */

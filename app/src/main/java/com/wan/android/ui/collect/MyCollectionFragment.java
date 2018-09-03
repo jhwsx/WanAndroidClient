@@ -67,6 +67,7 @@ public class MyCollectionFragment extends BaseFragment
     MyCollectionPresenter<MyCollectionContract.View> mPresenter;
     public static final int REQUEST_ADD_COLLECT_CODE = 0x1;
     private LoadService mLoadService;
+
     public static MyCollectionFragment newInstance() {
         Bundle args = new Bundle();
         MyCollectionFragment fragment = new MyCollectionFragment();
@@ -185,6 +186,7 @@ public class MyCollectionFragment extends BaseFragment
     }
 
     private int mClickCollectPosition;
+
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (view.getId() == R.id.iv_home_item_view_collect) {

@@ -41,6 +41,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -50,6 +51,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             activity.onFragmentAttached();
         }
     }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Load the preferences from the xml.
@@ -151,7 +153,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 try {
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
-                   // ignored
+                    // ignored
                 }
             }
         }

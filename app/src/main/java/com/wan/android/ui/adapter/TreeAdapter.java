@@ -9,10 +9,11 @@ import java.util.List;
 
 /**
  * 知识体系数据 Adapter
+ *
  * @author wzc
  * @date 2018/8/23
  */
-public class TreeAdapter extends BaseQuickAdapter<BranchData,BaseViewHolder> {
+public class TreeAdapter extends BaseQuickAdapter<BranchData, BaseViewHolder> {
     public TreeAdapter() {
         super(R.layout.tree_recycle_view);
     }
@@ -22,12 +23,12 @@ public class TreeAdapter extends BaseQuickAdapter<BranchData,BaseViewHolder> {
         // title
         helper.setText(R.id.tv_knowledge_item_title, item.getName());
         // subtitle
-       StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
         List<BranchData.Leaf> children = item.getChildren();
-        if (children != null && children.size() >0) {
+        if (children != null && children.size() > 0) {
             for (int i = 0; i < children.size(); i++) {
                 BranchData.Leaf child = children.get(i);
-                if (i == children.size() -1) {
+                if (i == children.size() - 1) {
                     stringBuffer.append(child.getName());
                 } else {
                     stringBuffer.append(child.getName()).append("  ");

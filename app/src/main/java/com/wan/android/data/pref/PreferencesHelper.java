@@ -6,14 +6,18 @@ package com.wan.android.data.pref;
  */
 public interface PreferencesHelper {
     String getUsername();
+
     void setUsername(String username);
 
     boolean getLoginStatus();
+
     void setLoginStatus(boolean isLogin);
 
     String getRoastOpenid();
+
     void setRoastOpenid(String openid);
 
     int getRoastHeadPicId();
+
     void setRoastHeadPicId(int headPicId);
 }

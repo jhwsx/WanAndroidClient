@@ -20,6 +20,7 @@ public interface BranchContract {
         void showLoadMoreSuccess(List<ArticleDatas> datas);
 
         void showLoadMoreFail();
+
         /**
          * 本次上拉加载更多完成
          */
@@ -39,12 +40,14 @@ public interface BranchContract {
     interface Presenter<V extends View> extends MvpPresenter<V> {
         /**
          * 下拉刷新
+         *
          * @param id 分类的id
          */
         void swipeRefresh(int id);
 
         /**
          * 上拉加载
+         *
          * @param id 分类的id
          */
         void loadMore(int id);

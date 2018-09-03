@@ -19,6 +19,7 @@ public class MyCollectionActivity extends BaseSingleFragmentActivity {
         Intent starter = new Intent(context, MyCollectionActivity.class);
         context.startActivity(starter);
     }
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);

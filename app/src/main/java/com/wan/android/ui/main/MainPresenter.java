@@ -19,6 +19,7 @@ public class MainPresenter<V extends MainContract.View> extends BasePresenter<V>
         implements MainContract.Presenter<V> {
 
     private ClearableCookieJar mClearableCookieJar;
+
     @Inject
     public MainPresenter(@ApplicationContext Context context, DataManager dataManager,
                          ClearableCookieJar clearableCookieJar,
@@ -26,9 +27,11 @@ public class MainPresenter<V extends MainContract.View> extends BasePresenter<V>
         super(context, dataManager, compositeDisposable);
         mClearableCookieJar = clearableCookieJar;
     }
+
     public ClearableCookieJar getClearableCookieJar() {
         return mClearableCookieJar;
     }
+
     @Override
     public void onNavMenuCreated() {
         if (!isViewAttached()) {

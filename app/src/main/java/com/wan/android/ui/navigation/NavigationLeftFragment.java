@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * @author wzc
  * @date 2018/8/24
  */
-public class NavigationLeftFragment extends BaseFragment implements OnRecycleViewItemClickListener{
+public class NavigationLeftFragment extends BaseFragment implements OnRecycleViewItemClickListener {
 
     private NavigationLeftAdapter mAdapter;
     private NavigationFragment mNavigationFragment;
@@ -43,6 +43,7 @@ public class NavigationLeftFragment extends BaseFragment implements OnRecycleVie
 
     @BindView(R.id.recylcerview_navigation_left_fragment)
     RecyclerView mRecyclerViewLeft;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class NavigationLeftFragment extends BaseFragment implements OnRecycleVie
         setUnBinder(ButterKnife.bind(this, view));
         return view;
     }
+
     @Override
     protected void setUp(View view) {
         mAdapter = new NavigationLeftAdapter();

@@ -58,6 +58,7 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
     LinearLayoutManager mLinearLayoutManager;
     @Inject
     HorizontalDividerItemDecoration mHorizontalDividerItemDecoration;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -71,11 +72,11 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
         }
         mLoadService = LoadSir.getDefault().register(view,
                 new com.kingja.loadsir.callback.Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                mPresenter.swipeRefresh();
-            }
-        });
+                    @Override
+                    public void onReload(View v) {
+                        mPresenter.swipeRefresh();
+                    }
+                });
         return mLoadService.getLoadLayout();
     }
 

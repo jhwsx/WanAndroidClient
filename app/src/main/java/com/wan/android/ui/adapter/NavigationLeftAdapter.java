@@ -22,6 +22,7 @@ public class NavigationLeftAdapter
     private List<String> mData = new ArrayList<>();
     private OnRecycleViewItemClickListener mOnRecycleViewItemClickListener;
     private int mCheckedPosition;
+
     public NavigationLeftAdapter() {
     }
 
@@ -60,6 +61,7 @@ public class NavigationLeftAdapter
     class NavigationLeftHolder extends RecyclerView.ViewHolder {
 
         private final TextView mTvLeftTitle;
+
         public NavigationLeftHolder(View itemView) {
             super(itemView);
             mTvLeftTitle = itemView.findViewById(R.id.tv_navigation_left_title);

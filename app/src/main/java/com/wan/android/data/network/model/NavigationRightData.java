@@ -12,12 +12,13 @@ public class NavigationRightData implements Serializable, MultiItemEntity {
     private boolean mIsTitle;
     private String mTitle;
     private ArticleDatas mArticleDatas;
-    private int  mGroupId;
+    private int mGroupId;
     private int mItemType;
     public static final int TYPE_TITLE = 0;
     public static final int TYPE_CONTENT = 1;
+
     public NavigationRightData(boolean isTitle, String title,
-                               ArticleDatas articleDatas, int  groupId, int itemType) {
+                               ArticleDatas articleDatas, int groupId, int itemType) {
         mIsTitle = isTitle;
         mTitle = title;
         mArticleDatas = articleDatas;

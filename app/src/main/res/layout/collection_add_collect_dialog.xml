@@ -4,9 +4,11 @@
               android:paddingStart="24dp"
               android:paddingEnd="24dp"
               android:orientation="vertical">
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <AutoCompleteTextView
             android:id="@+id/title_edit"
             android:layout_width="match_parent"
@@ -21,6 +23,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <AutoCompleteTextView
             android:id="@+id/author_edit"
             android:hint="@string/authors"
@@ -35,6 +38,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/link_edit"
             android:hint="@string/link"

@@ -22,6 +22,7 @@ public class FUNetData {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
     public String getDesc() {
         return desc;
     }
@@ -30,6 +31,7 @@ public class FUNetData {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
     public String getIcon() {
         return icon;
     }
@@ -38,6 +40,7 @@ public class FUNetData {
     public void setId(int id) {
         this.id = id;
     }
+
     public int getId() {
         return id;
     }
@@ -46,6 +49,7 @@ public class FUNetData {
     public void setLink(String link) {
         this.link = link;
     }
+
     public String getLink() {
         return link;
     }
@@ -54,6 +58,7 @@ public class FUNetData {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
@@ -62,6 +67,7 @@ public class FUNetData {
     public void setOrder(int order) {
         this.order = order;
     }
+
     public int getOrder() {
         return order;
     }
@@ -70,6 +76,7 @@ public class FUNetData {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
     public int getUserId() {
         return userId;
     }
@@ -78,6 +85,7 @@ public class FUNetData {
     public void setVisible(int visible) {
         this.visible = visible;
     }
+
     public int getVisible() {
         return visible;
     }

@@ -13,12 +13,13 @@ import com.wan.android.data.network.model.ArticleDatas;
  * @author wzc
  * @date 2018/7/20
  */
-public class ProjectAdapter extends BaseQuickAdapter<ArticleDatas,BaseViewHolder> {
+public class ProjectAdapter extends BaseQuickAdapter<ArticleDatas, BaseViewHolder> {
 
     public ProjectAdapter() {
         super(R.layout.project_recycle_item);
 
     }
+
     @Override
     protected void convert(BaseViewHolder helper, ArticleDatas item) {
         // title

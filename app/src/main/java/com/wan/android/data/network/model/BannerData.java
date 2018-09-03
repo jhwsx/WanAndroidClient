@@ -30,7 +30,7 @@ public class BannerData {
 
     @Generated(hash = 364356521)
     public BannerData(Long id, String desc, String imagePath, int isVisible,
-            int order, String title, int type, String url) {
+                      int order, String title, int type, String url) {
         this.id = id;
         this.desc = desc;
         this.imagePath = imagePath;

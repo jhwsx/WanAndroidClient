@@ -38,6 +38,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

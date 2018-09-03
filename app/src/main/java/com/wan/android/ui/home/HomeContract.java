@@ -26,6 +26,7 @@ public interface HomeContract {
         void showLoadMoreSuccess(List<ArticleDatas> datas);
 
         void showLoadMoreFail();
+
         /**
          * 本次上拉加载更多完成
          */

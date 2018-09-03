@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_timeout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@color/color_background"
-    android:orientation="vertical">
+              android:id="@+id/ll_timeout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:background="@color/color_background"
+              android:orientation="vertical">
 
     <ImageView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
         android:layout_marginBottom="@dimen/dp_4"
-        android:background="@drawable/ic_timeout" />
+        android:background="@drawable/ic_timeout"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/network_error"
         android:textColor="@color/color_3e"
-        android:textSize="@dimen/dp_18" />
+        android:textSize="@dimen/dp_18"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/color_3e"
-        android:text="@string/click_me_to_retry" />
+        android:text="@string/click_me_to_retry"/>
 </LinearLayout>

@@ -23,6 +23,7 @@ public class AppUtils {
     public static String getAppVersionName() {
         return getAppVersionName(getAppPackageName());
     }
+
     /**
      * 获取 App 版本号
      *

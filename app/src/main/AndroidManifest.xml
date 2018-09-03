@@ -83,11 +83,12 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".ui.setting.AboutActivity"
-                  android:label="@string/about"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.setting.AboutActivity"
+            android:label="@string/about"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <!--[bugly start]-->
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"

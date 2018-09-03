@@ -16,6 +16,7 @@ public class NetworkUtils {
     private NetworkUtils() {
         //no instance
     }
+
     /**
      * 获取活动网络信息
      * <p>需添加权限
@@ -32,6 +33,7 @@ public class NetworkUtils {
         }
         return manager.getActiveNetworkInfo();
     }
+
     /**
      * 判断网络是否连接
      * <p>需添加权限

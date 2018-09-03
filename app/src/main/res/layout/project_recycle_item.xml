@@ -8,6 +8,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/color_background"
     app:cardCornerRadius="@dimen/dp_0">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,6 +82,7 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_recycle_project_item_author_text"
             app:layout_constraintLeft_toRightOf="@id/tv_recycle_project_item_author_text"
             tools:text="志超"/>
+
         <TextView
             android:id="@+id/tv_recycle_project_item_date"
             android:layout_width="wrap_content"

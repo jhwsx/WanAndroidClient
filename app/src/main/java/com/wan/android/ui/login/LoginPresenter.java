@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * 登录 Presenter
+ *
  * @author wzc
  * @date 2018/8/3
  */
@@ -49,7 +50,7 @@ public class LoginPresenter<V extends LoginContract.View> extends BasePresenter<
                 .login(username, password)
                 .compose(RxUtils.<CommonResponse<AccountData>>rxSchedulerHelper())
                 .compose(RxUtils.<AccountData>handleResult(getApplicationContext(), getMvpView()))
-                .subscribeWith(new BaseObserver<AccountData>(getMvpView()){
+                .subscribeWith(new BaseObserver<AccountData>(getMvpView()) {
                     @Override
                     public void onNext(AccountData accountData) {
                         super.onNext(accountData);

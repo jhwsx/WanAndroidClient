@@ -9,6 +9,7 @@ import com.wan.android.ui.base.BaseSingleFragmentActivity;
 
 /**
  * 注册页面
+ *
  * @author wzc
  * @date 2018/3/27
  */

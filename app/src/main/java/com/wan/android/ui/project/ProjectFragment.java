@@ -85,7 +85,9 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
         mPresenter.onDetach();
         super.onDestroyView();
     }
+
     private List<PageData> mPageData;
+
     @Override
     public void showGetProjectSuccess(List<ProjectData> data) {
         Timber.d("showGetProjectSuccess: size=%s", data.size());

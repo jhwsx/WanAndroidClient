@@ -45,6 +45,7 @@ import timber.log.Timber;
 
 /**
  * 主页
+ *
  * @author wzc
  * @date 2018/8/3
  */
@@ -77,6 +78,7 @@ public class MainActivity extends BaseActivity
     @Inject
     MainContract.Presenter<MainContract.View> mPresenter;
     private List<Fragment> mFragmentList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +138,7 @@ public class MainActivity extends BaseActivity
         mPresenter.onDetach();
         super.onDestroy();
     }
+
     @Override
     protected void setUp() {
 
@@ -280,7 +283,9 @@ public class MainActivity extends BaseActivity
             startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), REQUEST_CODE_LOGIN);
         }
     }
+
     private int mLastPosition;
+
     private void switchFragment(int position) {
         Fragment targetFragment = mFragmentList.get(position);
         Fragment lastFragment = mFragmentList.get(mLastPosition);
