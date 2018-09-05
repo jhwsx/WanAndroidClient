@@ -48,16 +48,6 @@ public class ProjectChildFragment extends BaseFragment
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.OnItemChildClickListener {
     private static final String ARGS_ID = "com.wan.android.args_project_id";
-    private LoadService mLoadService;
-
-    public static ProjectChildFragment newInstance(int id) {
-        Bundle args = new Bundle();
-        args.putInt(ARGS_ID, id);
-        ProjectChildFragment fragment = new ProjectChildFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -72,13 +62,48 @@ public class ProjectChildFragment extends BaseFragment
     HorizontalDividerItemDecoration mHorizontalDividerItemDecoration;
     @Inject
     ProjectChildContract.Presenter<ProjectChildContract.View> mPresenter;
+    private LoadService mLoadService;
     private int mId;
+    private int mClickCollectPositoin;
+    private ImageView mIvCollect;
+
+    public static ProjectChildFragment newInstance(int id) {
+        Bundle args = new Bundle();
+        args.putInt(ARGS_ID, id);
+        ProjectChildFragment fragment = new ProjectChildFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mId = getArguments().getInt(ARGS_ID);
+        }
+    }
+
+    @Override
+    protected void setUp(View view) {
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
+        mRecyclerView.addItemDecoration(mHorizontalDividerItemDecoration);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemChildClickListener(this);
+        mAdapter.disableLoadMoreIfNotFullPage();
+        mRecyclerView.setAdapter(mAdapter);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mAdapter.setEnableLoadMore(false);
+        mPresenter.swipeRefresh(mId);
+    }
+
+    @Override
+    public void scrollToTop() {
+        if (mLinearLayoutManager.findFirstVisibleItemPosition() > 20) {
+            mRecyclerView.scrollToPosition(0);
+        } else {
+            mRecyclerView.smoothScrollToPosition(0);
         }
     }
 
@@ -102,21 +127,6 @@ public class ProjectChildFragment extends BaseFragment
                     }
                 });
         return mLoadService.getLoadLayout();
-    }
-
-    @Override
-    protected void setUp(View view) {
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
-        mRecyclerView.addItemDecoration(mHorizontalDividerItemDecoration);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        mAdapter.setOnItemClickListener(this);
-        mAdapter.setOnItemChildClickListener(this);
-        mAdapter.disableLoadMoreIfNotFullPage();
-        mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter.setEnableLoadMore(false);
-        mPresenter.swipeRefresh(mId);
     }
 
     @Override
@@ -177,6 +187,18 @@ public class ProjectChildFragment extends BaseFragment
     }
 
     @Override
+    public void showCollectInSiteArticleSuccess() {
+        showMessage(R.string.collect_successfully);
+        setCollectState(true);
+    }
+
+    @Override
+    public void showUncollectArticleListArticleSuccess() {
+        showMessage(R.string.uncollect_successfully);
+        setCollectState(false);
+    }
+
+    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<ArticleDatas> data = adapter.getData();
         ArticleDatas articleDatas = data.get(position);
@@ -201,21 +223,6 @@ public class ProjectChildFragment extends BaseFragment
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh(mId);
     }
-
-    @Override
-    public void showCollectInSiteArticleSuccess() {
-        showMessage(R.string.collect_successfully);
-        setCollectState(true);
-    }
-
-    @Override
-    public void showUncollectArticleListArticleSuccess() {
-        showMessage(R.string.uncollect_successfully);
-        setCollectState(false);
-    }
-
-    private int mClickCollectPositoin;
-    private ImageView mIvCollect;
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

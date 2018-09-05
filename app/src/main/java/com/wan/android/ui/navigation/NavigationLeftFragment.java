@@ -82,4 +82,10 @@ public class NavigationLeftFragment extends BaseFragment implements OnRecycleVie
             mRecyclerViewLeft.smoothScrollBy(0, offset);
         }
     }
+
+    @Override
+    public void scrollToTop() {
+        mAdapter.setCheckedPosition(0);
+        mRecyclerViewLeft.smoothScrollToPosition(0);
+    }
 }

@@ -53,17 +53,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.OnItemChildClickListener {
 
-    private LoadService mLoadService;
-
-    public static HomeFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        HomeFragment fragment = new HomeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -78,9 +67,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     LinearLayoutManager mLinearLayoutManager;
     @Inject
     HorizontalDividerItemDecoration mHorizontalDividerItemDecoration;
+    private LoadService mLoadService;
     private Banner mBanner;
-
     private boolean mIsBannerLoaded;
+    private int mClickCollectPositoin;
+    private ImageView mIvCollect;
+
+    public static HomeFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -102,6 +102,29 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                     }
                 });
         return mLoadService.getLoadLayout();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBanner != null) {
+            mBanner.startAutoPlay();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mBanner != null) {
+            mBanner.stopAutoPlay();
+        }
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        mPresenter.onDetach();
+        super.onDestroyView();
     }
 
     @Override
@@ -132,26 +155,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     }
 
     @Override
-    public void onDestroyView() {
-        mPresenter.onDetach();
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mBanner != null) {
-            mBanner.startAutoPlay();
+    public void scrollToTop() {
+        if (mLinearLayoutManager.findFirstVisibleItemPosition() > 20) {
+            mRecyclerView.scrollToPosition(0);
+        } else {
+            mRecyclerView.smoothScrollToPosition(0);
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mBanner != null) {
-            mBanner.stopAutoPlay();
-        }
-
     }
 
     @Override
@@ -222,6 +231,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     }
 
     @Override
+    public void showCollectInSiteArticleSuccess() {
+        showMessage(R.string.collect_successfully);
+        setCollectState(true);
+    }
+
+    @Override
+    public void showUncollectArticleListArticleSuccess() {
+        showMessage(R.string.uncollect_successfully);
+        setCollectState(false);
+    }
+
+    @Override
     public void onRefresh() {
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh(mIsBannerLoaded);
@@ -246,21 +267,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
                 .makeSceneTransitionAnimation(getActivity(), title, getString(R.string.shared_title));
         getActivity().startActivity(intent, transitionActivityOptions.toBundle());
     }
-
-    @Override
-    public void showCollectInSiteArticleSuccess() {
-        showMessage(R.string.collect_successfully);
-        setCollectState(true);
-    }
-
-    @Override
-    public void showUncollectArticleListArticleSuccess() {
-        showMessage(R.string.uncollect_successfully);
-        setCollectState(false);
-    }
-
-    private int mClickCollectPositoin;
-    private ImageView mIvCollect;
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

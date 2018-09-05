@@ -153,4 +153,10 @@ public class NavigationFragment extends BaseFragment
     public void onNavigationRightHeaderGroupIdChanged(int groupId) {
         mNavigationLeftFragment.setCheckedPosition(groupId);
     }
+
+    @Override
+    public void scrollToTop() {
+        mNavigationLeftFragment.scrollToTop();
+        onNavigationLeftItemClicked(0);
+    }
 }

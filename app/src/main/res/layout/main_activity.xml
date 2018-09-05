@@ -9,10 +9,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/main_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/main_app_bar"/>
 
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView

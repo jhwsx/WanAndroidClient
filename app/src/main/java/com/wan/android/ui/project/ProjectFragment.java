@@ -87,7 +87,7 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
     }
 
     private List<PageData> mPageData;
-
+    private int mCurrPagePosition;
     @Override
     public void showGetProjectSuccess(List<ProjectData> data) {
         Timber.d("showGetProjectSuccess: size=%s", data.size());
@@ -113,6 +113,12 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
                 return mPageData.get(position).getTitle();
             }
         });
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                mCurrPagePosition = position;
+            }
+        });
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -120,5 +126,11 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
     public void showGetProjectFail() {
         Timber.d("showGetProjectFail");
         mLoadService.showCallback(NetworkErrorCallback.class);
+    }
+
+    @Override
+    public void scrollToTop() {
+        BaseFragment fragment = (BaseFragment) mPageData.get(mCurrPagePosition).getFragment();
+        fragment.scrollToTop();
     }
 }

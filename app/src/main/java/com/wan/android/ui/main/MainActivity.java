@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.wan.android.R;
 import com.wan.android.ui.base.BaseActivity;
+import com.wan.android.ui.base.BaseFragment;
 import com.wan.android.ui.collect.MyCollectionActivity;
 import com.wan.android.ui.home.HomeFragment;
 import com.wan.android.ui.login.LoginActivity;
@@ -41,6 +43,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -75,6 +78,8 @@ public class MainActivity extends BaseActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.bottom_navigation_view_main)
     BottomNavigationView mBottomNavigationView;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
     @Inject
     MainContract.Presenter<MainContract.View> mPresenter;
     private List<Fragment> mFragmentList = new ArrayList<>();
@@ -84,6 +89,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
         setContentView(R.layout.main_activity);
+        setSupportActionBar(mToolbar);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this));
         mPresenter.onAttach(MainActivity.this);
@@ -166,7 +172,7 @@ public class MainActivity extends BaseActivity
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
-
+    private int mCurrentPostion;
     private void initBottomNavigationView() {
         BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
         mBottomNavigationView.setOnNavigationItemSelectedListener(
@@ -287,6 +293,7 @@ public class MainActivity extends BaseActivity
     private int mLastPosition;
 
     private void switchFragment(int position) {
+        mCurrentPostion = position;
         Fragment targetFragment = mFragmentList.get(position);
         Fragment lastFragment = mFragmentList.get(mLastPosition);
         if (position == mLastPosition) {
@@ -324,5 +331,11 @@ public class MainActivity extends BaseActivity
     @Override
     public void onDialogPositiveBtnClicked() {
         mPresenter.logout();
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClicked(View view) {
+        BaseFragment baseFragment = (BaseFragment) mFragmentList.get(mCurrentPostion);
+        baseFragment.scrollToTop();
     }
 }

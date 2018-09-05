@@ -37,15 +37,6 @@ import timber.log.Timber;
  */
 public class TreeFragment extends BaseFragment implements TreeContract.View, BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private LoadService mLoadService;
-
-    public static TreeFragment newInstance() {
-        Bundle args = new Bundle();
-        TreeFragment fragment = new TreeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -58,6 +49,14 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
     LinearLayoutManager mLinearLayoutManager;
     @Inject
     HorizontalDividerItemDecoration mHorizontalDividerItemDecoration;
+    private LoadService mLoadService;
+
+    public static TreeFragment newInstance() {
+        Bundle args = new Bundle();
+        TreeFragment fragment = new TreeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -81,6 +80,12 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
     }
 
     @Override
+    public void onDestroyView() {
+        mPresenter.onDetach();
+        super.onDestroyView();
+    }
+
+    @Override
     protected void setUp(View view) {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         mRecyclerView.addItemDecoration(mHorizontalDividerItemDecoration);
@@ -93,9 +98,12 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
     }
 
     @Override
-    public void onDestroyView() {
-        mPresenter.onDetach();
-        super.onDestroyView();
+    public void scrollToTop() {
+        if (mLinearLayoutManager.findFirstVisibleItemPosition() > 20) {
+            mRecyclerView.scrollToPosition(0);
+        } else {
+            mRecyclerView.smoothScrollToPosition(0);
+        }
     }
 
     @Override

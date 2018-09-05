@@ -34,6 +34,16 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     private Unbinder mUnBinder;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BaseActivity) {
+            BaseActivity activity = (BaseActivity) context;
+            mActivity = activity;
+            activity.onFragmentAttached();
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
@@ -45,14 +55,20 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         setUp(view);
     }
 
+    protected abstract void setUp(View view);
+
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof BaseActivity) {
-            BaseActivity activity = (BaseActivity) context;
-            mActivity = activity;
-            activity.onFragmentAttached();
+    public void onDestroy() {
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
         }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        mActivity = null;
+        super.onDetach();
     }
 
     @Override
@@ -66,6 +82,13 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     public void hideLoading() {
         if (mActivity != null) {
             mActivity.hideLoading();
+        }
+    }
+
+    @Override
+    public void onError(@StringRes int resId) {
+        if (mActivity != null) {
+            mActivity.onError(resId);
         }
     }
 
@@ -91,24 +114,11 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     }
 
     @Override
-    public void onError(@StringRes int resId) {
-        if (mActivity != null) {
-            mActivity.onError(resId);
-        }
-    }
-
-    @Override
     public boolean isNetworkConnected() {
         if (mActivity != null) {
             return mActivity.isNetworkConnected();
         }
         return false;
-    }
-
-    @Override
-    public void onDetach() {
-        mActivity = null;
-        super.onDetach();
     }
 
     @Override
@@ -130,14 +140,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         mUnBinder = unBinder;
     }
 
-    protected abstract void setUp(View view);
-
-    @Override
-    public void onDestroy() {
-        if (mUnBinder != null) {
-            mUnBinder.unbind();
-        }
-        super.onDestroy();
+    public void scrollToTop() {
     }
 
     public interface Callback {

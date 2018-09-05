@@ -10,14 +10,17 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:fitsSystemWindows="true"
             android:id="@+id/toolbar_main"
-            style="@style/Toolbar"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextColor="@android:color/white"/>
 
@@ -35,4 +38,15 @@
         app:itemTextColor="@color/selector_bottom_navigation_view"
         app:layout_behavior="@string/bye_burger_bottom_behavior"
         app:menu="@menu/menu_bottom_navigation_view"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:layout_behavior="@string/bye_burger_float_behavior"
+        android:layout_gravity="right|bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/arrow_up"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_60"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </android.support.design.widget.CoordinatorLayout>
