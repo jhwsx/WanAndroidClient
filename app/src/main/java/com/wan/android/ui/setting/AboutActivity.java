@@ -22,6 +22,7 @@ import com.wan.android.util.AppUtils;
  */
 public class AboutActivity extends BaseActivity {
 
+    private static final String TAG = AboutActivity.class.getSimpleName();
     public static void start(Context context) {
         Intent starter = new Intent(context, AboutActivity.class);
         context.startActivity(starter);
@@ -44,6 +45,16 @@ public class AboutActivity extends BaseActivity {
         TextView tvContent = (TextView) findViewById(R.id.tv_about_content);
         tvContent.setText(Html.fromHtml(getString(R.string.about_content)));
         tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return false;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

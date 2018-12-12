@@ -1,5 +1,6 @@
 package com.wan.android.ui.tree;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +18,7 @@ import com.wan.android.R;
 import com.wan.android.data.network.model.BranchData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.adapter.TreeAdapter;
-import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.base.BaseMainFragment;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -35,8 +36,11 @@ import timber.log.Timber;
  * @author wzc
  * @date 2018/8/3
  */
-public class TreeFragment extends BaseFragment implements TreeContract.View, BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class TreeFragment extends BaseMainFragment implements TreeContract.View,
+        BaseQuickAdapter.OnItemClickListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG = TreeFragment.class.getSimpleName();
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -58,10 +62,23 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Timber.d("onAttach");
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Timber.d("onCreateView");
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ActivityComponent component = getActivityComponent();
         if (component != null) {
@@ -80,6 +97,35 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Timber.d("onActivityCreated");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Timber.d("onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Timber.d("onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Timber.d("onPause");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Timber.d("onHiddenChanged: %s", hidden);
+    }
+    @Override
     public void onDestroyView() {
         mPresenter.onDetach();
         super.onDestroyView();
@@ -95,6 +141,11 @@ public class TreeFragment extends BaseFragment implements TreeContract.View, Bas
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh();
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     @Override

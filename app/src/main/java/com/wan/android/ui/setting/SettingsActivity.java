@@ -13,6 +13,7 @@ import com.wan.android.ui.base.BaseSingleFragmentActivity;
  */
 public class SettingsActivity extends BaseSingleFragmentActivity {
 
+    private static final String TAG = SettingsActivity.class.getSimpleName();
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);
         context.startActivity(starter);
@@ -26,6 +27,16 @@ public class SettingsActivity extends BaseSingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         return SettingsFragment.newInstance();
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

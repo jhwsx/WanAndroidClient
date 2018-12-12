@@ -146,14 +146,23 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     @Override
     protected void onPause() {
         super.onPause();
+        if (!hasFragment()) {
+            MobclickAgent.onPageEnd(getActivityName());
+        }
         MobclickAgent.onPause(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (!hasFragment()) {
+            MobclickAgent.onPageStart(getActivityName());
+        }
         MobclickAgent.onResume(this);
     }
+
+    protected abstract boolean hasFragment();
+    protected abstract String getActivityName();
 
     protected abstract void setUp();
 }

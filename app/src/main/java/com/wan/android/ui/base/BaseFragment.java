@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.wan.android.R;
 import com.wan.android.di.component.ActivityComponent;
 
@@ -57,6 +58,26 @@ public abstract class BaseFragment extends Fragment implements MvpView {
 
     protected abstract void setUp(View view);
 
+    protected abstract String getFragmentName();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!hasChildFragment()) {
+            MobclickAgent.onPageStart(getFragmentName());
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!hasChildFragment()) {
+            MobclickAgent.onPageEnd(getFragmentName());
+        }
+    }
+
+    protected boolean hasChildFragment() {
+        return false;
+    }
     @Override
     public void onDestroy() {
         if (mUnBinder != null) {

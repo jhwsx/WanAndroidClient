@@ -15,6 +15,7 @@ import com.wan.android.ui.base.BaseSingleFragmentActivity;
  */
 public class LoginActivity extends BaseSingleFragmentActivity {
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
     public static void start(Context context) {
         Intent starter = new Intent(context, LoginActivity.class);
         context.startActivity(starter);
@@ -38,5 +39,15 @@ public class LoginActivity extends BaseSingleFragmentActivity {
     @Override
     protected void initTitle() {
         mTvTitle.setText(R.string.login);
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 }

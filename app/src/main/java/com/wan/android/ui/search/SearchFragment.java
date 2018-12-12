@@ -168,6 +168,11 @@ public class SearchFragment extends BaseFragment implements SearchContract.View 
     }
 
     @Override
+    protected String getFragmentName() {
+        return TAG;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search, menu);

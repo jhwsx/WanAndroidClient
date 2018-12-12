@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
  */
 public class RoastFragment extends BaseFragment {
 
+    private static final String TAG = RoastFragment.class.getSimpleName();
     public static RoastFragment newInstance() {
         Bundle args = new Bundle();
         RoastFragment fragment = new RoastFragment();
@@ -87,6 +88,11 @@ public class RoastFragment extends BaseFragment {
         String postData = "nickname=" + nickname + "&avatar=" + headimgurl + "&openid=" + openid;
 
         mAgentWeb.getUrlLoader().postUrl(AppConstants.URL_TUCAO, postData.getBytes());
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     private WebViewClient mWebViewClient = new WebViewClient() {

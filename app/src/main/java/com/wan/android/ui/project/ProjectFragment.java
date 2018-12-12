@@ -18,6 +18,7 @@ import com.wan.android.data.network.model.PageData;
 import com.wan.android.data.network.model.ProjectData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.base.BaseMainFragment;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
 
@@ -36,10 +37,10 @@ import timber.log.Timber;
  * @author wzc
  * @date 2018/8/3
  */
-public class ProjectFragment extends BaseFragment implements ProjectContract.View {
+public class ProjectFragment extends BaseMainFragment implements ProjectContract.View {
 
     private LoadService mLoadService;
-
+    private static final String TAG = ProjectFragment.class.getSimpleName();
     public static ProjectFragment newInstance() {
         Bundle args = new Bundle();
         ProjectFragment fragment = new ProjectFragment();
@@ -78,6 +79,11 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
     @Override
     protected void setUp(View view) {
         mPresenter.getProject();
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     @Override

@@ -115,6 +115,11 @@ public class SearchResultFragment extends BaseFragment
     }
 
     @Override
+    protected String getFragmentName() {
+        return TAG;
+    }
+
+    @Override
     public void onDestroyView() {
         mPresenter.onDetach();
         EventBus.getDefault().post(new SearchResultFragmentDestroyEvent());

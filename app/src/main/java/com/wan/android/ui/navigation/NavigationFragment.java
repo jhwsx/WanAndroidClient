@@ -14,7 +14,7 @@ import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.NavigationData;
 import com.wan.android.data.network.model.NavigationRightData;
 import com.wan.android.di.component.ActivityComponent;
-import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.base.BaseMainFragment;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
 
@@ -32,9 +32,9 @@ import timber.log.Timber;
  * @author wzc
  * @date 2018/8/3
  */
-public class NavigationFragment extends BaseFragment
+public class NavigationFragment extends BaseMainFragment
         implements NavigationContract.View {
-
+    private static final String TAG = NavigationFragment.class.getSimpleName();
     private NavigationLeftFragment mNavigationLeftFragment;
     private NavigationRightFragment mNavigationRightFragment;
     private List<NavigationRightData> mRightData;
@@ -92,6 +92,11 @@ public class NavigationFragment extends BaseFragment
                     .commit();
         }
         mPresenter.getNavigation();
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     @Override
@@ -158,5 +163,10 @@ public class NavigationFragment extends BaseFragment
     public void scrollToTop() {
         mNavigationLeftFragment.scrollToTop();
         onNavigationLeftItemClicked(0);
+    }
+
+    @Override
+    protected boolean hasChildFragment() {
+        return true;
     }
 }

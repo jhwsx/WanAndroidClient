@@ -51,6 +51,7 @@ public class MyCollectionFragment extends BaseFragment
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.OnItemChildClickListener {
 
+    private static final String TAG = MyCollectionFragment.class.getSimpleName();
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -116,6 +117,11 @@ public class MyCollectionFragment extends BaseFragment
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh();
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     @Override

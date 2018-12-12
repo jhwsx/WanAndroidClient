@@ -42,7 +42,7 @@ public class ContentFragment extends BaseFragment
     private static final String ARGS_CONTENT_DATA = "com.wan.android.args_content_data";
     private MenuItem mCollectItem;
     private AgentWeb mAgentWeb;
-
+    private static final String TAG = ContentFragment.class.getSimpleName();
     public static ContentFragment newInstance(ContentData data) {
         Bundle args = new Bundle();
         args.putSerializable(ARGS_CONTENT_DATA, data);
@@ -103,6 +103,11 @@ public class ContentFragment extends BaseFragment
                 .go(mContentData.getUrl());
 
 
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     public boolean handleKeyEvent(int keyCode, KeyEvent event) {

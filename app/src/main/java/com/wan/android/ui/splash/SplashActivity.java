@@ -29,6 +29,7 @@ import timber.log.Timber;
  */
 public class SplashActivity extends BaseActivity {
 
+    private static final String TAG = SplashActivity.class.getSimpleName();
     @Inject
     CompositeDisposable mCompositeDisposable;
     private boolean mIsReadPhoneStatePermissionGranted = false;
@@ -95,6 +96,16 @@ public class SplashActivity extends BaseActivity {
             mCompositeDisposable.dispose();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return false;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

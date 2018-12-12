@@ -38,7 +38,7 @@ import timber.log.Timber;
 public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     public static final String EXTRA_USER_NAME = "com.wan.android.extra_user_name";
-
+    private static final String TAG = LoginFragment.class.getSimpleName();
     public static LoginFragment newInstance() {
         Bundle args = new Bundle();
         LoginFragment fragment = new LoginFragment();
@@ -113,5 +113,8 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
-
+    @Override
+    public String getFragmentName() {
+        return TAG;
+    }
 }

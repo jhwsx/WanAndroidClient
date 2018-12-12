@@ -20,7 +20,7 @@
         android:layout_height="@dimen/dp_64"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/ic_main_my"/>
+        app:srcCompat="@drawable/ic_avatar"/>
 
     <TextView
         android:id="@+id/tv_main_header_nav_username"
@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         tools:text="@string/unlogined"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
  */
 public class SearchActivity extends BaseActivity {
 
+    private static final String TAG = SearchActivity.class.getSimpleName();
     public static void start(Context context) {
         Intent starter = new Intent(context, SearchActivity.class);
         context.startActivity(starter);
@@ -46,6 +47,16 @@ public class SearchActivity extends BaseActivity {
                     .add(R.id.contentFrame, SearchFragment.newInstance(), SearchFragment.TAG)
                     .commit();
         }
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

@@ -58,6 +58,7 @@ public class MainActivity extends BaseActivity
         View.OnClickListener,
         LogoutDialog.OnDialogPositiveBtnClickListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private TextView mTvUsername;
     private View mHeaderLayout;
     private static final int REQUEST_CODE_LOGIN = 1;
@@ -118,6 +119,11 @@ public class MainActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         Timber.d("onResume");
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
     }
 
     @Override
@@ -242,7 +248,13 @@ public class MainActivity extends BaseActivity
                 logoutDialog.show(fm, LogoutDialog.class.getSimpleName());
                 break;
             case R.id.nav_my_collect:
-                MyCollectionActivity.start(MainActivity.this);
+                boolean loginStatus = mPresenter.getLoginStatus();
+                if (loginStatus) {
+                    MyCollectionActivity.start(MainActivity.this);
+                } else {
+                    LoginActivity.start(MainActivity.this);
+                    showMessage(R.string.login_first);
+                }
                 break;
             case R.id.nav_settings:
                 SettingsActivity.start(MainActivity.this);
@@ -337,5 +349,10 @@ public class MainActivity extends BaseActivity
     public void onFabClicked(View view) {
         BaseFragment baseFragment = (BaseFragment) mFragmentList.get(mCurrentPostion);
         baseFragment.scrollToTop();
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 }

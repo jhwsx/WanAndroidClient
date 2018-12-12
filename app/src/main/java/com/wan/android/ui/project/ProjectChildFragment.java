@@ -47,6 +47,7 @@ public class ProjectChildFragment extends BaseFragment
         BaseQuickAdapter.OnItemClickListener,
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.OnItemChildClickListener {
+    private static final String TAG = ProjectChildFragment.class.getSimpleName();
     private static final String ARGS_ID = "com.wan.android.args_project_id";
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -96,6 +97,16 @@ public class ProjectChildFragment extends BaseFragment
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh(mId);
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
+    }
+
+    @Override
+    protected boolean hasChildFragment() {
+        return true;
     }
 
     @Override

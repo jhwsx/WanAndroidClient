@@ -124,6 +124,6 @@ dependencies {
 
     implementation 'com.just.agentweb:agentweb:4.0.2'
 
-    implementation 'com.umeng.sdk:common:1.5.3'
-    implementation 'com.umeng.sdk:analytics:7.5.3'
+    implementation  'com.umeng.umsdk:common:1.5.4'
+    implementation  'com.umeng.umsdk:analytics:7.5.4'
 }

@@ -17,7 +17,7 @@ import com.wan.android.ui.base.BaseSingleFragmentActivity;
 public class RoastActivity extends BaseSingleFragmentActivity {
 
     private RoastFragment mRoastFragment;
-
+    private static final String TAG = RoastActivity.class.getSimpleName();
     public static void start(Context context) {
         Intent starter = new Intent(context, RoastActivity.class);
         context.startActivity(starter);
@@ -40,6 +40,16 @@ public class RoastActivity extends BaseSingleFragmentActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

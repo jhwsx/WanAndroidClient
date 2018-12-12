@@ -18,6 +18,7 @@ import com.wan.android.ui.base.BaseSingleFragmentActivity;
  */
 public class ContentActivity extends BaseSingleFragmentActivity
         implements ContentFragment.OnTitleReceiveListener {
+    private static final String TAG = ContentActivity.class.getSimpleName();
     public static final String EXTRA_CONTENT_DATA = "com.wan.android.extra_content_data";
     private ContentFragment mContentFragment;
 
@@ -44,6 +45,16 @@ public class ContentActivity extends BaseSingleFragmentActivity
         }
         mContentFragment = ContentFragment.newInstance((ContentData) getIntent().getSerializableExtra(EXTRA_CONTENT_DATA));
         return mContentFragment;
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

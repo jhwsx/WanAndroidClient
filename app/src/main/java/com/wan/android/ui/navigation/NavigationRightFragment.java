@@ -32,6 +32,7 @@ public class NavigationRightFragment extends BaseFragment
         implements BaseQuickAdapter.OnItemClickListener,
         OnNavigationRightGroupIdChangeListener {
 
+    private static final String TAG = NavigationRightFragment.class.getSimpleName();
     private NavigationRightAdapter mAdapter;
     private GridLayoutManager mManager;
     private ItemHeaderDecoration mItemHeaderDecoration;
@@ -69,6 +70,16 @@ public class NavigationRightFragment extends BaseFragment
     protected void setUp(View view) {
 
 
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
+    }
+
+    @Override
+    protected boolean hasChildFragment() {
+        return true;
     }
 
     public void setData(List<NavigationRightData> rightData) {

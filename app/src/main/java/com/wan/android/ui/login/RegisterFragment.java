@@ -33,6 +33,7 @@ import timber.log.Timber;
  */
 public class RegisterFragment extends BaseFragment implements RegisterContract.View {
 
+    private static final String TAG = RegisterFragment.class.getSimpleName();
     public static RegisterFragment newInstance() {
         Bundle args = new Bundle();
         RegisterFragment fragment = new RegisterFragment();
@@ -68,6 +69,11 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
     @Override
     protected void setUp(View view) {
         subscribeRegisterEvent();
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     @Override

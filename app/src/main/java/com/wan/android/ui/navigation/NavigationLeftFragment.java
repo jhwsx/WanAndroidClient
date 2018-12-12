@@ -27,7 +27,7 @@ public class NavigationLeftFragment extends BaseFragment implements OnRecycleVie
     private NavigationLeftAdapter mAdapter;
     private NavigationFragment mNavigationFragment;
     private LinearLayoutManager mLinearLayoutManager;
-
+    private static final String TAG = NavigationLeftFragment.class.getSimpleName();
     public static NavigationLeftFragment newInstance() {
         Bundle args = new Bundle();
         NavigationLeftFragment fragment = new NavigationLeftFragment();
@@ -58,6 +58,16 @@ public class NavigationLeftFragment extends BaseFragment implements OnRecycleVie
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewLeft.setLayoutManager(mLinearLayoutManager);
         mRecyclerViewLeft.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
+    }
+
+    @Override
+    protected boolean hasChildFragment() {
+        return true;
     }
 
     public void setData(List<String> titles) {

@@ -15,6 +15,7 @@ import com.wan.android.ui.base.BaseSingleFragmentActivity;
  */
 public class MyCollectionActivity extends BaseSingleFragmentActivity {
 
+    private static final String TAG = MyCollectionActivity.class.getSimpleName();
     public static void start(Context context) {
         Intent starter = new Intent(context, MyCollectionActivity.class);
         context.startActivity(starter);
@@ -28,6 +29,16 @@ public class MyCollectionActivity extends BaseSingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         return MyCollectionFragment.newInstance();
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

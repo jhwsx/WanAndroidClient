@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  */
 public class BranchActivity extends BaseActivity {
     private static final String EXTRA_BRANCH_DATA = "com.wan.android.extra_branch_data";
-
+    private static final String TAG = BranchActivity.class.getSimpleName();
     public static void start(Context context, BranchData data) {
         Intent starter = new Intent(context, BranchActivity.class);
         starter.putExtra(EXTRA_BRANCH_DATA, data);
@@ -53,6 +53,16 @@ public class BranchActivity extends BaseActivity {
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this));
         setUp();
+    }
+
+    @Override
+    protected boolean hasFragment() {
+        return true;
+    }
+
+    @Override
+    protected String getActivityName() {
+        return TAG;
     }
 
     @Override

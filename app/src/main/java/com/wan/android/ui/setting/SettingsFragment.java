@@ -104,6 +104,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 RoastActivity.start(mActivity);
             } else {
                 LoginActivity.start(mActivity);
+                mActivity.showMessage(R.string.login_first);
             }
             return true;
         }

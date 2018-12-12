@@ -1,5 +1,6 @@
 package com.wan.android.ui.tree;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +22,7 @@ import com.wan.android.data.network.model.ArticleDatas;
 import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.adapter.CommonListAdapter;
-import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.base.BaseViewPagerFragment;
 import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
@@ -42,14 +43,14 @@ import timber.log.Timber;
  * @author wzc
  * @date 2018/8/23
  */
-public class BranchFragment extends BaseFragment
+public class BranchFragment extends BaseViewPagerFragment
         implements BranchContract.View,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.OnItemChildClickListener {
     private static final String ARGS_ID = "com.wan.android.args_id";
-
+    private static final String TAG = BranchFragment.class.getSimpleName();
     public static BranchFragment newInstance(int id) {
         Bundle args = new Bundle();
         args.putInt(ARGS_ID, id);
@@ -74,19 +75,33 @@ public class BranchFragment extends BaseFragment
     BranchContract.Presenter<BranchContract.View> mPresenter;
 
     private LoadService mLoadService;
-    private int mId;
+    private int mId = -1;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (getArguments() != null && mId == -1) {
+            mId = getArguments().getInt(ARGS_ID);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Timber.d("onAttach, %s", this.toString());
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mId = getArguments().getInt(ARGS_ID);
-        }
+        Timber.d("onCreate, %s", this);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d("onCreateView, %s", this);
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ActivityComponent component = getActivityComponent();
         if (component != null) {
@@ -106,6 +121,30 @@ public class BranchFragment extends BaseFragment
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Timber.d("onActivityCreated, %s", this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Timber.d("onStart, %s", this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Timber.d("onResume, %s", this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Timber.d("onPause, %s", this);
+    }
+
+    @Override
     protected void setUp(View view) {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         mRecyclerView.addItemDecoration(mHorizontalDividerItemDecoration);
@@ -121,7 +160,13 @@ public class BranchFragment extends BaseFragment
     }
 
     @Override
+    protected String getFragmentName() {
+        return TAG + mId;
+    }
+
+    @Override
     public void onDestroyView() {
+        Timber.d("onDestroyView, %s", this);
         mPresenter.onDetach();
         super.onDestroyView();
     }

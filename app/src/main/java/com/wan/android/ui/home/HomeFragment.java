@@ -1,5 +1,6 @@
 package com.wan.android.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +23,7 @@ import com.wan.android.data.network.model.BannerData;
 import com.wan.android.data.network.model.ContentData;
 import com.wan.android.di.component.ActivityComponent;
 import com.wan.android.ui.adapter.CommonListAdapter;
-import com.wan.android.ui.base.BaseFragment;
+import com.wan.android.ui.base.BaseMainFragment;
 import com.wan.android.ui.content.ContentActivity;
 import com.wan.android.ui.loadcallback.LoadingCallback;
 import com.wan.android.ui.loadcallback.NetworkErrorCallback;
@@ -40,6 +41,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * 首页 Fragment
@@ -47,12 +49,13 @@ import butterknife.ButterKnife;
  * @author wzc
  * @date 2018/8/2
  */
-public class HomeFragment extends BaseFragment implements HomeContract.View,
+public class HomeFragment extends BaseMainFragment implements HomeContract.View,
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.OnItemChildClickListener {
 
+    private static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -82,10 +85,23 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Timber.d("onAttach");
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Timber.d("onCreateView");
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ActivityComponent component = getActivityComponent();
         if (component != null) {
@@ -105,8 +121,21 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Timber.d("onActivityCreated");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Timber.d("onStart");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        Timber.d("onResume");
         if (mBanner != null) {
             mBanner.startAutoPlay();
         }
@@ -115,10 +144,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     @Override
     public void onPause() {
         super.onPause();
+        Timber.d("onPause");
         if (mBanner != null) {
             mBanner.stopAutoPlay();
         }
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Timber.d("onHiddenChanged: %s", hidden );
     }
 
     @Override
@@ -152,6 +188,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setEnableLoadMore(false);
         mPresenter.swipeRefresh(mIsBannerLoaded);
+    }
+
+    @Override
+    protected String getFragmentName() {
+        return TAG;
     }
 
     @Override
