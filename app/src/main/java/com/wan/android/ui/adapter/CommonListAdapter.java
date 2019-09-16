@@ -1,6 +1,6 @@
 package com.wan.android.ui.adapter;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;

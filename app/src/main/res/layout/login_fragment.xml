@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,13 +41,13 @@
                     android:textColorHint="@color/color_73"
                     android:singleLine="true"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     android:textColor="@color/color_3e"
                     android:textSize="@dimen/dp_14"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/sign_in_button"

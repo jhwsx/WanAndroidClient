@@ -2,7 +2,7 @@ package com.wan.android.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.wan.android.R;
 import com.wan.android.ui.base.BaseSingleFragmentActivity;

@@ -1,8 +1,8 @@
 package com.wan.android.ui.setting;
 
 import android.content.Context;
-import android.support.v7.preference.PreferenceCategory;
-import android.support.v7.preference.PreferenceViewHolder;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.widget.TextView;
 

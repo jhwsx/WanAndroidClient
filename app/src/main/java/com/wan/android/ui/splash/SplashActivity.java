@@ -2,7 +2,7 @@ package com.wan.android.ui.splash;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.tbruyelle.rxpermissions2.Permission;

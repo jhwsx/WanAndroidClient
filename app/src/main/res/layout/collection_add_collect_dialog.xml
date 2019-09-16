@@ -5,7 +5,7 @@
               android:paddingEnd="24dp"
               android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,9 +18,9 @@
             android:textColor="@color/color_73"
             android:inputType="textMultiLine"
             android:imeOptions="actionNext"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,9 +33,9 @@
             android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -48,6 +48,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_73"
             android:textSize="@dimen/dp_14"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

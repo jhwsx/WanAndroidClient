@@ -1,7 +1,7 @@
 package com.wan.android.data.network.model;
 
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * ViewPager 页面数据

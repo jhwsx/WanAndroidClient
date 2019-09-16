@@ -96,7 +96,7 @@
             android:theme="@android:style/Theme.Translucent"/>
         <!--如果您想兼容Android N或者以上的设备，必须要在AndroidManifest.xml文件中配置FileProvider来访问共享路径的文件。-->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

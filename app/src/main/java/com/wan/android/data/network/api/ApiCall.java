@@ -216,7 +216,7 @@ public interface ApiCall {
             //no instance
         }
 
-        private static final String API_BASE_URL = "http://wanandroid.com/";
+        private static final String API_BASE_URL = "https://wanandroid.com/";
         private static final int NETWORK_CALL_TIMEOUT = 60;
 
         public static ApiCall create(Cache cache, ClearableCookieJar cookieJar) {
