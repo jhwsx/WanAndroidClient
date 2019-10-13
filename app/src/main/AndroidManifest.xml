@@ -89,6 +89,18 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <!-- grantUriPermissions:true，表示授予 URI 临时访问权限。 -->
+            <!-- exported:要求必须为false，为true则会报安全异常。 -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/storage_file_paths" />
+        </provider>
 <!--        &lt;!&ndash;[bugly start]&ndash;&gt;-->
 <!--        <activity-->
 <!--            android:name="com.tencent.bugly.beta.ui.BetaActivity"-->

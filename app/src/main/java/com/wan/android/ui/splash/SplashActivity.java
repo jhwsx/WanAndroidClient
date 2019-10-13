@@ -40,53 +40,56 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
-        RxPermissions rxPermissions = new RxPermissions(this);
-        mCompositeDisposable.add(rxPermissions
-                .requestEach(Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) throws Exception {
-                        mCallbackCount++;
-                        Timber.d("%s, count=%s", permission.toString(), mCallbackCount);
-                        if (permission.granted) {
-                            // 用户已经同意授权
-                            if (TextUtils.equals(permission.name, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                                mIsWriteExternalStoragePermissionGranted = true;
-                                if (BuildConfig.DEBUG && App.isColdStart()) {
-                                    Timber.d("init crashhander");
-                                    CrashHandler.getInstance().init(SplashActivity.this);
-                                }
-                            }
-                            if (TextUtils.equals(permission.name, Manifest.permission.READ_PHONE_STATE)) {
-                                mIsReadPhoneStatePermissionGranted = true;
-                                if (App.isColdStart()) {
-                                    Timber.d("init umeng");
-                                    UmengUtils.initUmengAnalytics(SplashActivity.this);
-                                }
-                            }
-
-                            if (mIsReadPhoneStatePermissionGranted
-                                    && mIsWriteExternalStoragePermissionGranted) {
-                                if (App.isColdStart()) {
-                                    Timber.d("init bugly");
-//                                    BuglyUtil.initBugly(SplashActivity.this);
-                                }
-                            }
-                        } else if (permission.shouldShowRequestPermissionRationale) {
-                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
-
-                        } else {
-                            // 用户拒绝了该权限，并且选中『不再询问』
-                        }
-                        if (mCallbackCount == 2) {
-                            Timber.d("setColdStart false");
-                            App.setColdStart(false);
-                            MainActivity.start(SplashActivity.this);
-                            finish();
-                        }
-                    }
-                }));
+        App.setColdStart(false);
+        MainActivity.start(SplashActivity.this);
+        finish();
+//        RxPermissions rxPermissions = new RxPermissions(this);
+//        mCompositeDisposable.add(rxPermissions
+//                .requestEach(Manifest.permission.READ_PHONE_STATE,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                .subscribe(new Consumer<Permission>() {
+//                    @Override
+//                    public void accept(Permission permission) throws Exception {
+//                        mCallbackCount++;
+//                        Timber.d("%s, count=%s", permission.toString(), mCallbackCount);
+//                        if (permission.granted) {
+//                            // 用户已经同意授权
+//                            if (TextUtils.equals(permission.name, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                                mIsWriteExternalStoragePermissionGranted = true;
+//                                if (BuildConfig.DEBUG && App.isColdStart()) {
+//                                    Timber.d("init crashhander");
+//                                    CrashHandler.getInstance().init(SplashActivity.this);
+//                                }
+//                            }
+//                            if (TextUtils.equals(permission.name, Manifest.permission.READ_PHONE_STATE)) {
+//                                mIsReadPhoneStatePermissionGranted = true;
+//                                if (App.isColdStart()) {
+//                                    Timber.d("init umeng");
+//                                    UmengUtils.initUmengAnalytics(SplashActivity.this);
+//                                }
+//                            }
+//
+//                            if (mIsReadPhoneStatePermissionGranted
+//                                    && mIsWriteExternalStoragePermissionGranted) {
+//                                if (App.isColdStart()) {
+//                                    Timber.d("init bugly");
+////                                    BuglyUtil.initBugly(SplashActivity.this);
+//                                }
+//                            }
+//                        } else if (permission.shouldShowRequestPermissionRationale) {
+//                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+//
+//                        } else {
+//                            // 用户拒绝了该权限，并且选中『不再询问』
+//                        }
+//                        if (mCallbackCount == 2) {
+//                            Timber.d("setColdStart false");
+//                            App.setColdStart(false);
+//                            MainActivity.start(SplashActivity.this);
+//                            finish();
+//                        }
+//                    }
+//                }));
 
     }
 

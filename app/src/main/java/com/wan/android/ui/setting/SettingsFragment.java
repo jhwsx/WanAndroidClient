@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.core.content.FileProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import android.text.TextUtils;
@@ -131,11 +134,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
     }
 
     private void shareFile() {
-        File apkFile = AppUtils.getApkFile();
+        File file = AppUtils.getApkFile();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("*/*");
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(apkFile));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri uri = FileProvider.getUriForFile(getActivity(),
+                    getActivity().getApplicationContext().getPackageName() + ".fileprovider", file);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+        } else {
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        }
+//        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(apkFile));
         if (getActivity().getPackageManager().resolveActivity(intent,
                 PackageManager.MATCH_DEFAULT_ONLY) != null) {
             try {
