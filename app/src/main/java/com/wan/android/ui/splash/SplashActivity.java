@@ -11,7 +11,7 @@ import com.wan.android.App;
 import com.wan.android.BuildConfig;
 import com.wan.android.ui.base.BaseActivity;
 import com.wan.android.ui.main.MainActivity;
-import com.wan.android.util.BuglyUtil;
+//import com.wan.android.util.BuglyUtil;
 import com.wan.android.util.CrashHandler;
 import com.wan.android.util.UmengUtils;
 
@@ -70,7 +70,7 @@ public class SplashActivity extends BaseActivity {
                                     && mIsWriteExternalStoragePermissionGranted) {
                                 if (App.isColdStart()) {
                                     Timber.d("init bugly");
-                                    BuglyUtil.initBugly(SplashActivity.this);
+//                                    BuglyUtil.initBugly(SplashActivity.this);
                                 }
                             }
                         } else if (permission.shouldShowRequestPermissionRationale) {

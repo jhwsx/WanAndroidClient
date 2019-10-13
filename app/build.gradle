@@ -122,8 +122,8 @@ dependencies {
     implementation "com.hyman:flowlayout-lib:$rootProject.flowlayoutVersion"
     implementation "org.greenrobot:eventbus:$rootProject.eventbusVersion"
 
-    implementation "com.tencent.bugly:crashreport_upgrade:$rootProject.buglyCrashReportUpgradeVersion"
-    implementation "com.tencent.bugly:nativecrashreport:$rootProject.buglyNativeCrashReportVersion"
+//    implementation "com.tencent.bugly:crashreport_upgrade:$rootProject.buglyCrashReportUpgradeVersion"
+//    implementation "com.tencent.bugly:nativecrashreport:$rootProject.buglyNativeCrashReportVersion"
 
     implementation 'com.just.agentweb:agentweb:4.0.2'
 

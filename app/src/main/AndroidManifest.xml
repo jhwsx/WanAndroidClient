@@ -4,18 +4,18 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <!--bugly必须,CrashHandler必须,dangerous-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+<!--    <uses-permission android:name="android.permission.SEND_SMS"/>-->
     <!--bugly必须,友盟统计必须-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!--bugly必须,友盟统计必须,AgentWeb必须.判断网络有无必须-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!--bugly必须,友盟统计必须,dangerous-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
     <!--bugly必须-->
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+<!--    <uses-permission android:name="android.permission.READ_LOGS"/>-->
     <!--bugly必须-->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+<!--    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>-->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -89,22 +89,22 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
-        <!--[bugly start]-->
-        <activity
-            android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent"/>
-        <!--如果您想兼容Android N或者以上的设备，必须要在AndroidManifest.xml文件中配置FileProvider来访问共享路径的文件。-->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
-        </provider>
-        <!--[bugly end]-->
+<!--        &lt;!&ndash;[bugly start]&ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="com.tencent.bugly.beta.ui.BetaActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize|locale"-->
+<!--            android:theme="@android:style/Theme.Translucent"/>-->
+<!--        &lt;!&ndash;如果您想兼容Android N或者以上的设备，必须要在AndroidManifest.xml文件中配置FileProvider来访问共享路径的文件。&ndash;&gt;-->
+<!--        <provider-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:authorities="${applicationId}.fileProvider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/provider_paths"/>-->
+<!--        </provider>-->
+<!--        &lt;!&ndash;[bugly end]&ndash;&gt;-->
 
         <!-- [友盟 推送及统计配置 start] -->
         <!-- appkey作为应用在友盟的ID -->
